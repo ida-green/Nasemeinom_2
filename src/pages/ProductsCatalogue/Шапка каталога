@@ -1,0 +1,36 @@
+
+<div className="container">
+                <div className="row">
+                    <div className="col-12">
+                        <nav className="breadcrumbs">
+                            <ul>
+                            <li><Link className="nav-link active" aria-current="page" to="/">Главная</Link></li>
+                            <li><span>Курсы</span></li>
+                            </ul>
+                        </nav>
+                    </div>
+                </div>
+            </div>
+
+
+
+
+
+
+<div className="row">
+                        <div className="col-lg-12">
+                        <div className="row mb-3">
+                            <div className="col-12">
+                                <h1 className="section-title h3"><span>Курсы для детей онлайн</span></h1>
+                            </div>
+                            <div className="col-12 col-lg-8">
+                                <img src="/images/catalogue-images/catalogue-img.jpg" alt="Девушка-студентка в очках" className="img-thumbnail" />
+                            </div>
+                            <div className="col-12 col-lg-4 pt-2 families-intro">
+                            <p>Курсы от опытных организаторов и практиков семейного образования в удобном каталоге. Фильтр по классам даёт подборку, которая соотносится со школьной программой. При этом семейное образование программой не ограничено. Составьте индивидуальный образовательный маршрут в соответствии с запросами ребенка и вашей семьи. После оплаты вам на почту придет ссылка от организатора курса. Там будут все подробности, как проходить курс. </p>
+                            </div> 
+                        </div>
+                        </div>
+                    </div>
+
+                    <hr />

@@ -1,0 +1,1678 @@
+:root {
+  --bg-color: #f4f4f4;
+  --text-color: #2e3433;
+  --accent-color:#daae7c;
+  --contrast-color: #161410;
+  --grey-color: #b4b2af;
+  --dark-grey-color: #858585;
+  --red-color: #e41700;
+  --light-grey-color: #eee;
+  --green: #057521;
+  --blue: #00076f;
+  --dark-blue: #07237d;
+  --light-blue:  #6b707e;
+}
+
+html, body {
+  height: 100%;
+}
+
+body {
+  min-width: 320px;
+  font-family: "Roboto", sans-serif;
+  font-weight: 500;
+  background-color: var(--bg-color);
+  color: var(--text-color);
+}
+
+.wrapper {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.main {
+  flex: 1; /* Позволяет основному контенту занимать оставшееся пространство */
+}
+
+
+
+html, body {
+  height: 100%;
+ }
+
+body {
+  min-width: 320;
+  font-family: "Roboto", sans-serif;
+  font-weight: 500;
+  background-color: var(--bg-color);
+  color: var(--text-color);
+}
+
+a {
+  color: var(--text-color);
+  text-decoration: underline;
+}
+
+textarea {
+  resize: none;
+}
+
+a:hover {
+  text-decoration: none;
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+}
+
+.error-message {
+  font-size: 12px;
+  /* Добавьте другие необходимые стили */
+  color: red; /* Например, красный цвет текста */
+}
+
+.no-scroll {
+  overflow: hidden; /* Отключает прокрутку */
+  height: 100%; /* Устанавливает высоту в 100% */
+}
+
+.btn, 
+.dropdown-menu, 
+.form-control,
+.form-select {
+  border-radius: 0;
+}
+
+/*подсветка при наведении */
+.form-control:focus,
+.form-select:focus {
+  color: var(--text-color);
+  border-color: var(--accent-color);
+  box-shadow: none;
+}
+
+.form-control::placeholder {
+  color: var(--grey-color)
+}
+
+/* Общие стили для всех кнопок */
+
+.button-btn {
+  padding: 0.2rem 1rem; /* Поля вокруг текста */
+  cursor: pointer; /* Курсор в виде руки */
+  transition: background-color 0.3s ease, color 0.3s ease; /* Плавное изменение цвета фона и текста */
+  font-weight: 500; /* Полужирный текст */
+  font-size: 14px;
+}
+
+.button-btn:hover {
+  box-shadow: 0px 5px 6px rgba(0, 0, 0, 0.2); /* Тень под кнопкой */
+}
+
+
+
+.button-btn-primary {
+  background-color: var(--dark-blue);
+  border-color: var(--dark-blue);
+  color: var(--bg-color);
+}
+
+.button-btn-primary:hover {
+  background-color: var(--dark-blue); /* Изменение цвета при наведении */
+  border-color: var(--dark-blue);
+  color: var(--bg-color); 
+}
+
+/* Нажатое состояние */
+.button-btn-primary.active {
+    background-color: var(--bg-color); /* Цвет в нажатом состоянии */
+    border-color: var(--dark-blue);
+    color: var(--blue); 
+}
+
+
+
+.button-btn-outline-primary {
+  background-color: var(--light-grey-color);
+  border-color: var(--dark-blue);
+  color: var(--dark-blue);
+}
+
+.button-btn-outline-primary:hover {
+  background-color: var(--light-grey-color); /* Изменение цвета при наведении */
+  border-color: var(--dark-blue);
+  color: var(--dark-blue); 
+}  
+
+.button-btn-outline-primary.active {
+    background-color: var(--light-grey-color); /* Цвет в нажатом состоянии */
+    border-color: var(--dark-blue);
+    color: var(--dark-blue); 
+}
+
+
+
+.button-btn-secondary {
+  background-color: var(--accent-color);
+  border-color: var(--accent-color);
+  color: var(--contrast-color);
+}
+
+.button-btn-secondary:hover {
+  background-color: var(--accent-color); /* Изменение цвета при наведении */
+  border-color: var(--accent-color);
+  color: var(--contrast-color); 
+}
+
+/* Нажатое состояние */
+.button-btn-secondary.active {
+    background-color: var(--accent-color); /* Цвет в нажатом состоянии */
+    border-color: var(--accent-color);
+    color: var(--contrast-color); 
+}
+
+
+
+.button-btn-outline-secondary {
+  background-color: var(--light-grey-color);
+  border-color: var(--light-grey-color);
+  color: var(--contrast-color);
+}
+
+.button-btn-outline-secondary:hover {
+  background-color: var(--light-grey-color);
+  border-color: var(--light-grey-color);
+  color: var(--contrast-color);
+}
+
+/* Нажатое состояние */
+.button-btn-outline-secondary.active {
+  background-color: var(--light-grey-color);
+  border-color: var(--light-grey-color);
+  color: var(--contrast-color);
+}
+
+
+
+.button-btn-warning {
+  background-color: var(--accent-color);
+  color: var(--contrast-color);
+  border-color: var(--accent-color);
+}
+
+.custom-button {
+  border: none;
+  background: none;
+  padding: 0;
+  cursor: pointer;
+  color: var(--text-color) /* Наследует цвет текста от родителя */
+}
+
+.custom-button:hover {
+  color: var(--contrast-color); /* Плавный эффект при наведении */
+}
+
+.add-to-cart-button {
+  background-color: var(--blue);
+  color: var(--bg-color);
+  border-color: var(--blue);
+}
+
+.add-to-cart-button:hover {
+  background-color: var(--blue);
+  color: var(--bg-color);
+  border-color: var(--blue);
+  cursor: pointer;
+}
+
+
+.section-title-list li {
+  display: flex;
+  flex-direction: row; /* Убедитесь, что элементы располагаются в ряд */
+  align-items: flex-start; /* Выравнивание по верхнему краю */
+}
+
+.form-check-label {
+  overflow-wrap: break-word; /* Позволить перенос слов */
+  max-width: 200px; /* Установите максимальную ширину для текста */
+}
+
+/* Пульсация */
+.pulse {
+  animation: pulse-animation 0.6s ease;
+}
+
+@keyframes pulse-animation {
+  0% {
+      transform: scale(1);
+  }
+  50% {
+      transform: scale(1.1);
+  }
+  100% {
+      transform: scale(1);
+  }
+}
+
+/* =================== General rules ================ */
+
+.wrapper {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.main {
+  flex: 1 1 auto;
+}
+
+section {
+  padding: 20px 0px;
+}
+
+.section-title {
+  position: relative;
+  text-transform: uppercase;
+  color: var(--contrast-color);
+  font-weight: 600;
+}
+
+.section-title span {
+  background-color: var(--bg-color);
+  padding-right: 1rem;
+  position: relative;
+  z-index: 1;
+}
+
+.section-title::after {
+  position: absolute;
+  content: "";
+  width: 100%;
+  top: 50%;
+  left: 0;
+  border-top: 1px dashed var(--text-color);
+}
+
+.logo-in-text {
+  font-family: "Caveat", cursive;
+  font-size: 28px;
+  text-decoration: none;
+  color: var(--contrast-color);
+  transition: all .3;
+}
+
+/* =================== General rules ================ */
+
+/* =================== Header ================= */
+
+.header-top-title h1 {
+  font-weight: 500;
+  font-size: medium;
+  margin-bottom: 0;
+  padding: 0;
+}
+
+.social-icons {
+  border: none; /* Убираем рамку */
+  background: none; /* Убираем фоновый цвет */
+  padding: 0; /* Убираем отступы */
+  outline: none; /* Убираем контур при фокусе */
+}
+
+ul.social-icons,
+.social-icons {
+  list-style: none;
+  margin-bottom: 0;
+  padding: 0;
+}
+
+ul.social-icons li {
+  margin-right: 0px;
+}
+
+ul.social-icons a,
+.social-icons a {
+  color: var(--contrast-color);
+  width: 28px;
+  height:28px;
+  line-height: 28px; /* Центрируем в кружке по высоте */
+  border-radius: 50%;
+  border: solid 1px;
+  float: left; /* Делаем элемент блочным, а не строчным, чтобы применились размеры */
+  text-align: center;
+  transition: all .3s;
+}
+
+ul.social-icons a:hover,
+.social-icons a:hover {
+  background-color: var(--contrast-color);
+  color: var(--accent-color);
+}
+
+.header-top .btn {
+  background-color: #fff;
+}
+
+.navbar-brand, 
+.offcanvas-title-menu {
+  font-family: "Caveat", cursive;
+}
+
+.header-logo {
+  font-family: "Caveat", cursive;
+  font-size: 38px;
+  text-decoration: none;
+  color: var(--contrast-color);
+  transition: all .3;
+}
+
+.header-logo:hover {
+  color: var(--accent-color)
+}
+
+/* Медиа-запрос для экранов меньше 600px */
+@media (max-width: 600px) {
+  .header-logo {
+    font-size: 28px; /* Уменьшите размер шрифта для мобильных устройств */
+  }
+}
+
+/* Медиа-запрос для экранов меньше 400px */
+@media (max-width: 400px) {
+  .header-logo {
+    font-size: 24px; /* Дополнительное уменьшение для очень маленьких экранов */
+  }
+}
+
+/* Иконки корзина и избранное */
+.icons-cart-favourite {
+  border: none; /* Убираем обводку */
+  background: none; /* Убираем фоновый цвет */
+  padding: 0.5rem; /* Добавляем отступ для кнопок */
+  cursor: pointer; /* Изменяем курсор на указатель */
+  transition: color 0.3s ease; /* Плавный переход цвета */
+}
+
+.icons-cart-favourite:hover {
+  color: var(--accent-color) /* Цвет текста или иконки при наведении */
+}
+
+/* Если хотите изменить фон при наведении */
+.icons-cart-favourite:hover {
+  background-color: rgba(0, 0, 0, 0.1); /* Полупрозрачный фон */
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+.header-bottom {
+  border-top: 3px solid var(--accent-color);
+  box-shadow: 0 10px 10px rgba(0, 0, 0, .3);
+}
+
+.header-bottom .navbar,
+.header-bottom .navbar .dropdown-menu {
+  background-color: var(--contrast-color) !important;
+}
+
+.header-bottom .nav-item:first-child .nav-link {
+  
+}
+
+.header-bottom .navbar .nav-link {
+  color: #fff;
+  transition: .3s all;
+  letter-spacing: .1rem;
+}
+
+.header-bottom .navbar .nav-link:hover {
+  color: var(--accent-color)
+}
+
+.header-bottom .navbar .nav-link.active {
+  color: var(--accent-color)
+}
+
+.header-bottom .navbar .dropdown-menu {
+  margin-top: 7px;
+}
+
+.headernav-scroll.header-bottom .navbar .offcanvas:not(show) .nav-link {
+  padding-top: .3rem;
+  padding-bottom: .3rem;
+}
+
+/* =================== Header ================= */
+
+
+/* =================== Main ================= */
+
+
+
+/* =================== Advantages ================= */
+
+.advantages .items {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.advantages .item {
+  height: 300px; /* Задайте фиксированную высоту */
+  display: flex;
+  flex-direction: column; /* Вертикальное выравнивание */
+  justify-content: space-between; /* Распределение пространства между элементами */
+  height: 100%; /* Занять всю высоту родителя */
+  padding: 20px; /* Добавьте отступы по вашему желанию */
+  border: 1px solid #ccc; /* Пример границы */
+  border-radius: 8px; /* Пример закругления углов */
+  background-color: #fff; /* Пример фона */
+}
+
+.advantages-card .item:hover {
+  box-shadow: 0 15px 30px -19px rgba(0, 0, 0, .7); /* Эффект тени при наведении */
+} 
+
+.card-title {
+  padding-bottom: 10px;
+}
+
+.link-no-underline {
+  text-decoration: none; /* Убираем подчеркивание */
+  color: inherit; /* Цвет текста по умолчанию */
+}
+
+.link-hover:hover {
+  color: var(--accent-color) /* Цвет текста при наведении (можете изменить на нужный) */
+}
+
+/* =================== Advantages ================= */
+
+/* =================== Filters ================= */
+
+
+
+.filter-block ul {
+  padding: 0;
+  margin: 0;
+}
+
+.filter-block li {
+  margin-bottom: 0; /* или установите значение по вашему усмотрению */
+}
+
+.scrollable-container-big {
+  max-height: 300px; /* Установите желаемую максимальную высоту */
+  overflow-y: auto; /* Включите вертикальную прокрутку */
+  border: 1px solid #ccc; /* Добавьте рамку для визуального отделения */
+  padding: 10px; /* Добавьте отступы, если необходимо */
+}
+
+.scrollable-container-small {
+  max-height: 130px; /* Установите желаемую максимальную высоту */
+  overflow-y: auto; /* Включите вертикальную прокрутку */
+  border: 1px solid #ccc; /* Добавьте рамку для визуального отделения */
+  padding: 10px; /* Добавьте отступы, если необходимо */
+}
+
+.age-filter-container {
+  width: 200px; /* Ширина контейнера */
+  border: 1px solid #ccc; /* Граница для визуализации */
+  padding: 10px; /* Отступы внутри контейнера */
+}
+
+.age-filter-header {
+  font-weight: bold; /* Жирный шрифт для заголовка */
+  margin-bottom: 10px; /* Отступ снизу */
+}
+
+.age-filter-scrollable {
+  max-height: 150px; /* Максимальная высота для прокрутки */
+  overflow-y: auto; /* Вертикальная прокрутка */
+}
+
+.form-check {
+  margin-bottom: 5px; /* Отступ между чекбоксами */
+}
+
+
+/* =================== Filters ================= */
+
+/* =================== Featured products ================= */
+
+/* =================== Product card ================= */
+
+.product-card {
+  transition: all .3;
+  border: 1px solid var(--grey-color);
+  background-color: #fff;
+  position: relative;
+  display: flex;
+  flex-direction: column; /* Устанавливаем направление вертикально */
+  /* Можно задать фиксированную высоту, если необходимо */
+}
+
+.product-card:hover {
+  box-shadow: 0 10px 20px -12px rgba(0, 0, 0, 0.75);
+}
+
+.product-card-title {
+  font-size: 20px;
+}
+
+.details {
+  font-size: 12px;
+}
+
+.product-card-offer {
+  color: var(--red-color);
+  text-transform: lowercase;
+}
+
+.product-card-offer>div {
+  border-radius: 0%;
+  width:110px;
+  height: 20px;
+  line-height: 20px;
+  text-align: center;
+  font-weight: 10px;
+}
+
+.offer-soon-start,
+.offer-join {
+  color: var(--red-color);
+}
+
+.product-thumb {
+  text-align: center;
+}
+
+.product-thumb img {
+  max-height: 350px;
+}
+
+.product-details .card-footer .fixed-heght {
+  padding: 20px 20px;
+  height: 50px;
+}
+
+.product-details h4 {
+  font-size: 0.9rem;
+}
+
+.product-details h4 a {
+  height: 45px;
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  text-decoration: none;
+  transition: all .3;
+}
+
+.product-details h4 a:hover {
+  color: var(--accent-color);
+}
+
+.product-excerpt {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  height: 45px;
+  overflow: hidden;
+  font-size: lighter;
+}
+
+.age-and-grade {
+  display: inline-block;
+  text-decoration: none;
+  font-size: 14px;
+}
+
+.children-age,
+.grade,
+.day-time,
+.course-start {
+  border: 1px solid #161410;
+  padding-left: 2px;
+  padding-right: 2px;
+  margin-top: 9px;
+  font-size: .63rem;
+  background-color: var(--light-grey-color);
+}
+
+.product-bottom-details {
+  border-top: 1px solid var(--light-grey-color);
+  padding-top:  1rem;
+}
+
+.product-price {
+  font-size: 18px;
+  color: var(--contrast-color);
+  font-weight: 600;
+}
+
+.product-price small {
+  color: var(--grey-color);
+  font-weight: 400;
+  text-decoration: line-through;
+  font-size: 0.8rem;
+}
+
+
+
+
+/* =================== Course Page ====================== */
+
+.price-options-container {
+  font-size: 16px;
+  display: flex;
+  flex-direction: column; /* Устанавливаем направление колонкой */
+}
+
+.price-options-container input[type="radio"] {
+  display: none; /* Скрываем стандартные радиокнопки */
+}
+
+.price-options-container label {
+  font-size: 16px;
+  position: relative;
+  padding-left: 25px; /* Отступ для кастомного квадрата */
+  cursor: pointer;
+}
+
+.custom-checkbox {
+  position: absolute;
+  left: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 15px; /* Размер квадрата */
+  height: 15px; /* Размер квадрата */
+  border: 1.5px solid var(--contrast-color); /* Цвет рамки */
+  background-color: white; /* Цвет фона */
+}
+
+.price-options-container input[type="radio"]:checked + .custom-checkbox {
+  background-color: white; /* Цвет фона при выборе */
+}
+
+/* Галочка внутри квадрата */
+.price-options-container input[type="radio"]:checked + .custom-checkbox::after {
+  content: ''; /* Псевдоэлемент для галочки */
+  position: absolute;
+  left: 5px; /* Положение галочки */
+  width: 5px; /* Ширина галочки */
+  height: 10px; /* Высота галочки */
+  border: solid var(--contrast-color); /* Цвет галочки */
+  border-width: 0 2px 2px 0; /* Формирование галочки */
+  transform: rotate(45deg); /* Поворот для создания галочки */
+}
+
+/* =================== Course Page ====================== */
+
+
+
+
+
+
+
+
+.owl-carousel-full .owl-item img {
+  display: inline-block;
+  width: auto;
+}
+
+.product-rating i {
+  color: #ccc;
+}
+
+.product-rating .active {
+  color: var(--accent-color);
+  margin-bottom: 10px;
+}
+
+.product-rating .count-reviews {
+  margin-left: 10px;
+}
+
+.product-review-header {
+  display: flex;
+  justify-content: space-between;
+}
+
+.product-review-header .review-date {
+  color: var(--grey-color);
+}
+
+
+
+/* =================== Product card ================= */
+
+/* =================== Featured products ================= */
+
+/* =================== About us ================= */
+
+
+
+.sidebar .section-title span,
+.bg-white .section-title span {
+  background-color: #fff;
+}
+
+/* =================== About us ================= */
+
+/* =================== Footer ================= */
+
+footer {
+  background-color: var(--contrast-color);
+  padding: 50px 0;
+  color: #fff;
+}
+
+.footer-logo {
+  font-family: "Caveat", cursive;
+  color: var(--accent-color);
+  transition: all .3;
+} 
+
+.footer h4 {
+  color: var(--accent-color);
+} 
+
+.footer a {
+  color: #fff;
+  text-decoration: none;
+  transition: all .3s;
+}
+
+.footer a:hover {
+  color: var(--accent-color);
+}
+
+.footer-icons {
+  list-style: none;
+  display: flex;
+  gap: 20px;
+  padding: 0;
+  font-size: 20px;
+}
+
+/* =================== Footer ================= */
+
+#top {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  background-color: var(--accent-color);
+  opacity: .5;
+  color: #fff;
+  width: 70px;
+  height: 70px;
+  border-radius: 50%;
+  border: 0;
+  font-size: 25px;
+  transition: all .5s;
+  z-index: 10;
+  /* display: none; */
+}
+
+#top:hover {
+  opacity: 1;
+}
+
+/* =================== Main ================= */
+
+
+/* =================== Category page ================= */
+
+.breadcrumbs {
+  font-size: 12px;
+  margin-top: 20px;
+  margin-bottom: 20px;
+  background-color: #fff;
+  padding: 0.2rem;
+}
+
+.breadcrumbs ul {
+  list-style: none;
+  display: flex;
+  margin: 0;
+  padding: 0;
+}
+
+.breadcrumbs a {
+  text-decoration: none;
+  color: var(--contrast-color);
+  transition: all .5;
+  margin-right: 0.5rem;
+}
+
+.breadcrumbs a:hover {
+  color: var(--accent-color);
+}
+
+.breadcrumbs a::after {
+  content: "/";
+  padding-left: .5rem;
+  color: var(--contrast-color);
+}
+
+.sidebar {
+  background-color: #fff;
+  padding: 0.5rem 1rem;
+  margin-bottom: 1rem;
+}
+
+.filter-block:not(:last-child) {
+  margin-bottom: 2rem;
+}
+
+.filter-block .form-check {
+  margin-top: .5rem;
+}
+
+.form-check-input[type="checkbox"] {
+  border-radius: 0;
+  border-color: var(--grey-color);
+}
+
+.form-check-input:focus {
+  border-color: var(--grey-color);
+  box-shadow: none;
+}
+
+.form-check-input:checked {
+  background-color: var(--accent-color);
+  border-color: var(--accent-color);
+}
+
+.filter-block .badge {
+  color: var(--text-color);
+}
+
+.page-link {
+  color: var(--contrast-color);
+}
+
+.page-link:hover {
+  color: #fff;
+  background-color: var(--accent-color);
+  border-color: var(--accent-color);
+}
+
+/* пагинация */
+.active > .page-link, .page-link.active {
+  background-color: var(--accent-color);
+  border-color: var(--accent-color);
+}
+
+.sidebar .collapse-filters-btn {
+  color: var(--contrast-color);
+}
+
+/* =================== Category page ================= */
+
+
+/* =================== Product page ================= */
+
+.product-content .product-price {
+  font-size: 18px;
+}
+
+.product-content .input-group {
+  width: 270px;
+}
+
+.product-content .author {
+  text-decoration: none;
+  font-size: medium;
+  color: var(var(--contrast-color))
+}
+
+.product-content .author a {
+  text-decoration: none;
+}
+
+.product-content .author a:hover {
+  color: var(--accent-color);
+} 
+
+.product-content .product-price {
+  margin-top: 1rem;
+}
+
+.product-content .card i {
+  color: var(--accent-color);
+}
+
+.product-content .card {
+  padding-left: 10px;
+  font-size: 14px;
+}
+
+/* иконки псевдоэлементы */
+.product-content .card ul li::before {
+  content: "\f105";
+  font-family: "Font Awesome 6 Free";
+  font-weight: 900;
+  margin-right: 10px;
+}
+
+.card-body {
+  padding-top: 15px;
+  padding-bottom: 5px;
+}
+
+.nav-tabs .nav-link {
+  border-radius: 0;
+  color: var(--contrast-color);
+}
+
+.tab-content {
+  padding-top: 20px;
+}
+
+.course-subject {
+  color: var(--red-color);
+}
+
+.filled-star {
+  color: var(--red-color) /* Цвет заполненной звезды */
+}
+
+.empty-star {
+  color: var(--text-color); /* Цвет пустой звезды */
+}
+
+.rating {
+  display: flex; /* Выравнивание звезд в строку */
+}
+
+.star {
+  color: var(--text-color); /* Цвет пустой звезды (серый) */
+}
+
+.star.filled {
+  color: var(--red-color); /* Цвет заполненной звезды (красный) */
+}
+
+.review-date {
+  font-size: 12px;
+  color: var(--grey-color);
+}
+
+.course-key-points {
+  font-size: 14px;
+}
+
+.provider-logo {
+  height: 50px;
+  width: 50px;
+}
+
+/* =================== Product page ================= */
+
+
+/* =================== Cart offcanvas ================= */
+
+.cart-offcanvas {
+  padding: 10px;
+  margin: 3px 0;
+  position: fixed; /* Фиксируем offcanvas */
+  top: 0;
+  right: 0; /* Показываем справа */
+  width: 350px; /* Ширина offcanvas для больших экранов */
+  height: 100%;
+  background-color: var(--accent-color); /* Цвет фона */
+  box-shadow: -2px 0 5px rgba(0, 0, 0, 0.2); /* Тень */
+  transition: transform 0.3s ease-in-out; /* transition для анимации */
+  transform: translateX(100%); /* Скрываем offcanvas за пределами экрана */
+  z-index: 1050; /* z-index больше, чем у основного контента */
+  overflow-y: auto;
+}
+
+/* Медиа-запрос для мобильных устройств */
+@media (max-width: 768px) {
+  .cart-offcanvas {
+    width: 100%; /* Ширина offcanvas на мобильных устройствах */
+    box-shadow: none; /* Убираем тень для мобильных устройств, если нужно */
+  }
+}
+
+.cart-title,
+.total-price,
+.close-cart {
+  color: var(--contrast-color);
+}
+
+.cart-item-header {
+  display: flex;
+  align-items: top; /* Центрируем элементы по вертикали */
+}
+
+.cart-offcanvas.show {
+  transform: translateX(0%); /* Показываем offcanvas */
+}
+
+.cart-item-img {
+  width: 50px; /* Задайте желаемую ширину */
+  height: auto; /* Сохраняем пропорции изображения */
+  flex-shrink: 0; /* Запрещаем уменьшение изображения */
+}
+
+.cart-item-title {
+  white-space: normal; /* Позволяем перенос текста */
+  overflow-wrap: break-word; /* Переносим длинные слова на новую строку */
+  word-wrap: break-word; /* Для поддержки старых браузеров */
+  max-width: calc(100% - 60px); /* Ограничиваем ширину заголовка */
+}
+
+.cart-item-price {
+  font-size: 14px;
+  margin-right: 10px; /* Отступ между ценой и иконкой */
+}
+
+.cart-item-price-description {
+  font-size: 12px;
+}
+
+.cart-item-footer {
+  display: flex;
+  justify-content: flex-end; /* Распределяем элементы по краям */
+  align-items: center; /* Центрируем элементы по вертикали */
+}
+
+.cart-items {
+  display: flex;
+  flex-direction: column; /* Устанавливаем вертикальное направление */
+  list-style-type: none;
+  padding: 0; /* Убираем отступ слева, который обычно есть у списков */
+}
+
+/* =================== Cart offcanvas ================= */
+
+
+/* =================== Favourite offcanvas ================= */
+
+.favourite-offcanvas {
+  padding: 10px;
+  margin: 3px 0;
+  position: fixed; /* Фиксируем offcanvas */
+  top: 0;
+  right: 0; /* Показываем справа */
+  width: 350px; /* Ширина offcanvas для больших экранов */
+  height: 100%;
+  background-color: var(--grey-color); /* Цвет фона */
+  box-shadow: -2px 0 5px rgba(0, 0, 0, 0.2); /* Тень */
+  transition: transform 0.3s ease-in-out; /* transition для анимации */
+  transform: translateX(100%); /* Скрываем offcanvas за пределами экрана */
+  z-index: 1050; /* z-index больше, чем у основного контента */
+  overflow-y: auto;
+}
+
+/* Медиа-запрос для мобильных устройств */
+@media (max-width: 768px) {
+  .favourite-offcanvas {
+    width: 100%; /* Ширина offcanvas на мобильных устройствах */
+    box-shadow: none; /* Убираем тень для мобильных устройств, если нужно */
+  }
+}
+
+.favourite-title,
+.total-price,
+.close-favourite {
+  color: var(--contrast-color);
+}
+
+.favourite-item-header {
+  display: flex;
+  align-items: top; /* Центрируем элементы по вертикали */
+}
+
+.favourite-offcanvas.show {
+  transform: translateX(0%); /* Показываем offcanvas */
+}
+
+.favourite-item-img {
+  width: 50px; /* Задайте желаемую ширину */
+  height: auto; /* Сохраняем пропорции изображения */
+  flex-shrink: 0; /* Запрещаем уменьшение изображения */
+}
+
+.favourite-item-title {
+  margin-left: 10px; /* Отступ между изображением и заголовком */
+  white-space: normal; /* Позволяем перенос текста */
+  overflow-wrap: break-word; /* Переносим длинные слова на новую строку */
+  word-wrap: break-word; /* Для поддержки старых браузеров */
+  max-width: calc(100% - 60px); /* Ограничиваем ширину заголовка */
+}
+
+.favourite-item-price {
+  font-size: 14px;
+  margin-right: 10px; /* Отступ между ценой и иконкой */
+}
+
+.favourite-item-footer {
+  display: flex;
+  justify-content: flex-end; /* Распределяем элементы по краям */
+  align-items: center; /* Центрируем элементы по вертикали */
+}
+
+.favourite-items {
+  display: flex;
+  flex-direction: column; /* Устанавливаем вертикальное направление */
+  list-style-type: none;
+  padding: 0; /* Убираем отступ слева, который обычно есть у списков */
+}
+
+
+
+
+/* =================== Favourite offcanvas ================= */
+
+
+
+
+
+
+
+@media only screen and (min-width: 992px) {
+  .header-bottom .navbar .dropdown-menu-end {
+      margin-left: 0;
+      border: 0;
+  }
+
+  .header-bottom .navbar .nav-link {
+  padding: 1rem;
+  }
+}
+
+@media only screen and (max-width: 991.98px) {
+  .header-bottom .navbar .dropdown-menu {
+      padding-left: 1rem;
+      border: 0;
+  }
+}
+
+@media only screen and (min-width: 768px) {
+  .sidebar .collapse-filters {
+      display: block;
+  }
+
+  .sidebar .collapse-filters-btn {
+      display: none;
+  }
+}
+
+/* =================== User card ================= */
+
+/*
+.family-card {
+  
+  transition: all .3;
+  border: 1px solid var(--grey-color);
+  background-color: #fff;
+  position: relative;
+  font-size: 14px;
+  height: 970px;
+}
+
+.family-card-name {
+  font-size: 18px;
+}
+
+.family-card-description {
+  font-size: 14px;
+  padding-bottom: 5px;
+}
+
+.family-card-body {
+  padding-top: 5px;
+  padding-left: 10px;
+  padding-right: 10px;
+  padding-bottom: 5px;
+}
+
+.family-card .country-city {
+  font: var(--contrast-color);
+  padding-left: 10px;
+}
+
+.family-card-children {
+  padding-left: 10px;
+  height:fit-content;
+}
+
+.user-card-bottom {
+  padding-left: 20px;
+  padding-right: 20px;
+  padding-bottom: 10px;
+}
+*/
+
+/* =================== User card ================= */
+
+/* =================== User card modal window ================= */
+
+.modal {
+  position: fixed; /* Фиксированное позиционирование */
+  top: 0;
+  left: 0; /* Прикрепляем к левому краю экрана */
+  right: 0; /* Прикрепляем к правому краю экрана */
+  bottom: 0; /* Прикрепляем к низу экрана */
+  background-color: rgba(0, 0, 0, 0.5); /* Полупрозрачный фон */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000; /* Убедитесь, что модальное окно находится выше других элементов */
+}
+
+.modal-content {
+  background-color: white;
+  padding: 20px;
+  border-radius: 5px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  width: 400px; /* Ширина модального окна */
+  max-height: 80vh; /* Ограничьте высоту модального окна */
+  overflow-y: auto; /* Включите вертикальную прокрутку */
+  padding: 20px; /* Отступы внутри модального окна */
+}
+
+.close {
+  margin-bottom: 2px;
+  color: #000;
+  font-size: 28px;
+  font-weight: bold;
+  cursor: pointer;
+  position: absolute; /* Позволяет позиционировать крестик */
+  top: 0px; /* Расположение по вертикали */
+  right: 0px; /* Расположение по горизонтали */
+  width: 28px; /* Задаем фиксированную ширину */
+  height: 28px; /* Задаем фиксированную высоту */
+  text-align: center; /* Центрируем текст внутри элемента */
+}
+
+.close:hover {
+  color: black; /* Изменение цвета при наведении */
+}
+
+.modal-content {
+  max-height: 80vh; /* Ограничьте высоту модального окна */
+  overflow-y: auto; /* Включите вертикальную прокрутку */
+}
+
+
+/* =================== User card modal window ================= */
+
+/* =================== User post-meta ================= */
+
+.user-photo,
+.fa-user-profile {
+  width: 50px; /* Установите желаемую ширину */
+  height: 50px; /* Установите желаемую высоту */
+  border-radius: 50%; /* Сделать изображение круглым */
+  object-fit: cover; /* Обеспечить правильное отображение изображения */
+  display: block; /* убирает пробелы под изображением */
+}
+
+.bordered {
+  border: 3px solid var(--accent-color); /* устанавливаем цвет обводки */
+  box-sizing: border-box; /* учитываем обводку в размерах элемента */
+  padding: 0; /* убираем отступы */
+  display: inline-block; /* Позволяет контейнеру обернуть изображение */
+  border-radius: 50%; /* Делаем обводку круглой */
+}
+
+.user-name-under-photo {
+  font-size: medium;
+  margin-bottom: 2px;
+}
+
+.user-profile-photo {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+/* =================== User photo ================= */
+
+/* =================== User cabinet ================= */
+
+.user-profile-update {
+  list-style: none;
+}
+
+.family-profile-photo {
+  width: 300px;
+  height: auto;
+}
+
+.fa-rectangle-xmark {
+  width: 60px;
+  height: 60px;
+}
+/* =================== User cabinet ================= */
+
+/* =================== Post card ================= */
+
+.forum-introduction {
+  padding-left: 20px;
+  padding-top: 5px;
+}
+
+.comment-user-avatar {
+  width: 40px; /* Ширина аватара */
+  height: 40px; /* Высота аватара */
+  border-radius: 50%; /* Круглая форма */
+  margin-right: 8px; /* Отступ справа */
+}
+
+
+
+.post-card {
+  background-color: #fff; /* Фоновый цвет карты */
+  border: 1px solid #ddd; /* Граница */
+  border-radius: 8px; /* Закругление */
+  padding: 16px; /* Внутренний отступ */
+  margin: 20px 0; /* Отступы между постами */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Тень */
+  transition: box-shadow 0.3s ease; /* Плавный эффект при наведении */
+}
+
+.post-card:hover {
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Эффект при наведении */
+}
+
+.post-title {
+  height: fit-content;
+  font-size: 1.5rem; /* Размер заголовка поста */
+  margin-bottom: 10px; /* Убираем отступы */
+  font-weight: bold; /* Полужирный шрифт */
+  color: var(--text-color); /* Цвет заголовка */
+}
+
+.post-content {
+  font-size: 14px;
+  margin: 12px 0; /* Отступ сверху и снизу */
+}
+
+.post-user-info {
+  display: column; /* Упаковка аватара и имени в одну линию */
+  align-items: center; /* Выравнивание по центру */
+  margin-bottom: 12px; /* Отступ снизу */
+}
+
+.comment-user-name,
+.post-user-name {
+  font-size: 14px;
+  font-weight: 500;
+  text-decoration: none;
+  color: var(--contrast-color);
+  transition: all .3;
+}
+
+.comment-user-name a:hover,
+.post-user-name a:hover {
+  color: var(--accent-color);
+}
+
+
+
+.post-card-bottom {
+  padding-left: 10px;
+  padding-right: 20px;
+  padding-bottom: 10px;
+  margin-bottom: 10px;
+}
+
+.fa-thumbs-up,
+.fa-thumbs-down {
+  padding-left: 10px;
+      color: var(--contrast-color);
+      padding-bottom: 20px;
+  }
+
+.post-meta {
+  font-size: 12px; /* Размер шрифта для метаинформации */
+  color: var(--dark-grey-color); /* Цвет текста метаинформации */
+  margin-bottom: 8px; /* Отступ снизу */
+}
+
+.comment-header {
+  background-color: #ebebeb;
+  padding-left: 5px;
+  padding-top: 5px;
+}
+
+.back-button {
+  display: inline-block;
+  margin-top: 20px;
+  text-decoration: none;
+  color: #007bff; /* Цвет кнопки */
+}
+.back-button:hover {
+  text-decoration: underline; /* Подчеркивание при наведении */
+}
+
+.scroll-button {
+  position: fixed; /* Фиксированное положение */
+  bottom: 20px; /* Отступ от нижней границы */
+  right: 20px; /* Отступ от правой границы */
+  background-color: #007bff; /* Цвет фона кнопки */
+  color: white; /* Цвет текста */
+  border: none; /* Убираем рамку */
+  border-radius: 5px; /* Скругление углов */
+  padding: 10px 15px; /* Отступы внутри кнопки */
+  font-size: 16px; /* Размер шрифта */
+  cursor: pointer; /* Указатель при наведении */
+  z-index: 1000; /* Обеспечиваем, что кнопка будет поверх всего содержимого */
+  transition: background-color 0.3s; /* Плавный переход цвета фона */
+}
+
+.scroll-button:hover {
+  background-color: #0056b3; /* Цвет фона при наведении */
+}
+
+
+
+/* =================== Forum comment ================= */
+
+
+
+
+.parent-comment-link,
+.post-title-link {
+  font-size: 14px; /* Уменьшенный размер шрифта для ссылки на родительский комментарий */
+  color: var(--light-blue); /* Цвет ссылки */
+  font-style: italic; /* Курсив для имени автора */
+  display: inline; /* Сохраняем inline для ссылки */
+  text-decoration: none; /* Убираем подчеркивание */
+}
+
+.comment-content {
+  font-size: 14px;
+  margin-top: 5px; /* Отступ сверху для текста комментария */
+  padding: 0px;
+  margin-bottom: 5px;
+  background-color: var(--light-grey-color); /* Цвет фона комментария */
+  word-wrap: break-word; /* Позволяет разрывать слова при необходимости */
+  overflow-wrap: break-word; /* Современная версия word-wrap, поддерживает больше браузеров */
+  white-space: pre-wrap; /* Поддерживает пробелы и перенос строк */
+  overflow: hidden; /* Скрывает переполнение */
+  max-width: 100%; /* Указывает максимальную ширину контента, чтобы он не выходил за пределы */
+}
+
+.comment-wrapper {
+  display: flex;
+  flex-direction: column; /* Или row в зависимости от вашего макета */
+  max-width: 100%;
+  border: solid 1px var(--light-grey-color);
+  margin-bottom: 15px; /* Отступ между комментариями */
+  padding-bottom: 0px;
+  padding-top: 10px;
+  background-color: var(--light-grey-color) /* Цвет фона (по желанию) */
+  }
+
+.comment-container {
+  padding-left: .2rem;
+  padding-right: .1rem;
+  background-color: var(--light-grey-color) /* Фоновый цвет */
+}
+
+/* Дополнительные стили для корневого комментария, если нужно */
+.root-comment {
+  margin-left: 0; /* Чтобы root-комментарии не имели отступа */
+  border-color: var(--dark-blue)
+}
+
+.nested-comment {
+  margin-left: .1rem; /* Или padding-left: 20px; */
+}
+
+.comments-container {
+    max-height: 0; /* Начальное состояние - закрыто */
+    overflow: hidden; /* Скрываем содержимое, пока оно не открыто */
+    transition: max-height 0.9s ease-out; /* Плавный переход на высоту */
+}
+
+/* Псевдокласс для активного состояния, когда showComments === true */
+.comments-container.open {
+    max-height: 100%; /* Установите максимальную высоту, достаточно для содержимого */
+    /* Можно использовать 100% или любое значение, которое вам подходит */
+}
+
+.post-form-wrapper {
+  border: solid 1px var(--dark-blue);
+  background-color: #fff;
+  padding: 20px; /* Добавлено отступ для лучшего вида */
+  border-radius: 5px; /* Добавлен скругленные углы для лучшего вида */
+}
+
+.post-form-header {
+  border: solid 1px var(--grey-color);
+  background-color: var(--bg-color);
+  background-color: #fff; 
+  width: 100%;
+  font-size: .8rem;
+  font-family: "Roboto", sans-serif;
+}
+
+.post-form-wrapper input.post-form-header::placeholder {
+  font-family: 'Roboto', sans-serif;
+  /* Добавьте другие стили, если нужно: размер шрифта, цвет и т.д. */
+}
+
+.post-form-wrapper input.post-form-header {
+  font-family: 'Roboto', sans-serif; /* Для текста внутри input */
+}
+
+.ql-container .ql-editor::placeholder { /* или .ql-container .ql-editor::placeholder если первый не сработает*/
+  font-family: 'Roboto', sans-serif;
+  color: var(--grey-color);
+  /* Добавьте другие стили, если нужно */
+}
+.ql-editor {
+  font-family: 'Roboto', sans-serif; /* Для текста внутри редактора */
+}
+
+
+
+/* =================== Forum comment ================= */
+
+
+
+
+
+
+/* =================== Post card ================= */
+
+/* иконки псевдоэлементы */
+.product-content .card ul li::before {
+  content: "\f105";
+  font-family: "Font Awesome 6 Free";
+  font-weight: 900;
+  margin-right: 10px;
+}
+
+
+.nav-tabs .nav-link {
+  border-radius: 0;
+  color: var(--contrast-color);
+}
+
+.tab-content {
+  padding-top: 20px;
+}
+
+
+/* =================== User card ================= */
+
+/* =================== Family card ================= */
+
+.families-intro1,
+.courses-intro1 {
+  margin-top: 20px;
+  margin-left: 10px;
+  margin-right: 10px;
+}
+
+.family-card .city-country {
+  color: var(--red-color);
+  font-size: smaller;
+  padding-bottom: 5px;
+}
+
+.family-card .description {
+  font-size: medium;
+
+}
+
+.family-card .card-title {
+  padding: 0px;
+  font-size: larger;
+}
+
+.family-card .description {
+  padding-bottom: 20px;
+}
+
+/* =================== Family card ================= */
+
+
+/* =================== Free school card ================= */
+
+.free-school-city {
+  color: #e41700;
+}
+
+/* =================== Free school card ================= */
+
+/* уменьшаем паддинги на определенной ширине экрана в заголовках подробного описания и видео товара в карточке */
+@media only screen and (max-width: 500px) {
+  .produact-content-details .nav-tabs .nav-link {
+      padding-left: 8px;
+      padding-right: 8px;
+  }
+}
+
+@media (max-width: 600px) {
+  .post-title {
+    font-size: 1.3rem; /* Уменьшение размера заголовка для мобильных */
+  }
+
+  .post-content {
+    font-size: 0.9rem; /* Уменьшение размера текста контента */
+  }
+}

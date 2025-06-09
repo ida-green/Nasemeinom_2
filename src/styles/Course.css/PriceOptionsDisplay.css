@@ -1,0 +1,16 @@
+/* PriceOptionsDisplay.css */
+.price-option {
+    display: flex;
+    align-items: center;
+    margin: 10px 0;
+}
+
+.price-option input[type="radio"] {
+    margin-right: 10px;
+    cursor: pointer;
+}
+
+.price-option.selected {
+    font-weight: bold;
+    color: var(--contrast-color) /* Цвет для выбранной опции */
+}

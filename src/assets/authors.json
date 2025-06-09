@@ -1,0 +1,419 @@
+[
+    {
+        "id": 1,
+        "name": "Никита",
+        "surname": "Марков",
+        "major": ["история", "география"],
+        "img": "/images/catalogue-images/author-images/Markov Nikita.jpg",
+        "description": "Кандидат исторических наук, преподаватель в Пушкинский.Youth"
+    },
+    {
+        "id": 2,
+        "name": "Анастасия",
+        "surname": "Сухенко",
+        "major": ["история"],
+        "img": "/images/catalogue-images/author-images/Sukhenko Anastasia.jpg",
+        "description": "Преподаватель истории и обществознания в школе \"Летово\""
+    },
+    {
+        "id": 3,
+        "name": "Валентина",
+        "surname": "Дегтева",
+        "major": ["литература"],
+        "img": "/images/catalogue-images/author-images/Degteva Valentina.jpg",
+        "description": "Филолог-литературовед, детский писатель, лауреат множества литературных премий"
+    },
+    {
+        "id": 4,
+        "name": "Роман Борисович",
+        "surname": "Соловьев",
+        "major": ["биология"],
+        "img": "/images/catalogue-images/author-images/Soloviev Roman.jpg",
+        "description": "Преподаватель биологии и окружающего мира в Школе Педагогического Мастерства, Филипповской школе"
+    },
+    {
+        "id": 5,
+        "name": "Анастасия",
+        "surname": "Симакина",
+        "major": ["русский язык"],
+        "img": "/images/catalogue-images/author-images/author-Olga-Ivanova.jpg",
+        "description": "Преподаватель русского языка, журналист, основатель онлайн-школы русского языка, магистратура ВШЭ (русский как иностранный)"
+        
+    },
+    {
+        "id": 6,
+        "name": "Мария",
+        "surname": "Монахова",
+        "major": ["биология"],
+        "img": "/images/catalogue-images/author-images/Monakhova Maria.jpg",
+        "description": "(Здесь скоро появится информация об авторе)"
+    },
+    {
+        "id": 7,
+        "name": "Максим",
+        "surname": "Волчкевич",
+        "major": ["геометрия"],
+        "img": "/images/catalogue-images/author-images/Volchkevich Maxim.jpg",
+        "description": "Учитель геометрии в лицее «Вторая Школа», в школе № 57, автор учебников по программе \"Матвертикаль\""
+    },
+    {
+        "id": 8,
+        "name": "София",
+        "surname": "Широгорова",
+        "major": ["история"],
+        "img": "/images/catalogue-images/author-images/Shirogorova Sofia.jpg",
+        "description": "Военный историк, консультант международного онлайн-проекта The Great War"
+    },
+    {
+        "id": 9,
+        "name": "Алексей",
+        "surname": "Белов",
+        "major": ["физика"],
+        "img": "/images/catalogue-images/author-images/Belov Alexey.jpg",
+        "description": "Преподаватель физики профильных классов в школе Летово, лицее \"Вторая Школа\""
+    },
+    {
+        "id": 11,
+        "name": "Михаил",
+        "surname": "Белкин",
+        "major": ["литература"],
+        "img": "/images/catalogue-images/author-images/Belkin Mikhail.jpg",
+        "description": "Кандидат филологических наук, учитель словесности в «Новой школе»"
+    },
+    {
+        "id": 13,
+        "name": "Василий",
+        "surname": "Горбачев",
+        "major": ["английский язык"],
+        "img": "/images/catalogue-images/author-images/Gorbachev Vasily.jpg",
+        "description": "Кандидат филологических наук, учитель словесности в \"Новой школе»\""
+    },
+    {
+        "id": 14,
+        "name": "Татьяна",
+        "surname": "Тульчинская",
+        "major": ["историй религий", "политология"],
+        "img": "/images/catalogue-images/author-images/Tulchinskaya Tatiana.jpg",
+        "description": "Кандидат политических наук, историк"
+    },
+    {
+        "id": 15,
+        "name": "Николай",
+        "surname": "Асламов",
+        "major": ["история"],
+        "img": "/images/catalogue-images/author-images/Aslamov Nikolay.jpg",
+        "description": "Кандидат философских наук, преподаватель истории в школе \"Летово\""
+    },
+    {
+        "id": 16,
+        "name": "Юрий",
+        "surname": "Подкапаев",
+        "major": ["алгебра", "математика"],
+        "img": "/images/catalogue-images/author-images/Podkopaev Yury.jpg",
+        "description": "Преподаватель математики в Новой Школе, заместитель директора"
+    },
+    {
+        "id": 17,
+        "name": "Никита",
+        "surname": "Тиунов",
+        "major": ["биология"],
+        "img": "/images/catalogue-images/author-images/Tiunov Nikita.jpg",
+        "description": "Естественнонаучного лагеря (ДетЕст)"
+    },
+    {
+        "id": 18,
+        "name": "Мария",
+        "surname": "Тиунова",
+        "major": ["биология"],
+        "img": "/images/catalogue-images/author-images/Tiunova Maria.jpg",
+        "description": "Зоолог, преподаватель биологии в школе \"Интеллектуал\""
+    },
+    {
+        "id": 19,
+        "name": "Ярослав",
+        "surname": "Попов",
+        "major": ["палеонтология"],
+        "img": "/images/catalogue-images/author-images/Popov Yaroslav.jpg",
+        "description": "Палеонтолог, палеоихтиолог, научный сотрудник, лектор Дарвиновского музея"
+    },
+    {
+        "id": 20,
+        "name": "Петр",
+        "surname": "Мазаев",
+        "major": ["история"],
+        "img": "/images/catalogue-images/author-images/Mazaev Petr.jpg",
+        "description": "Историк, преподавал историю в Летово, Новой школе и Le Rosay Диалог"
+    },
+    {
+        "id": 21,
+        "name": "Мария",
+        "surname": "Литвиненко",
+        "major": ["математика"],
+        "img": "/images/catalogue-images/author-images/Litvinenko Maria.jpg",
+        "description": "Учитель математики в гимназии им.Е.М. Примакова"
+    },
+    {
+        "id": 22,
+        "name": "Кирилл",
+        "surname": "Половников",
+        "major": ["алгебра", "физика"],
+        "img": "/images/catalogue-images/author-images/Polovnikov Kirill.jpg",
+        "description": "Кандидат физико-математических наук, популяризатор науки, лаурет многих премий и грантов"
+    },
+    {
+        "id": 23,
+        "name": "Тамара",
+        "surname": "Эйдельман",
+        "major": ["история"],
+        "img": "/images/catalogue-images/author-images/Eidelman Tamara.jpg",
+        "description": "Потомственный историк, автор книг и учебных пособой, исторический блогер"
+    },
+    {
+        "id": 24,
+        "name": "Алексей",
+        "surname": "Чепига",
+        "major": ["химия"],
+        "img": "/images/catalogue-images/author-images/Chepiga Alexey.jpg",
+        "description": "Учитель химии в школе «Летово»"
+    },
+    {
+        "id": 25,
+        "name": "Римма",
+        "surname": "Храмцова",
+        "major": ["литература"],
+        "img": "/images/catalogue-images/author-images/Khramtsova Rimma.jpg",
+        "description": "Учитель словесности в 1514 школе, один из учредителей \"Гильдии словесников\""
+    },
+    {
+        "id": 26,
+        "name": "Иван",
+        "surname": "Колечкин",
+        "major": ["география"],
+        "img": "/images/catalogue-images/author-images/Kolechkin Ivan.jpg",
+        "description": "Географ, автор учебных пособий, телеведущий, автор телепрограмм"
+    },
+    {
+        "id": 27,
+        "name": "Нина",
+        "surname": "Горшкова",
+        "major": ["биология"],
+        "img": "/images/catalogue-images/author-images/Gorshkova Nina.jpg",
+        "description": "Руководитель кафедры естественных наук в Новой Школе, учитель биологии в Новой Школе и 57 школе"
+    },
+    {
+        "id": 28,
+        "name": "Константин",
+        "surname": "Куксин",
+        "major": ["история", "этнография", "география"],
+        "img": "/images/catalogue-images/author-images/Kuksin Konstantin.jpg",
+        "description": "Этнограф, путешественник, основатель Музея кочевой культуры (Москва)"
+    },
+    {
+        "id": 29,
+        "name": "Алексей",
+        "surname": "Олейников",
+        "major": ["литература"],
+        "img": "/images/catalogue-images/author-images/Oleinikov Alexey.jpg",
+        "description": "Детский писатель, поэт, лауреат литературных конкурсов"
+    },
+    {
+        "id": 30,
+        "name": "Ольга",
+        "surname": "Остроумова",
+        "major": ["русский язык"],
+        "img": "/images/catalogue-images/author-images/Ostroumova Olga.jpg",
+        "description": "Автор уникальной методики изучения русского языка"
+    },
+    {
+        "id": 31,
+        "name": "Алексей",
+        "surname": "Водовозов",
+        "major": ["биология"],
+        "img": "/images/catalogue-images/author-images/Vodovozov Alexey.jpg",
+        "description": "Врач-токсиколог, научный журналист и медицинский блогер"
+    },
+    {
+        "id": 32,
+        "name": "Артур",
+        "surname": "Заруба",
+        "major": ["музыка"],
+        "img": "/images/catalogue-images/author-images/Zaruba Artur.jpg",
+        "description": "Композитор, кандидат педагогических наук, абсолютный победитель конкурса «Учитель года России»"
+    },
+    {
+        "id": 33,
+        "name": "Денис",
+        "surname": "Жилин",
+        "major": ["химия"],
+        "img": "/images/catalogue-images/author-images/Zhilin Denis.jpg",
+        "description": "Кандидат химических наук, автор школьных учебников по химии"
+    },
+    {
+        "id": 34,
+        "name": "Александр",
+        "surname": "Доброчаев",
+        "major": ["биология"],
+        "img": "/images/catalogue-images/author-images/Dobrochaev Alexandr.jpg",
+        "description": "Кандидат биологических наук, преподаватель биологии в школе «Интеллектуал»"
+    },
+    {
+        "id": 35,
+        "name": "Дмитрий",
+        "surname": "Нестеренко",
+        "major": ["география"],
+        "img": "/images/catalogue-images/author-images/Nesterenko Dmitry.jpg",
+        "description": "Кандидат географических наук, преподаватель географии в Летово, London Gates Education Group, Новая Школа"
+    },
+    {
+        "id": 36,
+        "name": "Ирина",
+        "surname": "Меньшикова",
+        "major": ["химия"],
+        "img": "/images/catalogue-images/author-images/Menshikova Irina.jpg",
+        "description": "Кандидат химических наук, преподавала химию в школе «Летово» и в «Европейской Гимназии»"
+    },
+    {
+        "id": 37,
+        "name": "Алексей",
+        "surname": "Потапов",
+        "major": ["информатика"],
+        "img": "/images/catalogue-images/author-images/Potapov Alexey.jpg",
+        "description": "Доктор технических наук, профессора ИТМО и СПбГУ"
+    },
+    {
+        "id": 38,
+        "name": "Мария",
+        "surname": "Пертая",
+        "major": ["экономика"],
+        "img": "/images/catalogue-images/author-images/Pertaya Maria.jpg",
+        "description": "Кандидат экономических наук, преподаватель экономики в РГПУ им. А.И. Герцена"
+    },
+    {
+        "id": 39,
+        "name": "Денис",
+        "surname": "Подкопаев",
+        "major": ["литература"],
+        "img": "/images/catalogue-images/author-images/Podkopaev Denis.jpg",
+        "description": "Cтарший преподаватель в лицее ВШЭ"
+    },
+    {
+        "id": 40,
+        "name": "Евгений",
+        "surname": "Синицын",
+        "major": ["физика"],
+        "img": "/images/catalogue-images/author-images/Sinitsyn Evgeny.jpg",
+        "description": "Кандидат физико-математических наук, преподаватель физики в Летово и Сириусе"
+    },
+    {
+        "id": 41,
+        "name": "Юрий",
+        "surname": "Романов",
+        "major": ["обществознание"],
+        "img": "/images/catalogue-images/author-images/Romanov Yury.jpg",
+        "description": "Преподаватель истории, обществознания, работал академическим директором, руководил кафедрой социальных наук в Новой Школе"
+    },
+    {
+        "id": 42,
+        "name": "Александр",
+        "surname": "Гиринский",
+        "major": ["философия"],
+        "img": "/images/catalogue-images/author-images/Girinsky Alexandr.jpg",
+        "description": "Кандидат философских наук, заведующий кафедрой Лицея НИУ ВШЭ"
+    },
+    {
+        "id": 43,
+        "name": "Оксана",
+        "surname": "Русанова",
+        "major": ["физика", "ТРИЗ"],
+        "img": "/images/catalogue-images/author-images/Rusanova Oksana.jpg",
+        "description": "Кандидат технических наук, руководитель Школы Юного Физика"
+    },
+    {
+        "id": 44,
+        "name": "Роман",
+        "surname": "Царев",
+        "major": ["обществознание", "право"],
+        "img": "/images/catalogue-images/author-images/Tsarev Roman.jpg",
+        "description": "Юрист, преподаватель обществознания и права в школе Летово"
+    },
+    {
+        "id": 45,
+        "name": "Римма",
+        "surname": "Раппопорт",
+        "major": ["русский язык"],
+        "img": "/images/catalogue-images/author-images/Rappoport Rimma.jpg",
+        "description": "Методист \"Яндекс учебник\", специалист \"Грамота.ру\", преподаватель русского языка в гимназии и Adriatic College"
+    },
+    {
+        "id": 46,
+        "name": "Антон",
+        "surname": "Захаров",
+        "major": ["биология"],
+        "img": "/images/catalogue-images/author-images/Zakharov Anton.jpg",
+        "description": "Биолог, физиолог, популяризатор науки, преподаватель биологии в школе Летово"
+    },
+    {
+        "id": 47,
+        "name": "Катерина и Игорь",
+        "surname": "Нисенбоим",
+        "major": ["digital skills"],
+        "img": "/images/catalogue-images/author-images/Nisenboim Katerina i Igor.jpg",
+        "description": "Руководители школы бизнес образования для взрослых и детей, авторы книги «Слайдхаки»"
+    },
+    {
+        "id": 48,
+        "name": "Павел",
+        "surname": "Прохоренко",
+        "major": ["литература"],
+        "img": "/images/catalogue-images/author-images/Prokhorenko Pavel.jpg",
+        "description": "Преподаватель литературы в школе «Летово»"
+    },
+    {
+        "id": 49,
+        "name": "Виктор",
+        "surname": "Корнилов",
+        "major": ["география"],
+        "img": "/images/catalogue-images/author-images/Kornilov Viktor.jpg",
+        "description": "Кандидат географических наук, преподаватель географии в школе Летово"
+    },
+    {
+        "id": 50,
+        "name": "Лена",
+        "surname": "Габер",
+        "major": ["политология"],
+        "img": "/images/catalogue-images/author-images/Gaber Lena.jpg",
+        "description": "Политолог, преподаватель социальных дисциплин"
+    },
+    {
+        "id": 51,
+        "name": "Нина",
+        "surname": "Дашевская",
+        "major": ["литература"],
+        "img": "/images/catalogue-images/author-images/Dashevskaya Nina.jpg",
+        "description": "Детская писательница, лауреат множества литературных конкурсов, преподаватель писательского мастерства"
+    },
+    {
+        "id": 52,
+        "name": "Елена",
+        "surname": "Коноваленко",
+        "major": ["математика"],
+        "img": "/images/catalogue-images/author-images/Konovalenko Elena.jpg",
+        "description": "Преподаватель математики в школе \"Интеллектуал\""
+    },
+    {
+        "id": 53,
+        "name": "Виктория",
+        "surname": "Куркина",
+        "major": ["digital skills"],
+        "img": "/images/catalogue-images/author-images/Kurkina Viktoria.jpg",
+        "description": "Маркетолог в Кремниевой долине (США), преподаватель маркетинга"
+    },
+    {
+        "id": 54,
+        "name": "Хаял",
+        "surname": "Эйвазов",
+        "major": ["математика"],
+        "img": "/images/catalogue-images/author-images/Eivazov Hayal.jpg",
+        "description": "Преподаватель словесности в школе Летово"
+    }
+]

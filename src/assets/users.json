@@ -1,0 +1,164 @@
+[
+    {
+        "id": 1,
+        "name": "Татьяна",
+        "surname": "Петрова",
+        "login": "Tat",
+        "password": "pass1",
+        "description": "Художник-декоратор, театр",
+        "children": [
+            {
+                "id": 1,
+                "name": "Матвей",
+                "gender": "мальчик",
+                "birthDate": "2014.04.04", 
+                "educationForm": "хоумскулер"
+            }
+        ],
+        "email": "tatiana@mail.ru",
+        "phone": "+79112223344",
+        "country": "Россия",
+        "region": "Санкт-Петербург и Ленинградская обл.",
+        "city": "Санкт-Петербург",
+        "familyDescription": "Мы в Озерках, ищем друзей на СО. Не хватает общения. Сын ходит на шахматы и на футбол, но там общение - только 15 минут перед занятием. Любит музыку и играть в роблокс. Очень хочет дружить и ходить друг к другу в гости, поэтому будем очень рады найти друзей рядом.",
+        "userImageUrl": "images/users-images/2.jpg",
+        "familyImageUrl": "images/families-images/6.jpg"
+    },
+    {
+        "id": 2,
+        "name": "Николай",
+        "surname": "Иванов",
+        "login": "Nick",
+        "password": "pass",
+        "description": "Программист, переехал с семьей в Черногорию в 2022",
+        "children": [
+            {
+                "id": 1,
+                "name": "Мария",
+                "gender": "девочка",
+                "birthDate": "2014.09.15", 
+                "educationForm": "хоумскулер"
+            }
+        ],
+        "email": "nick12@gmail.com",
+        "phone": "+79114445566",
+        "country": "Черногория",
+        "region": "Подгорица",
+        "city": "Подгорица",
+        "familyDescription": "Ищем русскоязычных детей в Подгорице для общения. Дочь на СО, в местную школу пока не планируем, будет сдавать аттестацию онлайн. Мы любим путешествовать по окресностям на входных и катаемся на велосипедах.",
+        "userImageUrl": "images/users-images/1.jpg",
+        "familyImageUrl": "images/families-images/11.jpg"
+    },
+    {
+        "id": 3,
+        "name": "Анна",
+        "surname": "Васильева",
+        "login": "Annushka",
+        "password": "pass",
+        "description": "Агент по недвижимости, занимаюсь эстрадным вокалом",
+        "children": [
+            {
+                "id": 1,
+                "name": "Катя",
+                "gender": "девочка",
+                "birthDate": "2015.11.05", 
+                "educationForm": "анскулер"
+            }
+        ],
+        "email": "asdft@mail.ru",
+        "phone": "+79217776655",
+        "country": "Россия",
+        "region": "Москва и Московская обл.",
+        "city": "Москва",
+        "familyDescription": "Мы в Куркино, ищем друзей на СО. Дочка ходила в свободную школу Дубравушка, но они переехали, и ей не хватает общения. У нас анскулинг, аттестации не сдаем. Маша занимается английским в Duolingo, и мы вместе ходим в бассейн. Ищем единомышленников для совместных походов в музеи и др. интересные места!",
+        "userImageUrl": "images/users-images/3.jpg",
+        "familyImageUrl": "images/families-images/3.jpg"
+    },
+    {
+        "id": 4,
+        "name": "Елена",
+        "surname": "Цветкова",
+        "login": "Helen",
+        "password": "pass",
+        "description": "Дизайнер одежды, шью на заказ",
+        "children": [
+            {
+                "id": 1,
+                "name": "Ваня",
+                "gender": "мальчик",
+                "birthDate": "2013.05.13", 
+                "educationForm": "хоумскулер"
+            },
+            {
+                "id": 2,
+                "name": "Василиса",
+                "gender": "девочка",
+                "birthDate": "2016.05.13", 
+                "educationForm": "хоумскулер"
+            }
+        ],
+        "email": "рудутф11@mail.ru",
+        "phone": "+79217779988",
+        "country": "Россия",
+        "region": "Москва и Московская обл.",
+        "city": "Москва",
+        "familyDescription": "Мы выбрали СО, потому что хотим растить детей в наших семейных традициях. Дети посещают \"Классические беседы\" - нам очень нравится. Хотим найти единомышленников для организации совместных выездов в музеи, в театр, на выставки и на прогулки.",
+        "userImageUrl": "images/users-images/4.jpg",
+        "familyImageUrl": "images/families-images/8.jpg"
+    },
+    {"id": 5,
+    "name": "Алена",
+    "surname": "Митрофанова",
+    "login": "Alen",
+    "password": "pass",
+    "description": "Маркетолог на удаленке, люблю котиков",
+    "children": [
+        {
+            "id": 1,
+            "name": "Саша",
+            "gender": "мальчик",
+            "birthDate": "2016.05.13", 
+            "educationForm": "хоумскулер"
+        },
+        {
+            "id": 2,
+            "name": "Маша",
+            "gender": "девочка",
+            "birthDate": "2016.05.13", 
+            "educationForm": "хоумскулер"
+        }
+    ],
+    "email": "gjkjl11@mail.ru",
+    "phone": "+79217779988",
+    "country": "Россия",
+    "region": "Санкт-Петербург и Ленинградская обл.",
+    "city": "Всеволожск",
+    "familyDescription": "Мы забрали детей на семейное обучение и ищем единомышленников во Всеволожске. Может быть получится организовать семейный мини-класс.",
+    "userImageUrl": "images/users-images/2.jpg",
+    "familyImageUrl": "images/families-images/9.jpg"
+},
+{   "id": 6,
+        "name": "Ольга",
+        "surname": "Иванова",
+        "login": "Olga",
+        "password": "pass",
+        "description": "Репетитор по английскому языку, люблю походы",
+        "children": [
+            {
+                "id": 1,
+                "name": "Женя",
+                "gender": "мальчик",
+                "birthDate": "2014.11.05", 
+                "educationForm": "в госшколе"
+            }
+        ],
+        "email": "asdft@mail.ru",
+        "phone": "+79217776655",
+        "country": "Россия",
+        "region": "Санкт-Петербург и Ленинградская обл.",
+        "city": "Санкт-Петербург",
+        "familyDescription": "Мы пока только присматриваемся к семейному образованию. Хочется увидеть примеры успешного семейного образования - расскажите, если у вас есть.",
+        "userImageUrl": "images/users-images/3.jpg",
+        "familyImageUrl": "images/families-images/5.jpg"
+    }
+]

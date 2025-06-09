@@ -1,0 +1,34 @@
+[
+{
+    "id": 1,
+    "educationForm": "хоумскулер"
+},
+{
+    "id": 2 ,
+    "educatinForm": "анскулер"
+},
+{
+    "id": 3,
+    "educatinForm": "дошкольник/ца"
+},
+{
+    "id": 4,
+    "educatinForm": "в госшколе"
+},
+{
+    "id": 5,
+    "educatinForm": "в частной школе"
+},
+{
+    "id": 6,
+    "educatinForm": "на домашнем обучении"
+},
+{
+    "id": 7,
+    "educatinForm": "на заочном обучении"
+},
+{
+    "id": 8,
+    "educatinForm": "окончил(а) школу"
+}
+]

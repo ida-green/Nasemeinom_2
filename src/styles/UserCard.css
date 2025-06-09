@@ -1,0 +1,169 @@
+/* UserCard.css - Переработано для гарантированной горизонтальной компоновки на десктопе */
+
+.user-card {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap; /* Оставим для адаптивности на меньших экранах */
+  gap: 20px;
+  border: 1px solid #e0e0e0;
+  border-radius: 5px;
+  padding: 20px;
+  background-color: #fff;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  max-width: 1200px; /* Максимальная ширина всей карточки */
+  margin: 20px auto;
+  font-size: 0.9rem;
+}
+
+/* Стили для основных блоков внутри карточки */
+.user-main-info,
+.user-children-section,
+.user-family-section,
+.user-family-image-section {
+  padding: 10px;
+  border: 1px solid #f0f0f0;
+  border-radius: 6px;
+  background-color: #f9f9f9;
+  box-sizing: border-box;
+}
+
+/* --- Десктопные стили: распределение ширины для ГАРАНТИРОВАННОГО горизонтального layout --- */
+/*
+  flex-basis: определяет предпочтительный размер элемента до распределения оставшегося пространства.
+  flex-shrink: 0; (для десктопа) - предотвращает сжатие элементов ниже flex-basis, пока не сработает flex-wrap
+  или медиа-запрос.
+*/
+
+@media (min-width: 1200px) { /* Применяем эти стили только на широких экранах */
+    .user-main-info {
+        flex: 0 0 280px; /* flex-grow: 0, flex-shrink: 0, flex-basis: 280px */
+        /* Остается прежним, так как это важная секция */
+    }
+    .user-children-section {
+        flex: 0 0 280px; /* flex-grow: 0, flex-shrink: 0, flex-basis: 280px */
+        /* Остается прежним, так как это важная секция */
+    }
+    .user-family-section {
+        /* Уменьшаем flex-basis с 350px до 300px (-50px) */
+        flex: 1 0 200px;
+        /* flex-grow: 1 позволит ей расти, если экран шире 1200px, но не меньше 300px */
+    }
+    .user-family-image-section {
+        /* Уменьшаем flex-basis с 300px до 280px (-20px) */
+        flex: 1 0 280px;
+        /* flex-grow: 1 позволит ей расти, если экран шире 1200px, но не меньше 280px */
+    }
+}
+
+/* --- Внутренние стили секций (без изменений, т.к. не влияют на основную адаптацию) --- */
+.user-card-header-inner {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  margin-bottom: 20px;
+  padding-bottom: 15px;
+  border-bottom: 1px solid #eee;
+}
+
+.user-avatar {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.user-info {
+  flex-grow: 1;
+}
+
+.user-name {
+  margin: 0 0 5px 0;
+  font-size: 1.2em;
+}
+
+.user-location,
+.last-online {
+  margin: 0;
+  font-size: .9em;
+  color: red;
+}
+
+.user-description h3,
+.user-family-section h3,
+.user-children-section h3 {
+  margin-top: 0;
+  margin-bottom: 7px;
+  font-size: 1.2em;
+}
+
+.user-children-section ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.user-children-section li {
+  margin-bottom: 8px;
+  padding-left: 15px;
+  position: relative;
+  line-height: 1.4;
+}
+
+.user-children-section li::before {
+  content: '•';
+  color: #007bff;
+  position: absolute;
+  left: 0;
+}
+
+.user-family-image {
+  max-width: 200px;
+  max-height: auto;
+}
+
+/* --- Медиа-запросы для адаптации: карточка становится ВЕРТИКАЛЬНОЙ --- */
+
+/* Планшеты и узкие десктопы (до 1024px включительно) */
+@media (max-width: 1024px) {
+  .user-card {
+    flex-direction: column; /* ГЛАВНОЕ ИЗМЕНЕНИЕ: Основные секции располагаются ВЕРТИКАЛЬНО */
+    padding: 15px;
+    gap: 15px;
+  }
+
+  .user-main-info,
+  .user-children-section,
+  .user-family-section {
+    flex: 1 1 100%; /* Каждая секция занимает 100% ширины и может сжиматься/расширяться */
+    min-width: unset; /* Снимаем жесткие минимальные ширины, позволяя блокам сужаться */
+    padding: 15px;
+  }
+}
+
+/* Смартфоны (до 767px включительно) */
+@media (max-width: 767px) {
+  .user-card {
+    padding: 10px;
+    gap: 10px;
+    margin: 10px;
+    font-size: .8rem;
+  }
+
+  /* Аватар и инфо о пользователе внутри основного блока тоже выстраиваются вертикально */
+  .user-card-header-inner {
+    flex-direction: column;
+    text-align: center;
+    gap: 10px;
+    margin-bottom: 10px;
+    padding-bottom: 10px;
+  }
+
+  .user-avatar {
+    width: 70px;
+    height: 70px;
+  }
+
+  .user-name {
+    font-size: 1.5em;
+  }
+}

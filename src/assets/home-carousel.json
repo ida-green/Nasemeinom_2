@@ -1,0 +1,32 @@
+    [
+        {
+            "img": "homeschooling1",
+            "title": "Образование, не ограниченное программой",
+            "description": "Вы сами выбираете, чему и как учиться",
+            "imageUrl": "/images/carousel-images/homeschooling1.jpg"
+        },
+        {
+            "img": "homeschooling2",
+            "title": "Множество курсов для детей",
+            "description": "Составьте свой план и меняйте его под свои запросы",
+            "imageUrl": "/images/carousel-images/homeschooling2.jpg"
+        },
+        {
+            "img": "homeschooling3",
+            "title": "Комфортные условия",
+            "description": "Учитесь, где хотите. Отдыхайте, когда устали",
+            "imageUrl": "/images/carousel-images/homeschooling3.jpg"
+        },
+        {
+            "img": "homeschooling5",
+            "title": "Углубленное изучение",
+            "description": "Погрузитесь в то, что интересно именно вашему ребенку",
+            "imageUrl": "/images/carousel-images/homeschooling5.jpg"
+        },
+        {
+            "img": "homeschooling6",
+            "title": "Много свободного времени",
+            "description": "Учитесь в своем темпе",
+            "imageUrl": "/images/carousel-images/homeschooling6.jpg"
+        }
+    ]

@@ -1,0 +1,137 @@
+[
+    {
+        "id": 1,
+        "courseId": 1,
+        "userId": 1,
+        "text": "Отзыв о курсе. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse gravida velit eu interdum aliquet. Maecenas sit amet congue erat. Proin convallis convallis consectetur. Nullam viverra malesuada erat, non hendrerit sapien finibus porttitor. Sed ultricies ligula neque, vel consequat nibh placerat eu.",
+        "date": "25.11.2024",
+        "stars": 5
+    },
+    {
+        "id": 2,
+        "courseId": 2,
+        "userId": 2,
+        "text": "Отзыв о курсе. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse gravida velit eu interdum aliquet. Maecenas sit amet congue erat. Proin convallis convallis consectetur. Nullam viverra malesuada erat, non hendrerit sapien finibus porttitor. Sed ultricies ligula neque, vel consequat nibh placerat eu.",
+        "date": "12.08.2024",
+        "stars": 5
+    },
+    {
+        "id": 3,
+        "courseId": 3,
+        "userId": 3,
+        "text": "Отзыв о курсе. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse gravida velit eu interdum aliquet. Maecenas sit amet congue erat. Proin convallis convallis consectetur. Nullam viverra malesuada erat, non hendrerit sapien finibus porttitor. Sed ultricies ligula neque, vel consequat nibh placerat eu.",
+        "date": "14.09.2024",
+        "stars": 4
+    },
+    {
+        "id": 4,
+        "courseId": 4,
+        "userId": 4,
+        "text": "Отзыв о курсе. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse gravida velit eu interdum aliquet. Maecenas sit amet congue erat. Proin convallis convallis consectetur. Nullam viverra malesuada erat, non hendrerit sapien finibus porttitor. Sed ultricies ligula neque, vel consequat nibh placerat eu.",
+        "date": "18.09.2024",
+        "stars": 5
+    },
+    {
+        "id": 4,
+        "courseId": 5,
+        "userId": 5,
+        "text": "Отзыв о курсе. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse gravida velit eu interdum aliquet. Maecenas sit amet congue erat. Proin convallis convallis consectetur. Nullam viverra malesuada erat, non hendrerit sapien finibus porttitor. Sed ultricies ligula neque, vel consequat nibh placerat eu.",
+        "date": "18.09.2024",
+        "stars": 5
+    },
+    {
+        "id": 4,
+        "courseId": 6,
+        "userId": 1,
+        "text": "Отзыв о курсе. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse gravida velit eu interdum aliquet. Maecenas sit amet congue erat. Proin convallis convallis consectetur. Nullam viverra malesuada erat, non hendrerit sapien finibus porttitor. Sed ultricies ligula neque, vel consequat nibh placerat eu.",
+        "date": "18.09.2024",
+        "stars": 5
+    },
+    {
+        "id": 4,
+        "courseId": 6,
+        "userId": 2,
+        "text": "Отзыв о курсе. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse gravida velit eu interdum aliquet. Maecenas sit amet congue erat. Proin convallis convallis consectetur. Nullam viverra malesuada erat, non hendrerit sapien finibus porttitor. Sed ultricies ligula neque, vel consequat nibh placerat eu.",
+        "date": "18.09.2024",
+        "stars": 5
+    },
+    {
+        "id": 4,
+        "courseId": 7,
+        "userId": 3,
+        "text": "Отзыв о курсе. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse gravida velit eu interdum aliquet. Maecenas sit amet congue erat. Proin convallis convallis consectetur. Nullam viverra malesuada erat, non hendrerit sapien finibus porttitor. Sed ultricies ligula neque, vel consequat nibh placerat eu.",
+        "date": "18.09.2024",
+        "stars": 5
+    },
+    {
+        "id": 4,
+        "courseId": 8,
+        "userId": 4,
+        "text": "Отзыв о курсе. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse gravida velit eu interdum aliquet. Maecenas sit amet congue erat. Proin convallis convallis consectetur. Nullam viverra malesuada erat, non hendrerit sapien finibus porttitor. Sed ultricies ligula neque, vel consequat nibh placerat eu.",
+        "date": "18.09.2024",
+        "stars": 5
+    },{
+        "id": 4,
+        "courseId": 1,
+        "userId": 5,
+        "text": "Отзыв о курсе. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse gravida velit eu interdum aliquet. Maecenas sit amet congue erat. Proin convallis convallis consectetur. Nullam viverra malesuada erat, non hendrerit sapien finibus porttitor. Sed ultricies ligula neque, vel consequat nibh placerat eu.",
+        "date": "18.09.2024",
+        "stars": 5
+    },
+    {
+        "id": 4,
+        "courseId": 2,
+        "userId": 1,
+        "text": "Отзыв о курсе. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse gravida velit eu interdum aliquet. Maecenas sit amet congue erat. Proin convallis convallis consectetur. Nullam viverra malesuada erat, non hendrerit sapien finibus porttitor. Sed ultricies ligula neque, vel consequat nibh placerat eu.",
+        "date": "18.09.2024",
+        "stars": 5
+    },
+    {
+        "id": 4,
+        "courseId": 3,
+        "userId": 2,
+        "text": "Отзыв о курсе. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse gravida velit eu interdum aliquet. Maecenas sit amet congue erat. Proin convallis convallis consectetur. Nullam viverra malesuada erat, non hendrerit sapien finibus porttitor. Sed ultricies ligula neque, vel consequat nibh placerat eu.",
+        "date": "18.09.2024",
+        "stars": 5
+    },
+    {
+        "id": 4,
+        "courseId": 4,
+        "userId": 3,
+        "text": "Отзыв о курсе. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse gravida velit eu interdum aliquet. Maecenas sit amet congue erat. Proin convallis convallis consectetur. Nullam viverra malesuada erat, non hendrerit sapien finibus porttitor. Sed ultricies ligula neque, vel consequat nibh placerat eu.",
+        "date": "18.09.2024",
+        "stars": 5
+    },
+    {
+        "id": 4,
+        "courseId": 5,
+        "userId": 4,
+        "text": "Отзыв о курсе. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse gravida velit eu interdum aliquet. Maecenas sit amet congue erat. Proin convallis convallis consectetur. Nullam viverra malesuada erat, non hendrerit sapien finibus porttitor. Sed ultricies ligula neque, vel consequat nibh placerat eu.",
+        "date": "18.09.2024",
+        "stars": 5
+    },
+    {
+        "id": 4,
+        "courseId": 6,
+        "userId": 5,
+        "text": "Отзыв о курсе. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse gravida velit eu interdum aliquet. Maecenas sit amet congue erat. Proin convallis convallis consectetur. Nullam viverra malesuada erat, non hendrerit sapien finibus porttitor. Sed ultricies ligula neque, vel consequat nibh placerat eu.",
+        "date": "18.09.2024",
+        "stars": 5
+    },
+    {
+        "id": 4,
+        "courseId": 7,
+        "userId": 1,
+        "text": "Отзыв о курсе. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse gravida velit eu interdum aliquet. Maecenas sit amet congue erat. Proin convallis convallis consectetur. Nullam viverra malesuada erat, non hendrerit sapien finibus porttitor. Sed ultricies ligula neque, vel consequat nibh placerat eu.",
+        "date": "18.09.2024",
+        "stars": 5
+    },
+    {
+        "id": 4,
+        "courseId": 8,
+        "userId": 2,
+        "text": "Отзыв о курсе. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse gravida velit eu interdum aliquet. Maecenas sit amet congue erat. Proin convallis convallis consectetur. Nullam viverra malesuada erat, non hendrerit sapien finibus porttitor. Sed ultricies ligula neque, vel consequat nibh placerat eu.",
+        "date": "18.09.2024",
+        "stars": 5
+    }
+]
