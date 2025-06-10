@@ -53,7 +53,6 @@ function getHaversineDistanceLiteral(lat1Column, lon1Column, lat2, lon2) {
     ];
 }
 
-
 async function searchUsers(req, res) {
     try {
         const { country_id, region_id, city_id, radius_km, page = 1, per_page = 20, name } = req.query;

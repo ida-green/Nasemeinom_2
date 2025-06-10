@@ -85,13 +85,7 @@ const UserCard = ({ user }) => {
   return (
     <div className="user-card"> {/* Главный контейнер карточки */}
         
-     {/* блок: Фото семьи */}
-      {hasFamilyImage && (
-        <div className="user-family-image-section">
-          <img src={user.familyImageUrl} />
-        </div>
-      )}
-
+     
       {/* блок: Аватар, имя, город, регион, страна, описание пользователя "О себе" */}
       <div className="user-main-info">
         <div className="user-card-header-inner">
@@ -117,7 +111,7 @@ const UserCard = ({ user }) => {
         {/* блок: Дети */}
       {hasChildren && (
         <div className="user-children">
-          <h5><strong>Дети:</strong></h5>
+          <div><strong>Дети:</strong></div>
           <ul>
             {user.children.map((child) => (
               <li key={child.id}>{child.gender && child.gender.gender && ` ${child.gender.gender}`}, {calculateAge(child.birth_date)}{child.education_form && child.education_form.title && `, ${child.education_form.title}`}
@@ -131,11 +125,18 @@ const UserCard = ({ user }) => {
       {/* блок: Описание семьи */}
       {hasFamilyDescription && (
         <div className="user-family-section">
-          <h5>О семье:</h5>
+          <div><strong>О семье:</strong></div>
           <p>{user.familyDescription}</p>
         </div>
       )}
-     
+           
+      {/* блок: Фото семьи */}
+      {hasFamilyImage && (
+        <div className="user-family-image-section">
+          <img src={user.familyImageUrl} />
+        </div>
+      )}
+
     </div>
   );
 };

@@ -9,16 +9,10 @@ const locationController = require('../controllers/locationController');
 // GET /api/locations/countries - Получить страны по поисковому запросу
 router.get('/countries', locationController.getCountries);
 
-// GET /api/locations/regions - Получить регионы по поисковому запросу (опционально по стране)
-router.get('/regions', locationController.getRegions);
+// Получить регионы по поисковому запросу (опционально по стране)
+router.get('/countries/:countryId/regions', locationController.getRegions);
 
-// GET /api/locations/cities - Получить города по поисковому запросу (опционально по стране/региону)
-router.get('/cities', locationController.getCities);
-
-
-// Маршрут для поиска пользователей (будет реализован позже)
-
-// GET /api/users/search - Получить список пользователей по различным фильтрам
-// router.get('/users/search', userController.searchUsers); // Закомментировано пока нет userController
+// Получить города по поисковому запросу
+router.get('/cities', locationController.getCities); // <<-- ЭТОТ МАРШРУТ
 
 module.exports = router;

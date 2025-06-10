@@ -39,33 +39,36 @@ exports.getCountries = async (req, res) => {
 
 exports.getRegions = async (req, res) => {
     try {
-        const query = req.query.q; // Поисковый запрос по имени региона
-        const countryId = req.query.country_id; // ID страны для фильтрации (опционально)
-        const limit = parseInt(req.query.limit) || 10; // Лимит результатов
+        // !!! ИЗМЕНЕНИЕ 1: Получаем countryId из параметров URL, а не из query
+        const countryId = req.params.countryId; // Предполагается, что маршрут выглядит как /countries/:countryId/regions
 
-        // Инициализируем пустой объект для условий WHERE
+        // !!! ИЗМЕНЕНИЕ 2: Получаем поисковый запрос из параметра 'name', а не 'q'
+        const query = req.query.name; 
+
+        const limit = parseInt(req.query.limit) || 10;
+
         const whereCondition = {};
 
-        // 1. Добавляем фильтр по стране, если countryId предоставлен
-        if (countryId) {
-            whereCondition.country_id = countryId;
+        // Обязательно проверяем наличие countryId, так как без него запрос может быть нелогичным
+        if (!countryId) {
+            return res.status(400).json({ error: 'Country ID is required for fetching regions.' });
         }
+        whereCondition.country_id = countryId;
 
-        // 2. Условно добавляем фильтр по поисковому запросу 'q'
-        // Если query предоставлен и имеет достаточную длину (>= 2 символов),
-        // тогда применяем фильтр по имени.
+        // Условно добавляем фильтр по поисковому запросу 'name'
         if (query && query.length >= 2) {
             whereCondition[Op.or] = [
                 { name_en: { [Op.like]: `%${query}%` } },
                 { name_ru: { [Op.like]: `%${query}%` } }
             ];
         }
-        // Если query пустой или короткий, мы НЕ добавляем условие [Op.or]
-        // Это означает, что будут возвращены все регионы, соответствующие только countryId (если он есть).
+        // Если query пустой или короткий (менее 2 символов), мы НЕ добавляем условие [Op.or]
+        // Это означает, что будут возвращены все регионы, соответствующие только countryId,
+        // но с лимитом, что хорошо.
 
         const regions = await Region.findAll({
-            attributes: ['id', 'country_id', 'name_en', 'name_ru'],
-            where: whereCondition, // Используем динамически сформированное условие
+            attributes: ['id', 'country_id', 'name_en', 'name_ru', 'admin1_code'],
+            where: whereCondition,
             order: [['name_en', 'ASC']],
             limit: limit
         });
@@ -78,15 +81,14 @@ exports.getRegions = async (req, res) => {
     }
 };
 
-
 // Контроллер для получения городов
 exports.getCities = async (req, res) => {
     try {
         const query = req.query.q;
         const countryId = req.query.country_id;
-        const regionId = req.query.region_id; // Это будет строка (например, '123' или 'null') или undefined
-        const limit = parseInt(req.query.limit) || 10;
-
+        const regionAdmin1Code = req.query.admin1_code; // <<< НОВОЕ ИМЯ ПАРАМЕТРА
+        const limit = parseInt(req.query.limit) || 10; // Добавил || 10
+        
         if (!query || query.length < 2) {
             return res.status(400).json({ error: 'Параметр "q" обязателен и должен содержать минимум 2 символа.' });
         }
@@ -102,42 +104,34 @@ exports.getCities = async (req, res) => {
             whereCondition.country_id = countryId;
         }
 
-
-        // --- Измененная логика для regionId ---
-        if (regionId !== undefined) { // Проверяем, был ли параметр region_id вообще передан
-            if (regionId === 'null') { // Если region_id пришел как строка 'null' (от фронтенда)
-                whereCondition.region_id = { [Op.is]: null }; // Ищем города, где region_id IS NULL
-            } else { // Иначе предполагаем, что это ID региона (число)
-                const parsedRegionId = parseInt(regionId);
-                if (isNaN(parsedRegionId)) {
-                    // Если значение передано, но не является числом и не 'null'
-                    return res.status(400).json({ error: 'Некорректное значение для region_id. Ожидается числовой ID региона или строка "null".' });
-                }
-                whereCondition.region_id = parsedRegionId;
-            }
+         // --- Измененная логика для admin1_code ---
+        if (regionAdmin1Code) { // Если admin1_code передан (даже если он пустая строка, это можно отфильтровать)
+            // Мы передаем его как строку, поэтому просто используем его
+            whereCondition.admin1_code = regionAdmin1Code;
+        } else {
+            // Если regionAdmin1Code не передан или пустой, это означает "Без региона",
+            // тогда мы явно ищем города, у которых admin1_code равен null или пустой строке
+            // Если вы хотите, чтобы это означало "города со всеми admin1_code",
+            // то просто уберите эту ветку else и не добавляйте условие.
+            // Но обычно "Без региона" означает города, у которых нет admin1_code.
+            // Проверьте вашу базу данных: есть ли города БЕЗ admin1_code, которые должны отображаться при "Без региона"?
+            // Если да, то `Op.or: [{ admin1_code: { [Op.is]: null } }, { admin1_code: '' }]` может быть нужен.
+            // Для простоты, пока оставим так: если admin1_code не передан, мы НЕ добавляем фильтр по admin1_code.
+            // То есть, ищем во ВСЕХ городах страны.
+            // Это более логично для "Без региона".
         }
 
-        
-        // Если regionId === undefined (т.е. параметр region_id не был передан в запросе),
-        // то условие для region_id не добавляется вообще.
-        // Это означает, что будут искаться города для всей страны,
-        // независимо от того, есть у них region_id или нет.
-        // Это полезно, если на фронтенде регион не обязателен для выбора города.
+        // Для отладки: console.log('whereCondition for cities:', whereCondition);
 
         const cities = await City.findAll({
-            attributes: ['id', 'country_id', 'region_id', 'name_en', 'name_ru', 'latitude', 'longitude'],
+            attributes: ['id', 'country_id', 'admin1_code', 'name_en', 'name_ru', 'latitude', 'longitude'], // <<< ДОБАВЛЕНО admin1_code
             where: whereCondition,
             order: [['name_en', 'ASC']],
             limit: limit
         });
-
         res.json(cities);
-
     } catch (error) {
         console.error('Ошибка при получении городов:', error);
         res.status(500).json({ error: 'Внутренняя ошибка сервера.' });
     }
 };
-
-
-// module.exports = { getCities };
