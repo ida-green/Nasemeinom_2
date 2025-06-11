@@ -27,6 +27,37 @@
   box-sizing: border-box;
 }
 
+/* Общие стили для аватара и плейсхолдера, чтобы они были одинакового размера и формы */
+.user-card-avatar,
+.user-card-avatar-placeholder {
+  width: 70px;
+  height: 70px;
+  border-radius: 50%;
+  overflow: hidden;
+  flex-shrink: 0; /* <-- КЛЮЧЕВОЕ ИЗМЕНЕНИЕ: Запрещает аватару сжиматься.
+                       Он всегда будет 70px в ширину. */
+  /* Если у вас здесь был margin-right, удалите его, так как gap в user-card-header-inner его заменит */
+}
+
+/* Стили специально для плейсхолдера с инициалами */
+.user-card-avatar-placeholder {
+  background-color: #ccc; /* Светло-серый фон (можно выбрать любой цвет, например, #6c757d для нейтрального) */
+  color: #fff;            /* Белый цвет текста для инициалов */
+  display: flex;          /* Включаем Flexbox для центрирования содержимого */
+  justify-content: center;/* Горизонтальное выравнивание по центру */
+  align-items: center;    /* Вертикальное выравнивание по центру */
+  font-size: 28px;        /* Размер шрифта для инициалов (подберите по вкусу) */
+  font-weight: bold;      /* Жирный шрифт для инициалов */
+  text-transform: uppercase; /* Если getInitials не гарантирует капс, это сделает буквы заглавными */
+}
+
+ /* Дополнительно: стили для реального изображения, чтобы оно хорошо вписывалось в круг */
+.user-card-avatar {
+  object-fit: cover; /* Это важно, чтобы изображение не искажалось и обрезалось по размеру */
+}
+
+
+
 /* --- Десктопные стили: распределение ширины для ГАРАНТИРОВАННОГО горизонтального layout --- */
 /*
   flex-basis: определяет предпочтительный размер элемента до распределения оставшегося пространства.
@@ -65,15 +96,11 @@
   border-bottom: 1px solid #eee;
 }
 
-.user-avatar {
-  width: 80px;
-  height: 80px;
-  border-radius: 50%;
-  object-fit: cover;
-}
-
 .user-info {
-  flex-grow: 1;
+  flex-grow: 1; /* <-- Позволяет этому блоку занять все доступное пространство */
+  min-width: 0; /* <-- ОЧЕНЬ ВАЖНО для Flexbox: Позволяет содержимому внутри flex-элемента (user-info)
+                     корректно переноситься/сжиматься, предотвращая переполнение.
+                     Без этого свойства, даже с flex-grow: 1, длинный текст может продолжать выходить за рамки. */
 }
 
 .user-name {
@@ -81,18 +108,20 @@
   font-size: 1.2em;
 }
 
-.user-location,
-.last-online {
+.user-card-location {
   margin: 0;
   font-size: .9em;
   color: red;
+  white-space: normal; /* <-- Убедитесь, что текст может переноситься на новую строку.
+                           Это значение по умолчанию, но убедитесь, что оно не переопределено nowrap. */
+  word-wrap: break-word; /* <-- Для очень длинных слов без пробелов (например, URL), чтобы они тоже переносились */
 }
 
 .user-description h3,
 .user-family-section h3,
 .user-children-section h3 {
   margin-top: 0;
-  margin-bottom: 7px;
+  margin-bottom: 3px;
   font-size: 1.2em;
 }
 
@@ -103,8 +132,8 @@
 }
 
 .user-children-section li {
-  margin-bottom: 8px;
-  padding-left: 15px;
+  margin-bottom: 5px;
+  padding-left: 0px;
   position: relative;
   line-height: 1.4;
 }
@@ -158,10 +187,7 @@
     padding-bottom: 10px;
   }
 
-  .user-avatar {
-    width: 70px;
-    height: 70px;
-  }
+
 
   .user-name {
     font-size: 1.5em;

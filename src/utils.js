@@ -27,3 +27,22 @@ export const setGuestIdToLocalStorage = (guestId) => {
     console.error("Error setting guestId to localStorage:", error);
   }
 };
+
+// Функция для получения инициалов
+export const getInitials = (name) => {
+  if (!name) return '';
+  const parts = name.split(' ').filter(Boolean); // Разделяем по пробелу и убираем пустые части
+  if (parts.length === 0) return '';
+  if (parts.length === 1) {
+    return parts[0][0].toUpperCase(); // Если только одно слово (например, "Иван")
+  }
+  // Берем первую букву первого слова и первую букву последнего слова
+  return (parts[0][0] + parts[parts.length - 1][0]).toUpperCase();
+};
+
+// Если DEFAULT_AVATAR_URL - это тоже константа, которая часто используется,
+// вы могли бы экспортировать ее из того же helpers.js и импортировать здесь.
+export const DEFAULT_AVATAR_URL = '/images/default-avatar.png';
+
+// Вы можете добавить сюда и другие вспомогательные функции, например, calculateAge, если они у вас там
+// export const calculateAge = (birthDate) => { /* ... */ };

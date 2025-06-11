@@ -3,6 +3,8 @@
 // src/components/UserCatalogueComponents/UserCard.js
 import React from 'react';
 import '../../styles/UserCard.css';
+import { getInitials } from '../../utils';
+import { DEFAULT_AVATAR_URL } from '../../utils';
 
 // ВСЕ ИМПОРТЫ ДОЛЖНЫ БЫТЬ ВЫШЕ ЭТОЙ СТРОКИ
 // ИМПОРТЫ date-fns:
@@ -89,16 +91,51 @@ const UserCard = ({ user }) => {
       {/* блок: Аватар, имя, город, регион, страна, описание пользователя "О себе" */}
       <div className="user-main-info">
         <div className="user-card-header-inner">
-          <img src={user.userImageUrl} alt={`${user.name}'s avatar`} className="user-avatar" />
-          <div className="user-info">
-            <h2 className="user-name">{user.name}</h2>
+          {user.userImageUrl ? (
+          <img
+            src={user.userImageUrl}
+            alt={`${user.name}'s avatar`}
+            className="user-card-avatar"
+            onError={(e) => {
+              e.target.onerror = null;
+              e.target.src = DEFAULT_AVATAR_URL;
+            }}
+          />
+        ) : (
+          <div className="user-card-avatar user-card-avatar-placeholder">
+            {getInitials(user.name)} {/* <<-- Здесь используем импортированную функцию */}
+          </div>
+        )}
+        <div className="user-info">
+          <h2 className="user-name">{user.name}</h2>
+            
             {user.country && user.country.name_ru && (
-              <p className="user-location">
-                {[user.city?.name_ru, user.region?.name_ru, user.country.name_ru]
-                  .filter(Boolean)
-                  .join(', ')}
+              <p className="user-card-location">
+                {(() => {
+                  // Инициализируем переменные для отображаемых частей
+                  let cityDisplayName = user.city?.name_ru;
+                  let regionDisplayName = user.region?.name_ru;
+                  let countryDisplayName = user.country.name_ru;
+
+                  // Проверяем условие: если город и регион существуют И их названия совпадают
+                  if (cityDisplayName && regionDisplayName && cityDisplayName === regionDisplayName) {
+                    regionDisplayName = null; // Устанавливаем регион в null, чтобы он был отфильтрован
+                  }
+
+                  // Собираем части адреса в желаемом порядке
+                  // Сначала город, потом регион (который может быть null), потом страна
+                  const locationParts = [
+                    cityDisplayName,
+                    regionDisplayName,
+                    countryDisplayName
+                  ].filter(Boolean); // Отфильтровываем все falsy значения (null, undefined, пустые строки)
+
+                  // Объединяем оставшиеся части запятыми
+                  return locationParts.join(', ');
+                })()}
               </p>
             )}
+
           </div>
         </div>
 
@@ -109,17 +146,58 @@ const UserCard = ({ user }) => {
         )}
 
         {/* блок: Дети */}
-      {hasChildren && (
+     {hasChildren && (
         <div className="user-children">
           <div><strong>Дети:</strong></div>
           <ul>
-            {user.children.map((child) => (
-              <li key={child.id}>{child.gender && child.gender.gender && ` ${child.gender.gender}`}, {calculateAge(child.birth_date)}{child.education_form && child.education_form.title && `, ${child.education_form.title}`}
-              </li>
-            ))}
+            {user.children.map((child) => {
+              // Определяем текст для формы обучения
+              let educationFormDisplay = '';
+              if (child.education_form && child.education_form.title) {
+                if (child.education_form.title === "дошкольник/ца") {
+                  // Если форма "дошкольник/ца", проверяем пол
+                  if (child.gender && child.gender.gender === "мальчик") {
+                    educationFormDisplay = "дошкольник";
+                  } else if (child.gender && child.gender.gender === "девочка") {
+                    educationFormDisplay = "дошкольница";
+                  } else {
+                    // Если пол не указан или неопределен, но форма "дошкольник/ца"
+                    educationFormDisplay = "дошкольник/ца"; // Можно оставить по умолчанию или выбрать один из вариантов
+                  }
+                } else {
+                  // Если форма обучения не "дошкольник/ца", используем её как есть
+                  educationFormDisplay = child.education_form.title;
+                }
+              }
+
+              // Собираем части строки для отображения в Li
+              const childInfoParts = [];
+
+              // Добавляем пол, если он есть
+              if (child.gender && child.gender.gender) {
+                childInfoParts.push(child.gender.gender);
+              }
+
+              // Добавляем возраст
+              childInfoParts.push(calculateAge(child.birth_date));
+
+              // Добавляем форму обучения, если она определена
+              if (educationFormDisplay) {
+                childInfoParts.push(educationFormDisplay);
+              }
+
+              return (
+                <li key={child.id}>
+                  {childInfoParts.join(', ')}
+                </li>
+              );
+            })}
           </ul>
         </div>
       )}
+
+
+
       </div>
    
       {/* блок: Описание семьи */}
