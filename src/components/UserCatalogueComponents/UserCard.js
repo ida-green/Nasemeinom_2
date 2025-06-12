@@ -147,7 +147,7 @@ const UserCard = ({ user }) => {
 
         {/* блок: Дети */}
      {hasChildren && (
-        <div className="user-children">
+        <div className="user-children-section">
           <div><strong>Дети:</strong></div>
           <ul>
             {user.children.map((child) => {
@@ -195,8 +195,6 @@ const UserCard = ({ user }) => {
           </ul>
         </div>
       )}
-
-
 
       </div>
    

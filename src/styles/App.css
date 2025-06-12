@@ -1,17 +1,3 @@
-:root {
-  --bg-color: #f4f4f4;
-  --text-color: #2e3433;
-  --accent-color:#daae7c;
-  --contrast-color: #161410;
-  --grey-color: #b4b2af;
-  --dark-grey-color: #858585;
-  --red-color: #e41700;
-  --light-grey-color: #eee;
-  --green: #057521;
-  --blue: #00076f;
-  --dark-blue: #07237d;
-  --light-blue:  #6b707e;
-}
 
 html, body {
   height: 100%;

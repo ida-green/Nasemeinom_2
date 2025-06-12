@@ -5,13 +5,13 @@
   flex-direction: row;
   flex-wrap: wrap; /* Оставим для адаптивности на меньших экранах */
   gap: 20px;
-  border: 1px solid #e0e0e0;
+  border: 1px solid var(--light-grey-color);
   border-radius: 5px;
   padding: 20px;
-  background-color: #fff;
+  background-color: var(--light-grey-color);
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   max-width: 1200px; /* Максимальная ширина всей карточки */
-  margin: 20px auto;
+  margin: 10px auto;
   font-size: 0.9rem;
 }
 
@@ -117,6 +117,7 @@
   word-wrap: break-word; /* <-- Для очень длинных слов без пробелов (например, URL), чтобы они тоже переносились */
 }
 
+/* Общие стили для заголовков секций, которые вы уже имеете */
 .user-description h3,
 .user-family-section h3,
 .user-children-section h3 {
@@ -125,24 +126,36 @@
   font-size: 1.2em;
 }
 
+/* Стили для списка ul (родительский элемент для li) */
 .user-children-section ul {
-  list-style: none;
-  padding: 0;
-  margin: 0;
+  list-style: none; /* Убираем стандартные маркеры, так как используем свои */
+  padding: 0;       /* Убираем стандартный отступ ul */
+  margin: 0;        /* Убираем стандартный внешний отступ ul */
 }
 
+/* Стили для каждого элемента списка li */
 .user-children-section li {
   margin-bottom: 5px;
-  padding-left: 0px;
-  position: relative;
+
+  /* КЛЮЧЕВОЕ ИЗМЕНЕНИЕ 1: Уменьшаем padding-left у li. */
+  /* Если раньше было 10px, а мы хотим сдвинуть на 2px влево,
+     то новый padding-left должен быть 10px - 2px = 8px. */
+  padding-left: 8px; /* Уменьшаем отступ для текста, чтобы он сдвинулся влево */
+
+  position: relative; /* Необходимо для позиционирования псевдоэлемента ::before */
   line-height: 1.4;
 }
 
+/* Стили для вашего кастомного маркера (псевдоэлемент ::before) */
 .user-children-section li::before {
   content: '•';
   color: #007bff;
   position: absolute;
-  left: 0;
+
+  /* КЛЮЧЕВОЕ ИЗМЕНЕНИЕ 2: Сдвигаем маркер влево, делая 'left' отрицательным. */
+  /* Если мы хотим сдвинуть весь блок на 2px влево,
+     то маркер тоже должен сдвинуться на 2px влево от своей текущей позиции (0px). */
+  left: -2px; /* Сдвигаем маркер немного влево от края li */
 }
 
 .user-family-image {
@@ -187,9 +200,7 @@
     padding-bottom: 10px;
   }
 
-
-
   .user-name {
-    font-size: 1.5em;
+    font-size: 1.2em;
   }
 }
