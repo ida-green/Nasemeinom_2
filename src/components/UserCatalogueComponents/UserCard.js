@@ -141,6 +141,7 @@ const UserCard = ({ user }) => {
 
         {hasDescription && (
           <div className="user-description">
+            <div><strong>О себе:</strong></div>
             <p>{user.description}</p>
           </div>
         )}

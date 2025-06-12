@@ -325,9 +325,16 @@ app.get('/users/:id', async (req, res) => {
       include: [
         {
           model: Children,
+          as: 'children',     // <-- Здесь указываете ТОТ ЖЕ АЛИАС, который определили в ассоциации
           include: [
-            EducationForm,
-            Gender,
+            {
+              model: EducationForm,
+              as: 'education_form',
+            },  
+            {
+                model: Gender,
+                as: 'gender', // Используйте ТОТ ЖЕ алиас, что и в определении
+            }
           ]
         },
       ]
