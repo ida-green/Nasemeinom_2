@@ -1,7 +1,7 @@
 const { Model, DataTypes } = require('sequelize');
-const sequelize = require('../database'); // Импортируйте ваш экземпляр sequelize
-const Course = require('./Course'); // Импортируйте модель Course
-const Aspect = require('./Aspect'); // Импортируйте модель Aspect
+const sequelize = require('../database.js'); // Импортируйте ваш экземпляр sequelize
+const Course = require('./Course.js'); // Импортируйте модель Course
+const Aspect = require('./Aspect.js'); // Импортируйте модель Aspect
 
 class CourseAspect extends Model {}
 
@@ -12,7 +12,7 @@ CourseAspect.init({
             model: Course,
             key: 'id'
         },
-        allowNull: false, // Добавьте это, если поле обязательно
+        allowNull: false,
     },
     aspect_id: {
         type: DataTypes.INTEGER,
@@ -20,7 +20,7 @@ CourseAspect.init({
             model: Aspect,
             key: 'id'
         },
-        allowNull: false, // Добавьте это, если поле обязательно
+        allowNull: false,
     }
 }, {
     sequelize,

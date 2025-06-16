@@ -1,5 +1,5 @@
 const { Model, DataTypes } = require('sequelize');
-const sequelize = require('../database'); // Убедитесь, что путь к базе данных правильный
+const sequelize = require('../database.js'); // Импортируйте ваш экземпляр sequelize
 
 
 class PriceHistory extends Model {}

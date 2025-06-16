@@ -1,6 +1,6 @@
-// models/Family.js
+
 const { Model, DataTypes } = require('sequelize');
-const sequelize = require('../database');
+const sequelize = require('../database.js'); // Импортируйте ваш экземпляр sequelize
 
 class FreeSchools extends Model {}
 

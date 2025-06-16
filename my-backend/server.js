@@ -1,27 +1,27 @@
-require('dotenv').config();
+const sequelize = require('./database.js'); // Импортируем sequelize
+require('dotenv/config'); 
 const express = require('express');
-const sequelize = require('./database.js'); // Импортируем подключение к базе данных
 const cors = require('cors');
+
 const app = express();
-const PORT = process.env.PORT || 3000;
-const API_URL = process.env.API_URL || `http://localhost:${PORT}`;
+const PORT = process.env.PORT || 3000; // Исправлено: добавлено || 3000
+const API_URL = process.env.API_URL || `http://localhost:${PORT}`; // Исправлено: добавлено || `http://localhost:${PORT}`
+
 
 // 1. Маршруты для авторизации (регистрация, логин)
-// Эти маршруты НЕ нуждаются в authenticateToken, так как они сами его и выдают/проверяют при входе.
 const authRoutes = require('./routes/authRoutes.js');
-const authenticateToken = require('./middleware/auth.js'); // Ваш middleware для аутентификации
+const authenticateToken = require('./middleware/auth.js');
 
 // Импортируйте все ваши API маршруты
-const favouriteRoutes = require('./routes/favouriteRoutes.js'); // Маршруты избранного
-const cartRoutes = require('./routes/cartRoutes.js'); // Маршруты корзины
-const productRoutes = require('./routes/productRoutes.js'); // Маршруты товара(курсов)
-const forumRoutes = require('./routes/forumRoutes.js'); // Маршруты форума
-const likeRoutes = require('./routes/likeRoutes.js'); // Маршруты лайков
-const changePasswordRoutes = require('./routes/changePasswordRoutes.js'); // Маршруты смены пароля
-const userRoutes = require('./routes/userRoutes.js'); // Маршруты пользователя
-const locationRoutes = require('./routes/locationRoutes.js'); // Маршруты локаций
-const educationForms = require('./routes/educationFormRoutes.js'); // Маршруты форм образования
-
+const favouriteRoutes = require('./routes/favouriteRoutes.js');
+const cartRoutes = require('./routes/cartRoutes.js');
+const productRoutes = require('./routes/productRoutes.js');
+const forumRoutes = require('./routes/forumRoutes.js');
+const likeRoutes = require('./routes/likeRoutes.js');
+const changePasswordRoutes = require('./routes/changePasswordRoutes.js');
+const userRoutes = require('./routes/userRoutes.js');
+const locationRoutes = require('./routes/locationRoutes.js');
+const educationForms = require('./routes/educationFormRoutes.js');
 
 
 // Middleware
@@ -32,32 +32,29 @@ app.use(cors({
 }));
 
 
-
 // Импортируем модели
-const User = require('./models/User.js'); 
-const Children = require('./models/Children.js'); 
-const EducationForm = require('./models/EducationForm.js')
-const Gender = require('./models/Gender.js')
-
-const FreeSchools = require('./models/FreeSchools.js')
-
-const Course = require('./models/Course.js')
-const Subject = require('./models/Subject.js')
-const CourseFormat = require('./models/CourseFormat.js')
-const Aspect = require('./models/Aspect.js')
-const CourseSubject = require('./models/CourseSubject')
-const CourseAspect = require('./models/CourseAspect')
-const Author = require('./models/Author.js')
-const AgeMin = require('./models/AgeMin.js')
-const AgeMax = require('./models/AgeMax.js')
-const GradeMin = require('./models/GradeMin.js')
-const GradeMax = require('./models/GradeMax.js')
-const Review = require('./models/Review.js')
-const LiveGroup = require('./models/LiveGroup.js')
-const LiveSession = require('./models/LiveSession.js')
-const Provider = require('./models/Provider.js')
-const PriceHistory = require('./models/PriceHistory.js')
-const PriceOption = require('./models/PriceOption.js')
+const User = require('./models/User.js');
+const Children = require('./models/Children.js');
+const EducationForm = require('./models/EducationForm.js');
+const Gender = require('./models/Gender.js');
+const FreeSchools = require('./models/FreeSchools.js');
+const Course = require('./models/Course.js');
+const Subject = require('./models/Subject.js');
+const CourseFormat = require('./models/CourseFormat.js');
+const Aspect = require('./models/Aspect.js');
+const CourseSubject = require('./models/CourseSubject.js');
+const CourseAspect = require('./models/CourseAspect.js');
+const Author = require('./models/Author.js');
+const AgeMin = require('./models/AgeMin.js');
+const AgeMax = require('./models/AgeMax.js');
+const GradeMin = require('./models/GradeMin.js');
+const GradeMax = require('./models/GradeMax.js');
+const Review = require('./models/Review.js');
+const LiveGroup = require('./models/LiveGroup.js');
+const LiveSession = require('./models/LiveSession.js');
+const Provider = require('./models/Provider.js');
+const PriceHistory = require('./models/PriceHistory.js');
+const PriceOption = require('./models/PriceOption.js');
 
 const Cart = require('./models/Cart.js');
 const CartCourse = require('./models/CartCourse.js');
@@ -65,17 +62,16 @@ const CartCourse = require('./models/CartCourse.js');
 const Favourite = require('./models/Favourite.js');
 const FavouriteCourse = require('./models/FavouriteCourse.js');
 
-const Post = require('./models/Post.js')
-const Comment = require('./models/Comment.js')
+const Post = require('./models/Post.js');
+const Comment = require('./models/Comment.js');
 
-const Country = require('./models/Country.js')
-const Region = require('./models/Region.js')
-const City = require('./models/City.js')
+const Country = require('./models/Country.js');
+const Region = require('./models/Region.js');
+const City = require('./models/City.js');
 
-const Like = require('./models/Like.js')
+const Like = require('./models/Like.js');
 
 // Отношение между Пользователем и Детьми
-
 Children.belongsTo(User, { foreignKey: 'user_id', as: 'parent' }); // 'as' может быть любым, например, 'user' или 'parent'
 User.hasMany(Children, { foreignKey: 'user_id', as: 'children' });
 
@@ -373,11 +369,13 @@ app.use((err, req, res, next) => {
 const startServer = async () => {
   try {
     await sequelize.sync(); // Синхронизация моделей с базой данных
+    console.log('База данных синхронизирована.');
     app.listen(PORT, () => {
       console.log(`Сервер запущен на http://localhost:${PORT}`);
     });
   } catch (error) {
     console.error('Ошибка при синхронизации с базой данных:', error);
+    process.exit(1); // Завершаем процесс с кодом ошибки
   }
 };
 

@@ -1,10 +1,9 @@
-const sequelize = require('../database');
-const Favourite = require('../models/Favourite')
-const Course = require('../models/Course');
-const FavouriteCourse = require('../models/FavouriteCourse');
+const Favourite = require('../models/Favourite.js');
+const Course = require('../models/Course.js');
+const FavouriteCourse = require('../models/FavouriteCourse.js');
 
 // Получение избранного по userId
-exports.getFavouriteByUserId = async (req, res) => {
+const getFavouriteByUserId = async (req, res) => {
     const userId = req.params.userId; // Получаем userId из параметров
 
     try {
@@ -40,7 +39,7 @@ exports.getFavouriteByUserId = async (req, res) => {
 };
 
 // Добавляет товар в избранное
-exports.addItemToFavourite = async (req, res) => {
+const addItemToFavourite = async (req, res) => {
     const transaction = await Favourite.sequelize.transaction();
     try {
         const favouriteId = parseInt(req.params.favouriteId, 10);
@@ -103,7 +102,7 @@ exports.addItemToFavourite = async (req, res) => {
 };
 
 // Удаляет товар из избранного
-exports.removeItemFromFavourite = async (req, res) => {
+const removeItemFromFavourite = async (req, res) => {
     const { favouriteId, courseId } = req.params; // Получаем favouriteId и courseId из параметров
 
     try {
@@ -130,3 +129,4 @@ exports.removeItemFromFavourite = async (req, res) => {
     }
 };
 
+module.exports = { getFavouriteByUserId, addItemToFavourite, removeItemFromFavourite };

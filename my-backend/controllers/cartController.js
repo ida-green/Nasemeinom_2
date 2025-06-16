@@ -1,10 +1,10 @@
-const sequelize = require('../database');
-const Cart = require('../models/Cart');
-const Course = require('../models/Course');
-const CartCourse = require('../models/CartCourse');
+const Cart = require('../models/Cart.js');
+const Course = require('../models/Course.js');
+const CartCourse = require('../models/CartCourse.js');
 
 // Получает корзину по cartId
-exports.getCart = async (req, res) => {
+{/*
+const getCart = async (req, res) => {
     try {
         const cartId = req.params.cartId; // Оставляем как есть
         if (isNaN(cartId)) {
@@ -34,10 +34,10 @@ exports.getCart = async (req, res) => {
         res.status(500).json({ error: 'Ошибка сервера при получении корзины', details: error.message });
     }
 };
-
+*/}
 
 // Получение корзины по userId
-exports.getCartByUserId = async (req, res) => {
+const getCartByUserId = async (req, res) => {
     const userId = req.params.userId; // Получаем userId из параметров
 
     try {
@@ -73,7 +73,7 @@ exports.getCartByUserId = async (req, res) => {
 };
 
 // Добавляет товар в корзину
-exports.addItemToCart = async (req, res) => {
+const addItemToCart = async (req, res) => {
     const transaction = await Cart.sequelize.transaction();
     try {
         const cartId = parseInt(req.params.cartId, 10);
@@ -128,7 +128,7 @@ exports.addItemToCart = async (req, res) => {
 };
 
 // Удаляет товар из корзины
-exports.removeItemFromCart = async (req, res) => {
+const removeItemFromCart = async (req, res) => {
     const { cartId, courseId } = req.params; // Получаем cartId и courseId из параметров
 
     try {
@@ -156,7 +156,7 @@ exports.removeItemFromCart = async (req, res) => {
 };
 
 // Обновляет цену товара в корзине
-exports.updateItemPriceInCart = async (req, res) => {
+const updateItemPriceInCart = async (req, res) => {
     const { cartId, courseId } = req.params; // Получаем cartId и courseId из параметров
     const { newPrice } = req.body; // Получаем новую цену из тела запроса
 
@@ -206,4 +206,4 @@ exports.updateItemPriceInCart = async (req, res) => {
     }
 };
 
-module.exports = exports;
+module.exports = { getCartByUserId, addItemToCart, removeItemFromCart, updateItemPriceInCart }

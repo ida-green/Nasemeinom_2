@@ -1,4 +1,4 @@
-const jwt = require('jsonwebtoken');
+import jwt from 'jsonwebtoken';
 
 const secretKey = 'secret'; // Используйте тот же секретный ключ, что и в вашем приложении
 const payload = { id: 1 }; // Пример полезной нагрузки

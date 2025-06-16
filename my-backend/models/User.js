@@ -1,6 +1,7 @@
 const { Model, DataTypes } = require('sequelize');
+const sequelize = require('../database.js'); // Импортируйте ваш экземпляр sequelize
+
 const bcrypt = require('bcrypt');
-const sequelize = require('../database'); // Импортируем sequelize
 
 class User extends Model {
     static associate(models) {
@@ -19,6 +20,35 @@ class User extends Model {
         await this.save(); // Сохранить изменения в базе данных
     }
 }
+
+
+{/*
+  class User extends Model {
+    static associate(models) {
+        // Определите ассоциации здесь
+    }
+
+    static async beforeCreate(user) {
+        const salt = await bcrypt.genSalt(10); // Генерируем salt
+        user.password = await bcrypt.hash(user.password, salt); // Хешируем пароль
+    }
+
+    static async beforeUpdate(user) {
+        if (user.changed('password')) { // Проверяем, был ли изменен пароль
+            const salt = await bcrypt.genSalt(10);
+            user.password = await bcrypt.hash(user.password, salt);
+        }
+    }
+
+    // Метод для проверки пароля
+    async validPassword(password) {
+        return await bcrypt.compare(password, this.password);
+    }
+
+}
+  */}
+
+
 
 User.init({
   id: {

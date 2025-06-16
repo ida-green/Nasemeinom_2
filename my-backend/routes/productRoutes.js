@@ -1,33 +1,33 @@
 const express = require('express');
 const router = express.Router();
 
-const Course = require('../models/Course');
-const Subject = require('../models/Subject');
-const Aspect = require('../models/Aspect');
-const CourseFormat = require('../models/CourseFormat');
+const Course = require('../models/Course.js');
+const Subject = require('../models/Subject.js');
+const Aspect = require('../models/Aspect.js');
+const CourseFormat = require('../models/CourseFormat.js');
 
-const AgeMax = require('../models/AgeMax');
-const AgeMin = require('../models/AgeMin');
-const AgeRange = require('../models/AgeRange');
-const AgeFilter = require('../models/AgeFilter');
+const AgeMax = require('../models/AgeMax.js');
+const AgeMin = require('../models/AgeMin.js');
+const AgeRange = require('../models/AgeRange.js');
+const AgeFilter = require('../models/AgeFilter.js');
 
-const GradeMax = require('../models/GradeMax');
-const GradeMin = require('../models/GradeMin');
-const GradeRange = require('../models/GradeRange');
-const GradeFilter = require('../models/GradeFilter');
+const GradeMax = require('../models/GradeMax.js');
+const GradeMin = require('../models/GradeMin.js');
+const GradeRange = require('../models/GradeRange.js');
+const GradeFilter = require('../models/GradeFilter.js');
 
-const LiveGroup = require('../models/LiveGroup');
-const LiveSession = require('../models/LiveSession');
+const LiveGroup = require('../models/LiveGroup.js');
+const LiveSession = require('../models/LiveSession.js');
 
-const PriceOption = require('../models/PriceOption');
-const PriceHistory = require('../models/PriceHistory');
+const PriceOption = require('../models/PriceOption.js');
+const PriceHistory = require('../models/PriceHistory.js');
 
-const Author = require('../models/Author');
-const Provider = require('../models/Provider');
-const Platform = require('../models/Platform');
+const Author = require('../models/Author.js');
+const Provider = require('../models/Provider.js');
+const Platform = require('../models/Platform.js');
 
-const Review = require('../models/Review');
-const User = require('../models/User');
+const Review = require('../models/Review.js');
+const User = require('../models/User.js');
 
 router.get('/courses', async (req, res) => {
   try {

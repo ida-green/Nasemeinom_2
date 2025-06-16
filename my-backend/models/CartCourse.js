@@ -1,5 +1,5 @@
 const { Model, DataTypes } = require('sequelize');
-const sequelize = require('../database');
+const sequelize = require('../database.js'); // Импортируйте ваш экземпляр sequelize
 
 class CartCourse extends Model {}
 CartCourse.init({

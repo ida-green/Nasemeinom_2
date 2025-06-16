@@ -1,5 +1,4 @@
-const sequelize = require('../database');
-const Like = require('../models/Like'); 
+const Like = require('../models/Like.js'); 
 
 // Лайкнуть
 async function likeItem(likeableType, likeableId, userId) {

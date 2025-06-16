@@ -2,8 +2,8 @@ const express = require('express');
 const nodemailer = require('nodemailer');
 const bcrypt = require('bcrypt');
 const crypto = require('crypto');
-const { Op } = require('sequelize'); // Импортируем Op
-const User = require('../models/User.js'); // Модель пользователя
+const { Op } = require('sequelize'); 
+const User = require('../models/User.js'); 
 const router = express.Router();
 
 // Маршрут для запроса восстановления пароля

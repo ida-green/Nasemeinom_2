@@ -1,6 +1,5 @@
-// models/Region.js
 const { Model, DataTypes } = require('sequelize');
-const sequelize = require('../database'); // Убедитесь, что путь к базе данных правильный
+const sequelize = require('../database.js'); // Импортируйте ваш экземпляр sequelize
 
 class Region extends Model {}
 

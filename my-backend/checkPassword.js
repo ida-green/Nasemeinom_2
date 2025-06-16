@@ -1,4 +1,4 @@
-const bcrypt = require('bcrypt');
+import bcrypt from 'bcrypt';
 
 // Хэшированный пароль (например, полученный из базы данных)
 const hashedPassword = '$2b$10$Xp0M4K3DARDn/6w4Bma0.uIEyaE1cVSJlDyWr09lDgkxwIxYT50p6';

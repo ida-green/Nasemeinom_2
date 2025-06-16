@@ -1,5 +1,5 @@
-const bcrypt = require('bcrypt');
-const User = require('./models/User'); // Подключение модели пользователя
+import bcrypt from 'bcrypt';
+import User from './models/User'; // Подключение модели пользователя
 
 async function hashPasswords() {
     try {

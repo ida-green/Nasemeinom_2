@@ -1,6 +1,6 @@
-const nodemailer = require('nodemailer');
-require('dotenv').config();
-const authenticateToken = require('./middleware/auth'); 
+import nodemailer from 'nodemailer';
+import 'dotenv/config'; 
+import authenticateToken from './middleware/auth'; 
 
 const transporter = nodemailer.createTransport({
     service: 'yandex', // Или 'gmail'

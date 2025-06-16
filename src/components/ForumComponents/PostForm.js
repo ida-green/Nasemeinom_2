@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import ReactQuill from 'react-quill'; // Импортируем ReactQuill
 import 'react-quill/dist/quill.snow.css'; // Импортируем стили для редактора
+import DOMPurify from 'dompurify'; // Импорт DOMPurify
 
 const PostForm = ({ newPost, setNewPost, onSubmit, setIsPostFormVisible }) => {
   const [titleError, setTitleError] = useState('');

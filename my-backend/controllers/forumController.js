@@ -1,8 +1,8 @@
-const sequelize = require('../database');
-const Comment = require('../models/Comment');
-const Post = require('../models/Post'); // Импортируйте вашу модель поста
-const Like = require('../models/Like'); 
-const User = require('../models/User'); 
+const sequelize = require('../database.js');
+const Comment = require('../models/Comment.js');
+const Post = require('../models/Post.js'); // Импортируйте вашу модель поста
+const Like = require('../models/Like.js'); 
+const User = require('../models/User.js'); 
 const { validationResult } = require('express-validator');
 
 const convertUrlsToLinks = (text) => {
@@ -11,7 +11,7 @@ const convertUrlsToLinks = (text) => {
 };
 
 // Получение всех постов с предварительной сортировкой на сервере
-exports.getPosts = async (req, res) => {
+const getPosts = async (req, res) => {
   const page = parseInt(req.query.page) || 1;
   const limit = parseInt(req.query.limit) || 10;
 
@@ -76,7 +76,7 @@ exports.getPosts = async (req, res) => {
 
 
 // Получение всех комментариев к посту с предварительной сортировкой на сервере
-exports.getCommentsByPostId = async (req, res) => {
+const getCommentsByPostId = async (req, res) => {
   const postId = req.params.id;
 
   // Получаем параметры сортировки для комментариев
@@ -128,7 +128,7 @@ exports.getCommentsByPostId = async (req, res) => {
 
 
 // Добавление поста
-exports.addPost = async (req, res) => {
+const addPost = async (req, res) => {
   // Валидация
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
@@ -168,7 +168,7 @@ exports.addPost = async (req, res) => {
 
 
 // Добавление комментария
-exports.addComment = async (req, res) => {
+const addComment = async (req, res) => {
   // Валидация
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
@@ -210,7 +210,7 @@ exports.addComment = async (req, res) => {
 
 
 // Редактирование поста
-exports.editPost = async (req, res) => {
+const editPost = async (req, res) => {
     const postId = req.params.id;
     const { title, content } = req.body;
 
@@ -269,7 +269,7 @@ exports.editPost = async (req, res) => {
 
 
 // Редактирование комментария
-exports.editComment = async (req, res) => {
+const editComment = async (req, res) => {
     // 1. Получаем ID комментария из параметров URL
     const commentId = req.params.id;
     // 2. Получаем только content из тела запроса, так как у комментария нет title
@@ -329,3 +329,5 @@ exports.editComment = async (req, res) => {
         res.status(500).json({ message: 'Ошибка сервера при редактировании комментария' });
     }
 };
+
+module.exports = { getPosts, getCommentsByPostId, addPost, addComment, editPost, editComment }

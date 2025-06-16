@@ -1,6 +1,4 @@
-const sequelize = require('../database');
-const Like = require('../models/Like'); 
-const likeService = require('../services/likeService'); // Импортируем сервис
+const { likeItem, unlikeItem, getLikes } = require('../services/likeService.js'); // Импортируем сервис
 
 // Контроллер для добавления лайка
 async function addLike(req, res) {
@@ -10,7 +8,7 @@ async function addLike(req, res) {
         const user_id = req.user.id; // Получаем ID пользователя из объекта req.user
 
         // Вызываем сервисную функцию для добавления лайка
-        const newLike = await likeService.likeItem(likeable_type, likeable_id, user_id);
+        const newLike = await likeItem(likeable_type, likeable_id, user_id);
         res.status(201).json(newLike);
     } catch (error) {
         console.error("Error in addLike controller:", error.message);
@@ -29,7 +27,7 @@ async function removeLike(req, res) {
         const user_id = req.user.id; // Получаем ID пользователя из объекта req.user
 
         // Вызываем сервисную функцию для удаления лайка
-        await likeService.unlikeItem(likeable_type, likeable_id, user_id);
+        await unlikeItem(likeable_type, likeable_id, user_id);
         res.status(204).send(); // Успешное удаление, нет тела ответа
     } catch (error) {
         console.error("Error in removeLike controller:", error.message);
@@ -52,7 +50,7 @@ async function getLikesForEntity(req, res) {
             return res.status(400).json({ message: 'likeable_type and likeable_id query parameters are required.' });
         }
 
-        const likes = await likeService.getLikes(likeable_type, likeable_id);
+        const likes = await getLikes(likeable_type, likeable_id);
         res.status(200).json(likes);
     } catch (error) {
         console.error("Error in getLikesForEntity controller:", error.message);
@@ -63,9 +61,5 @@ async function getLikesForEntity(req, res) {
     }
 }
 
-module.exports = {
-    addLike,
-    removeLike,
-    getLikesForEntity 
-};
+module.exports = { addLike, removeLike, getLikesForEntity };
 

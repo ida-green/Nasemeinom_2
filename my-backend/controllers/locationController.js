@@ -1,31 +1,26 @@
-const sequelize = require('../database');
-const { Op } = require('sequelize'); // Для использования операторов LIKE, OR и т.д.
-const Country = require('../models/Country'); // Убедитесь, что пути правильные
-const Region = require('../models/Region');
-const City = require('../models/City');
+const { Op } = require('sequelize');
+const Country = require('../models/Country.js');
+const Region = require('../models/Region.js');
+const City = require('../models/City.js');
 
-exports.getCountries = async (req, res) => {
+const getCountries = async (req, res) => {
     try {
         const query = req.query.q;
-        const limit = parseInt(req.query.limit) || 10;
+        const limit = parseInt(req.query.limit) || 10; // Обработка случая, когда limit не задан
 
         if (!query || query.length < 2) {
             return res.status(400).json({ error: 'Параметр "q" обязателен и должен содержать минимум 2 символа.' });
         }
 
-        // Оператор Op.iLike в Sequelize обычно переводится в ILIKE для PostgreSQL
-        // или LIKE для MySQL/MariaDB с учетом регистронезависимости, если collation это позволяет.
-        // Для MariaDB обычно LIKE по умолчанию регистронезависим на строковых столбцах,
-        // если нет специальной COLLATE BINARY. Op.like будет работать так же.
         const countries = await Country.findAll({
-            attributes: ['id', 'name_en', 'name_ru'], // Выбираем только нужные поля
+            attributes: ['id', 'name_en', 'name_ru'],
             where: {
-                [Op.or]: [ // Ищем совпадение в name_en или name_ru
-                    { name_en: { [Op.like]: `%${query}%` } }, // Для MariaDB Op.like обычно регистронезависим
-                    { name_ru: { [Op.like]: `%${query}%` } }
+                [Op.or]: [
+                    { name_en: { [Op.iLike]: `%${query}%` } }, // Используем Op.iLike для регистронезависимого поиска
+                    { name_ru: { [Op.iLike]: `%${query}%` } }
                 ]
             },
-            order: [['name_en', 'ASC']], // Сортируем для последовательных результатов
+            order: [['name_en', 'ASC']],
             limit: limit
         });
 
@@ -35,9 +30,9 @@ exports.getCountries = async (req, res) => {
         console.error('Ошибка при получении стран:', error);
         res.status(500).json({ error: 'Внутренняя ошибка сервера.' });
     }
-}
+};
 
-exports.getRegions = async (req, res) => {
+const getRegions = async (req, res) => {
     try {
         // !!! ИЗМЕНЕНИЕ 1: Получаем countryId из параметров URL, а не из query
         const countryId = req.params.countryId; // Предполагается, что маршрут выглядит как /countries/:countryId/regions
@@ -58,8 +53,8 @@ exports.getRegions = async (req, res) => {
         // Условно добавляем фильтр по поисковому запросу 'name'
         if (query && query.length >= 2) {
             whereCondition[Op.or] = [
-                { name_en: { [Op.like]: `%${query}%` } },
-                { name_ru: { [Op.like]: `%${query}%` } }
+                { name_en: { [Op.iLike]: `%${query}%` } },
+                { name_ru: { [Op.iLike]: `%${query}%` } }
             ];
         }
         // Если query пустой или короткий (менее 2 символов), мы НЕ добавляем условие [Op.or]
@@ -82,7 +77,7 @@ exports.getRegions = async (req, res) => {
 };
 
 // Контроллер для получения городов
-exports.getCities = async (req, res) => {
+const getCities = async (req, res) => {
     try {
         const query = req.query.q;
         const countryId = req.query.country_id;
@@ -95,8 +90,8 @@ exports.getCities = async (req, res) => {
 
         const whereCondition = {
             [Op.or]: [
-                { name_en: { [Op.like]: `%${query}%` } },
-                { name_ru: { [Op.like]: `%${query}%` } }
+                { name_en: { [Op.iLike]: `%${query}%` } },
+                { name_ru: { [Op.iLike]: `%${query}%` } }
             ]
         };
 
@@ -135,3 +130,5 @@ exports.getCities = async (req, res) => {
         res.status(500).json({ error: 'Внутренняя ошибка сервера.' });
     }
 };
+
+module.exports = { getCountries, getRegions, getCities }

@@ -1,7 +1,5 @@
 const { Model, DataTypes } = require('sequelize');
-const sequelize = require('../database'); // Импортируйте ваш экземпляр sequelize
-const Course = require('./Course'); // Импортируйте модель Course
-const Aspect = require('./Aspect'); // Импортируйте модель Aspect
+const sequelize = require('../database.js'); // Импортируйте ваш экземпляр sequelize
 
 class CourseFormat extends Model {}
 

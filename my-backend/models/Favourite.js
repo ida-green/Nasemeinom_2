@@ -1,6 +1,6 @@
 // favorites.js (модель Favorites)
 const { Model, DataTypes } = require('sequelize');
-const sequelize = require('../database');
+const sequelize = require('../database.js'); // Импортируйте ваш экземпляр sequelize
 
 class Favourite extends Model {}
 Favourite.init({

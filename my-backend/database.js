@@ -1,14 +1,20 @@
-const { Sequelize } = require('sequelize');
+const { Sequelize, DataTypes } = require('sequelize');
+const { developmentConfig, testConfig, productionConfig } = require('./config/config.js');
 
-// Создание экземпляра Sequelize
-const sequelize = new Sequelize('db04', 'root', '', {
-  host: 'localhost',
-  dialect: 'mariadb', // Указываем dialect как 'mariadb'
-  port: 3306, // Порт по умолчанию для MariaDB
-  logging: false,
-});
+let config;
+switch (process.env.NODE_ENV) {
+    case 'test':
+        config = testConfig;
+        break;
+    case 'production':
+        config = productionConfig;
+        break;
+    default:
+        config = developmentConfig;
+}
 
-// Проверка соединения
+const sequelize = new Sequelize(config);
+
 const testConnection = async () => {
   try {
     await sequelize.authenticate();

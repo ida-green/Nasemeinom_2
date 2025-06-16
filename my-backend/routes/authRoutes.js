@@ -4,14 +4,14 @@ const express = require('express');
 const crypto = require('crypto');
 const nodemailer = require('nodemailer');
 const router = express.Router();
-const User = require('../models/User');
-const Cart = require('../models/Cart');
+const User = require('../models/User.js');
+const Cart = require('../models/Cart.js');
 const { Op } = require('sequelize'); 
-require('dotenv').config();
+require('dotenv/config');
 const { ImapFlow } = require('imapflow');
    
 const secretKey = process.env.JWT_SECRET; 
-const authenticateToken = require('../middleware/auth'); 
+const authenticateToken = require('../middleware/auth.js'); 
 
 // Функция для обработки ошибок
 const handleError = (res, message, statusCode = 500) => {
@@ -229,4 +229,5 @@ router.post('/login', async (req, res) => {
         res.status(500).json({ message: 'Ошибка сервера' });
     }
 });
+
 module.exports = router;

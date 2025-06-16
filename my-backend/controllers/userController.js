@@ -1,11 +1,11 @@
 const { Op } = require('sequelize');
-const User = require('../models/User'); // Ваша модель пользователя
-const Country = require('../models/Country');
-const Region = require('../models/Region');
-const City = require('../models/City');
-const Children = require('../models/Children');
-const Gender = require('../models/Gender'); // <-- Импорт Gender
-const EducationForm = require('../models/EducationForm'); // <-- Импорт EducationForm
+const User = require('../models/User.js'); 
+const Country = require('../models/Country.js');
+const Region = require('../models/Region.js');
+const City = require('../models/City.js');
+const Children = require('../models/Children.js');
+const Gender = require('../models/Gender.js'); 
+const EducationForm = require('../models/EducationForm.js'); 
 
 /**
  * Функция для вычисления расстояния между двумя точками
@@ -237,6 +237,4 @@ async function searchUsers(req, res) {
     }
 }
 
-module.exports = {
-    searchUsers
-};
+module.exports = { searchUsers };
