@@ -1,80 +1,91 @@
 const { body } = require('express-validator');
 
-// Регулярное выражение для проверки URL
-const urlRegex = `/^(ftp|http|https)://[^s]+$/`;
+// Улучшенное регулярное выражение для проверки URL (более строгое)
+const urlRegex = /^(?:https?|ftp):\/\/[^\s\/$.?#].[^\s]*$/i; //https://regex101.com/r/hU6dZ7/1
 
-// Функция для проверки наличия URL в заголовке
-const validateUrlsInTitle = (value) => {
-    const urls = value.match(`/(?:https?://)?(?:www.)?[^s]+.[^s]+/g`);
-    if (urls) {
-        throw new Error('Заголовок не может содержать ссылки.');
-    }
-    return true;
+// Функция для проверки длины строки и потенциально опасных символов
+const validateLengthAndChars = (maxLength, fieldName) => (value) => {
+  if (value.length > maxLength) {
+    throw new Error(`${fieldName} слишком длинный (максимум ${maxLength} символов).`);
+  }
+  return true;
 };
 
-// Функция для проверки URL в содержимом
-const validateUrls = (value) => {
-    const urls = value.match(`/(?:https?://)?(?:www.)?[^s]+.[^s]+/g`);
-    if (urls) {
-        for (let url of urls) {
-            if (`!/^https?:///i.test(url)`) {
-                url = 'http://' + url; // Или используйте 'https://' в зависимости от ваших требований
-            }
-            if (!urlRegex.test(url)) {
-                throw new Error('Некорректный URL: ' + url);
-            }
-        }
-    }
-    return true;
-};
 
-// Валидация для создания комментария с проверкой на вредоносные ссылки
+// Валидация для создания поста
+const validatePost = [
+    body('title')
+        .trim()
+        .isLength({ min: 1, max: 255 }).withMessage('Заголовок не может быть пустым и должен быть короче 255 символов.')
+        .custom(validateLengthAndChars(255, 'Заголовок'))
+        .custom((value) => {
+          if (value.match(urlRegex)) {
+            throw new Error('Заголовок не может содержать ссылки.');
+          }
+          return true;
+        }),
+    body('content')
+        .trim()
+        .isLength({ min: 1, max: 4000 }).withMessage('Содержимое поста не может быть пустым и должно быть короче 10000 символов.')
+        .custom(validateLengthAndChars(4000, 'Содержимое поста'))
+        .custom((value) => {
+          const urls = value.match(urlRegex);
+          if (urls) {
+            // Проверка только на наличие валидных URL. Если надо больше ограничений, добавьте их здесь
+            for (const url of urls) {
+              if (!urlRegex.test(url)) {
+                throw new Error(`Некорректный URL: ${url}`);
+              }
+            }
+          }
+          return true;
+        })
+];
+
+// Валидация для создания комментария
 const validateCreateComment = [
     body('content')
         .trim()
-        .isLength({ min: 1 }).withMessage('Комментарий должен содержать хотя бы один знак.')
-        .custom(validateUrls),
+        .isLength({ min: 1, max: 4000 }).withMessage('Комментарий должен содержать от 1 до 5000 символов.')
+        .custom(validateLengthAndChars(4000, 'Комментарий'))
+        .custom((value) => {
+          const urls = value.match(urlRegex);
+          if (urls) {
+            for (const url of urls) {
+              if (!urlRegex.test(url)) {
+                throw new Error(`Некорректный URL: ${url}`);
+              }
+            }
+          }
+          return true;
+        }),
     body('postId')
         .isInt().withMessage('ID поста должен быть целым числом.'),
     body('parentId')
         .optional()
-        .custom(value => {
-            if (value !== null && !Number.isInteger(value)) {
-                throw new Error('ID родительского комментария должен быть целым числом или null.');
-            }
-            return true; // если всё в порядке, возвращаем true
-        })
+        .isInt({ allow_leading_plus: false }).withMessage('ID родительского комментария должен быть целым числом или null.'), // Улучшенная проверка
 ];
 
-
-// Валидация для РЕДАКТИРОВАНИЯ комментария (postId здесь не нужен)
+// Валидация для редактирования комментария
 const validateEditComment = [
     body('content')
         .trim()
-        .isLength({ min: 1 }).withMessage('Содержимое комментария не может быть пустым.') // Более подходящее сообщение
-        .custom(validateUrls),
-    // postId здесь НЕ ВКЛЮЧАЕМ, так как он не должен приходить в PATCH запросе
-    body('parentId') // Если редактирование комментария может включать смену родителя
-        .optional() // Сделать его опциональным, если он может быть не передан при редактировании
-        .custom(value => {
-            if (value !== null && !Number.isInteger(value)) {
-                throw new Error('ID родительского комментария должен быть целым числом или null.');
+        .isLength({ min: 1, max: 4000 }).withMessage('Содержимое комментария должно содержать от 1 до 5000 символов.')
+        .custom(validateLengthAndChars(4000, 'Комментарий'))
+        .custom((value) => {
+          const urls = value.match(urlRegex);
+          if (urls) {
+            for (const url of urls) {
+              if (!urlRegex.test(url)) {
+                throw new Error(`Некорректный URL: ${url}`);
+              }
             }
-            return true;
-        })
+          }
+          return true;
+        }),
+    body('parentId')
+        .optional()
+        .isInt({ allow_leading_plus: false }).withMessage('ID родительского комментария должен быть целым числом или null.')
 ];
-
-
-// Валидация для создания поста с проверкой на вредоносные ссылки
-const validatePost = [
-    body('title')
-        .trim()
-        .isLength({ min: 1 }).withMessage('Заголовок не может быть пустым.')
-        .custom(validateUrlsInTitle), // Добавляем проверку на наличие ссылок в заголовке
-    body('content')
-        .trim()
-        .isLength({ min: 1 }).withMessage('Содержимое поста не может быть пустым.')
-        .custom(validateUrls) // Проверка на наличие ссылок в содержимом
-   ];
 
 module.exports = { validateCreateComment, validateEditComment, validatePost };
