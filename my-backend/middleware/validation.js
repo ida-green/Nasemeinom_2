@@ -11,7 +11,7 @@ const validateLengthAndChars = (maxLength, fieldName) => (value) => {
   return true;
 };
 
-// Валидация для создания поста
+// Валидация для поста
 const validatePost = [
     body('title')
         .trim()
@@ -23,50 +23,32 @@ const validatePost = [
         .custom(validateLengthAndChars(4000, 'Содержимое поста'))        
 ];
 
-// Валидация для создания комментария
-const validateCreateComment = [
+// Валидация для комментария
+const validateComment = [
     body('content')
         .trim()
         .isLength({ min: 1, max: 4000 }).withMessage('Комментарий должен содержать от 1 до 4000 символов.')
         .custom(validateLengthAndChars(4000, 'Комментарий'))
         .custom((value) => {
-          const urls = value.match(urlRegex);
-          if (urls) {
-            for (const url of urls) {
-              if (!urlRegex.test(url)) {
-                throw new Error(`Некорректный URL: ${url}`);
-              }
+            const urls = value.match(urlRegex);
+            if (urls) {
+                for (const url of urls) {
+                    if (!urlRegex.test(url)) {
+                        throw new Error(`Некорректный URL: ${url}`);
+                    }
+                }
             }
-          }
-          return true;
+            return true;
         }),
     body('postId')
+        .optional({nullable: true}) // Добавлен optional с nullable
+        .if(body('postId').exists())
         .isInt().withMessage('ID поста должен быть целым числом.'),
     body('parentId')
-        .optional()
-        .isInt({ allow_leading_plus: false }).withMessage('ID родительского комментария должен быть целым числом или null.'), // Улучшенная проверка
-];
-
-// Валидация для редактирования комментария
-const validateEditComment = [
-    body('content')
-        .trim()
-        .isLength({ min: 1, max: 4000 }).withMessage('Содержимое комментария должно содержать от 1 до 4000 символов.')
-        .custom(validateLengthAndChars(4000, 'Комментарий'))
-        .custom((value) => {
-          const urls = value.match(urlRegex);
-          if (urls) {
-            for (const url of urls) {
-              if (!urlRegex.test(url)) {
-                throw new Error(`Некорректный URL: ${url}`);
-              }
-            }
-          }
-          return true;
-        }),
-    body('parentId')
-        .optional()
+        .optional({nullable: true}) // Добавлен optional с nullable
+        .if(body('parentId').exists())
         .isInt({ allow_leading_plus: false }).withMessage('ID родительского комментария должен быть целым числом или null.')
 ];
 
-module.exports = { validateCreateComment, validateEditComment, validatePost };
+
+module.exports = { validateComment, validatePost };
