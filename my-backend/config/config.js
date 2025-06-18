@@ -27,12 +27,12 @@ const productionConfig = {
 };
 
 const blockedSites = [
-  "www.vk.com",
-  "www.facebook.com",
-  "www.instagram.com",
-  "www.tiktok.com",
-  "www.twitter.com",
-  "www.linkedin.com",
+  "vk.com",
+  "facebook.com",
+  "instagram.com",
+  "tiktok.com",
+  "twitter.com",
+  "linkedin.com",
 ];
 
 // Экспортируем всё как именованные экспорты

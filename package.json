@@ -21,6 +21,7 @@
     "dompurify": "^3.2.5",
     "html-react-parser": "^5.2.3",
     "jquery": "^3.7.1",
+    "jsdom": "^26.1.0",
     "jwt-decode": "^4.0.0",
     "libphonenumber-js": "^1.11.17",
     "mysql2": "^3.11.5",

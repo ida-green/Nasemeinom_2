@@ -129,22 +129,15 @@ const getCommentsByPostId = async (req, res) => {
 
 // Добавление поста
 const addPost = async (req, res) => {
-  // Валидация
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
     return res.status(400).json({ errors: errors.array() });
   }
-
-  // Получаем данные из тела запроса
   const { title, content } = req.body;
-
-  // Проверяем, что пользователь авторизован. Это КРИТИЧНО!
   if (!req.user) {
     return res.status(401).json({ message: 'Необходимо авторизоваться' });
   }
-
-  const userId = req.user.id; // Получаем ID пользователя из объекта req.user
-
+  const userId = req.user.id; 
   try {
     const newPost = await Post.create({
       title,
@@ -152,12 +145,9 @@ const addPost = async (req, res) => {
       user_id: userId,
       likes: 0,
     });
-
-    // Получаем пост с информацией о пользователе
     const createdPostWithUser = await Post.findByPk(newPost.id, {
       include: [{ model: User, attributes: ['name', 'userImageUrl'] }],
     });
-
     res.status(201).json(createdPostWithUser);
   } catch (error) {
     console.error('Ошибка при создании поста:', error);
