@@ -113,20 +113,13 @@ async function searchUsers(req, res) {
             whereCondition.country_id = country_id;
         }
         
-        // --- ВОТ ЭТОТ БЛОК НУЖНО ИЗМЕНИТЬ ---
-        if (region_id !== undefined) { // Проверяем, был ли параметр region_id вообще передан
-            if (region_id === 'null') { // Если region_id пришел как строка 'null' (от фронтенда)
-                whereCondition.region_id = { [Op.is]: null }; // Ищем пользователей, где region_id IS NULL
-            } else { // Иначе предполагаем, что это ID региона (число)
-                const parsedRegionId = parseInt(region_id);
-                if (isNaN(parsedRegionId)) {
-                    // Это маловероятно при правильной работе фронтенда, но для безопасности
-                    return res.status(400).json({ error: 'Некорректное значение для region_id в фильтре пользователей. Ожидается числовой ID региона или строка "null".' });
-                }
-                whereCondition.region_id = parsedRegionId;
+       if (region_id !== undefined && region_id !== 'null') {
+            const parsedRegionId = parseInt(region_id);
+            if (isNaN(parsedRegionId)) {
+                return res.status(400).json({ error: 'Некорректное значение для region_id в фильтре пользователей. Ожидается числовой ID региона или строка "null".' });
             }
+            whereCondition.region_id = parsedRegionId;
         }
-        // --- КОНЕЦ ИЗМЕНЕННОГО БЛОКА ---
 
         if (city_id) {
             whereCondition.city_id = city_id;

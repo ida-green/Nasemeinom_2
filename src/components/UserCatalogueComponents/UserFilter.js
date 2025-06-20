@@ -1,583 +1,132 @@
-// src/components/UserFilter.js
 import React, { useState, useEffect, useCallback } from 'react';
 import axios from 'axios';
-import debounce from '../../utils/debounce'; // Импортируем нашу функцию debounce
+import debounce from 'lodash/debounce';
 
 const UserFilter = ({ onFilterChange, currentFilters }) => {
-  // Состояние для полей ввода и выбранных ID
-  const [searchTermName, setSearchTermName] = useState(currentFilters.name || '');
   const [searchTermCountry, setSearchTermCountry] = useState('');
-  const [selectedCountry, setSelectedCountry] = useState(null); // Объект { id, name_ru, name_en }
   const [searchTermRegion, setSearchTermRegion] = useState('');
-  const [selectedRegion, setSelectedRegion] = useState(null);
-  const [searchTermCity, setSearchTermCity] = useState(''); // Для поля ввода названия города
-  const [selectedCity, setSelectedCity] = useState(null);// Для выбранного объекта города
-  const [radiusKm, setRadiusKm] = useState(currentFilters.radius_km || '');
+  const [searchTermCity, setSearchTermCity] = useState('');
+  const [countrySuggestions, setCountrySuggestions] = useState([]);
+  const [regionSuggestions, setRegionSuggestions] = useState([]);
+  const [citySuggestions, setCitySuggestions] = useState([]);
+  const [selectedCountry, setSelectedCountry] = useState(currentFilters.country || null);
+  const [selectedRegion, setSelectedRegion] = useState(currentFilters.region || null);
+  const [selectedCity, setSelectedCity] = useState(currentFilters.city || null);
 
-  // Состояние для предложений автозаполнения
-  const [countrySuggestions, setCountrySuggestions] = useState([]);// Для списка предложений стран
-  const [regionSuggestions, setRegionSuggestions] = useState([]);// Для списка предложений регионов
-  const [citySuggestions, setCitySuggestions] = useState([]);// Для списка предложений городов
-
-  // ---- Главный useEffect для инициализации фильтров из currentFilters ----
-  useEffect(() => {
-      if (!currentFilters) {
-          return; 
-      }
-      // Инициализация общего поля поиска по имени
-      setSearchTermName(currentFilters.name || '');
-      setRadiusKm(currentFilters.radius_km || ''); // Инициализация радиуса
-
-      const loadSelectedLocationNames = async () => {
-          // --- 1. Загрузка выбранной страны ---
-          // Проверяем, есть ли country_id в текущих фильтрах и не выбран ли уже страна в UI
-          if (currentFilters.country_id && !selectedCountry) {
-              try {
-                  const response = await axios.get(`http://localhost:3000/api/locations/countries/${currentFilters.country_id}`);
-                  setSelectedCountry(response.data);
-                  setSearchTermCountry(response.data.name_ru || response.data.name_en);
-              } catch (err) {
-                  console.error("Ошибка при загрузке выбранной страны из фильтров:", err);
-                  setSelectedCountry(null); // Очистить, если ошибка или не найдено
-                  setSearchTermCountry('');
-              }
-          }
-
-          // --- 2. Загрузка выбранного региона ---
-          // Важно: проверяем .hasOwnProperty('region_id') на случай, если currentFilters.region_id
-          // равен null (это значение), а не просто отсутствует (undefined)
-          if (currentFilters.hasOwnProperty('region_id') && !selectedRegion) {
-              if (currentFilters.region_id === null) {
-                  // Если region_id в фильтрах равен null, устанавливаем специальный объект "Без региона"
-                  setSelectedRegion({ id: 'null', name_en: 'No Region', name_ru: 'Без региона' });
-                  setSearchTermRegion('Без региона'); // Отобразить "Без региона" в поле ввода
-              } else if (currentFilters.region_id) { // Если region_id - это числовой ID (не null и не 0/false)
-                  try {
-                      const response = await axios.get(`http://localhost:3000/api/locations/regions/${currentFilters.region_id}`);
-                      setSelectedRegion(response.data);
-                      setSearchTermRegion(response.data.name_ru || response.data.name_en);
-                  } catch (err) {
-                      console.error("Ошибка при загрузке выбранного региона из фильтров:", err);
-                      setSelectedRegion(null); // Очистить, если ошибка или не найдено
-                      setSearchTermRegion('');
-                  }
-              }
-              // Если currentFilters.region_id === undefined (то есть параметра не было в URL),
-              // то этот блок не выполнится, и selectedRegion останется null,
-              // что соответствует состоянию "регион не выбран".
-          }
-
-          // --- 3. Загрузка выбранного города ---
-          if (currentFilters.city_id && !selectedCity) {
-              try {
-                  const response = await axios.get(`http://localhost:3000/api/locations/cities/${currentFilters.city_id}`);
-                setSelectedCity(response.data);
-              setSearchTermCity(response.data.name_ru || response.data.name_en);
-          } catch (err) {
-              console.error("Ошибка при загрузке выбранного города из фильтров:", err);
-              setSelectedCity(null); // Очистить, если ошибка или не найдено
-              setSearchTermCity('');
-          }
-      }
-  };
-
-  // Запускаем асинхронную функцию загрузки
-  loadSelectedLocationNames();
-
-  setRadiusKm(currentFilters.radius_km || '');
-
-    }, [
-  currentFilters, // Зависимость: перезапускать, если currentFilters меняются
-  // Добавьте все сеттеры состояний, используемые в этом useEffect,
-  // чтобы React не выдавал предупреждений о "stale closures"
-  setSelectedCountry, setSearchTermCountry,
-  setSelectedRegion, setSearchTermRegion,
-  setSelectedCity, setSearchTermCity,
-  setSearchTermName, setRadiusKm,
-  // А также сами стейты, которые проверяются в условиях (selectedCountry, selectedRegion, selectedCity),
-  // чтобы хук реагировал, если они меняются извне этого хука (хотя в данном случае они меняются внутри).
-  selectedCountry, selectedRegion, selectedCity
-  ]);
-
-  // ---- 3. useEffect для загрузки предложений автозаполнения по регионам ----
-useEffect(() => {
-    const fetchRegionSuggestionsDebounced = async (term) => {
-        if (!selectedCountry?.id) {
-            setRegionSuggestions([{ id: 'null', name_en: 'No Region', name_ru: 'Без региона' }]);
-            return;
-        }
-
-        // Если термин пустой или слишком короткий, показываем только "Без региона"
-        if (term.length < 2) {
-             setRegionSuggestions([{ id: 'null', name_en: 'No Region', name_ru: 'Без региона' }]);
-             return;
-        }
-
-        try {
-            const response = await axios.get(
-                `http://localhost:3000/api/locations/countries/${selectedCountry.id}/regions?name=${term}`
-            );
-
-            const suggestions = [{ id: 'null', name_en: 'No Region', name_ru: 'Без региона' }, ...response.data];
-            setRegionSuggestions(suggestions);
-
-        } catch (err) {
-            console.error("Ошибка при поиске регионов:", err);
-            setRegionSuggestions([{ id: 'null', name_en: 'No Region', name_ru: 'Без региона' }]);
-        }
-    };
-
-    const handler = setTimeout(() => {
-        fetchRegionSuggestionsDebounced(searchTermRegion);
-    }, 300);
-
-    return () => {
-        clearTimeout(handler);
-    };
-}, [searchTermRegion, selectedCountry]); // Зависимости: изменения этих состояний вызовут хук
-
-
-
-// ---- 4. useEffect для загрузки предложений автозаполнения по городам ----
-useEffect(() => {
-    const fetchCitySuggestionsDebounced = async (term) => {
-        if (!selectedCountry?.id || term.length < 2) {
-            setCitySuggestions([]);
-            return;
-        }
-
-        let apiUrl = `http://localhost:3000/api/locations/cities?q=${term}&country_id=${selectedCountry.id}`;
-
-        // Добавляем admin1_code только если регион выбран И у него есть admin1_code
-        if (selectedRegion && selectedRegion.admin1_code) { // selectedRegion.admin1_code может быть строкой или null
-            apiUrl += `&admin1_code=${selectedRegion.admin1_code}`; // Отправляем admin1_code как параметр
-        }
-        // Если selectedRegion === null (выбрано "Без региона"), или selectedRegion.admin1_code === null,
-        // то параметр admin1_code не будет добавлен к URL, что позволит бэкенду
-        // вернуть города со всех admin1_code для данной страны.
-
-        console.log("Fetching cities with URL:", apiUrl); // Для отладки
-
-        try {
-            const response = await axios.get(apiUrl);
-            setCitySuggestions(response.data);
-            console.log("City suggestions received:", response.data); // Для отладки
-        } catch (err) {
-            console.error("Ошибка при поиске городов:", err);
-            setCitySuggestions([]);
-        }
-    };
-
-    const handler = setTimeout(() => {
-        fetchCitySuggestionsDebounced(searchTermCity);
-    }, 300);
-
-    return () => {
-        clearTimeout(handler);
-    };
-}, [searchTermCity, selectedCountry, selectedRegion]); // Зависимости
-       
-
-
-
-// ---- 1. useEffect для сброса региона и города при смене СТРАНЫ ----
-useEffect(() => {
-    // Сбрасываем регион и город при смене страны
-    setSelectedRegion(null);
-    setSearchTermRegion(''); // Очищаем поле ввода региона
-    setRegionSuggestions([]); // Очищаем предложения для региона
-
-    setSelectedCity(null);
-    setSearchTermCity(''); // Очищаем поле ввода города
-    setCitySuggestions([]); // Очищаем предложения для города
-
-    // Если страна выбрана, добавляем "Без региона" как начальное предложение
-    if (selectedCountry?.id) {
-        setRegionSuggestions([{ id: 'null', name_en: 'No Region', name_ru: 'Без региона' }]);
-    }
-    // else { // Если страна не выбрана, можно очистить все
-    //     setRegionSuggestions([]);
-    // }
-
-}, [selectedCountry]); // Зависит ТОЛЬКО от selectedCountry
-
-
-
-// ---- 2. useEffect для сброса города при смене РЕГИОНА ----
-useEffect(() => {
-    // Сбрасываем город при смене региона
-    setSelectedCity(null);
-    setSearchTermCity(''); // Очищаем поле ввода города
-    setCitySuggestions([]); // Очищаем предложения для города
-
-    // При выборе региона, возможно, добавляем "Без города" как начальное предложение,
-    // или это делается уже логикой получения городов. Пока оставим так.
-    // if (selectedRegion) {
-    //     setCitySuggestions([{ id: 'null', name_en: 'No City', name_ru: 'Без города' }]);
-    // }
-
-}, [selectedRegion]); // Зависит ТОЛЬКО от selectedRegion
-
-
-
-
-
-
- 
-
-  // ---- Функции для получения предложений автозаполнения (используем ваши API) ----
-  const fetchCountrySuggestions = useCallback(debounce(async (term) => {
-    if (term.length < 2) {
-      setCountrySuggestions([]);
-      return;
-    }
+  const fetchSuggestionsCountry = useCallback(async (query, setSuggestions) => {
     try {
-      const response = await axios.get(`http://localhost:3000/api/locations/countries?q=${term}&limit=10`);
-      setCountrySuggestions(response.data); // Ожидаем массив [{ id, name_en, name_ru }]
+      const response = await axios.get(`http://localhost:3000/api/locations/countries?q=${query}`);
+      setSuggestions(response.data);
+      console.log('Предложения по странам', response.data)
     } catch (error) {
       console.error('Ошибка при получении стран:', error);
+      setSuggestions([]);
+    }
+  }, []);
+
+  const fetchSuggestionsRegion = useCallback(async (countryId, query, setSuggestions) => {
+    try {
+      const response = await axios.get(`http://localhost:3000/api/locations/regions?countryId=${countryId}&amp;q=${query}`);
+      setSuggestions(response.data);
+    } catch (error) {
+      console.error('Ошибка при получении регионов:', error);
+      setSuggestions([]);
+    }
+  }, []);
+
+   const fetchSuggestionsCity = useCallback(async (regionId, query, setSuggestions) => {
+    try {
+      const response = await axios.get(`http://localhost:3000/api/locations/cities?regionId=${regionId}&amp;q=${query}`);
+      setSuggestions(response.data);
+    } catch (error) {
+      console.error('Ошибка при получении городов:', error);
+      setSuggestions([]);
+    }
+  }, []);
+  
+  const debouncedFetchSuggestionsCountry = useCallback(debounce(fetchSuggestionsCountry, 300), [fetchSuggestionsCountry]);
+  const debouncedFetchSuggestionsRegion = useCallback(debounce(fetchSuggestionsRegion, 300), [fetchSuggestionsRegion]);
+  const debouncedFetchSuggestionsCity = useCallback(debounce(fetchSuggestionsCity, 300), [fetchSuggestionsCity]);
+
+   useEffect(() => {
+    if (searchTermCountry.length >= 2) {
+      debouncedFetchSuggestionsCountry(searchTermCountry, setCountrySuggestions);
+    } else {
       setCountrySuggestions([]);
     }
-  }, 300), []);
-
- // fetchRegionSuggestions - ДОБАВЛЯЕТ ОПЦИЮ "БЕЗ РЕГИОНА" В ПРЕДЛОЖЕНИЯ
-const fetchRegionSuggestions = useCallback(debounce(async (countryId, term) => {
-    if (!countryId || term.length < 2) {
-        setRegionSuggestions([]);
-        return;
-    }
-    try {
-        const response = await axios.get(`http://localhost:3000/api/locations/regions?countryId=${countryId}&q=${term}&limit=10`);
-
-        // Создаем специальную опцию "Без региона"
-        const noRegionOption = { id: 'null', name_en: 'No Region', name_ru: 'Без региона', admin1_code: null }; // <<< ДОБАВЛЕНО admin1_code: null
-
-        // Добавляем опцию "Без региона" в начало списка предложений
-        setRegionSuggestions([noRegionOption, ...response.data]);
-    } catch (error) {
-        console.error('Ошибка при получении регионов:', error);
-        setRegionSuggestions([]);
-    }
-}, 300), []);
-
- 
-// fetchCitySuggestions - ПРИНИМАЕТ countryId И ОБРАБАТЫВАЕТ regionId
-const fetchCitySuggestions = useCallback(debounce(async (countryId, regionId, term) => {
-        if (!term || term.length < 2) { // <- Добавлена проверка !term
-        setCitySuggestions([]);
-        return;
-    }
-    if (!countryId) { // Город всегда привязан к стране
-        setCitySuggestions([]);
-        console.warn('Невозможно получить города: countryId не передан.');
-        return;
-    }
-    try {
-        let url = `http://localhost:3000/api/locations/countries/${selectedCountry.id}/regions?name=${term}&limit=10`;
-        // Если regionId явно передан (даже если это 'null' как строка), добавляем его.
-        // Если regionId === undefined (т.е. не было выбрано ни региона, ни опции "без региона"),
-        // то его не добавляем, и бэкенд будет искать города по всей стране.
-        if (regionId !== undefined) {
-            url += `&region_id=${regionId}`;
-        }
-
-        const response = await axios.get(url);
-        setCitySuggestions(response.data);
-    } catch (error) {
-        console.error('Ошибка при получении городов:', error);
-        setCitySuggestions([]);
-    }
-}, 300), []);
-
-
-
-  // ---- Эффекты для вызова функций получения предложений ----
-  useEffect(() => {
-    fetchCountrySuggestions(searchTermCountry);
-  }, [searchTermCountry, fetchCountrySuggestions]);
+  }, [searchTermCountry, debouncedFetchSuggestionsCountry]); 
 
   useEffect(() => {
-    if (selectedCountry) {
-      fetchRegionSuggestions(selectedCountry.id, searchTermRegion);
+    if (searchTermRegion.length >= 2 && selectedCountry) {
+      debouncedFetchSuggestionsRegion(selectedCountry.id, searchTermRegion, setRegionSuggestions);
     } else {
       setRegionSuggestions([]);
     }
-  }, [searchTermRegion, selectedCountry, fetchRegionSuggestions]);
+  }, [searchTermRegion, selectedCountry, debouncedFetchSuggestionsRegion]);
 
   useEffect(() => {
-    if (selectedRegion) {
-      fetchCitySuggestions(selectedRegion.id, searchTermCity);
+    if (searchTermCity.length >= 2 && selectedRegion) {
+      debouncedFetchSuggestionsCity(selectedRegion.id, searchTermCity, setCitySuggestions);
     } else {
       setCitySuggestions([]);
     }
-  }, [searchTermCity, selectedRegion, fetchCitySuggestions]);
+  }, [searchTermCity, selectedRegion, debouncedFetchSuggestionsCity]);
 
-
-  // ---- Обработчики выбора из списка предложений ----
-
-  const handleSelectCountry = (country) => {
-    setSelectedCountry(country);
-    setSearchTermCountry(country.name_ru || country.name_en); // Предпочитаем русское название
-    setCountrySuggestions([]); // Скрываем предложения
-    // Сбрасываем зависимые поля и их ID
-    setSelectedRegion(null);
-    setSearchTermRegion('');
-    setSelectedCity(null);
-    setSearchTermCity('');
-    setRadiusKm(''); // Сброс радиуса, т.к. город изменился
+  const handleFilterChange = () => {
+    onFilterChange({ country: selectedCountry, region: selectedRegion, city: selectedCity });
   };
-
-  // 3. handleSelectRegion - ОБРАБАТЫВАЕТ ВЫБОР ОПЦИИ "БЕЗ РЕГИОНА"
-const handleSelectRegion = (region) => {
-    if (region.id === 'null') { // Если выбрана опция "Без региона"
-        setSelectedRegion({ id: 'null', name_en: 'No Region', name_ru: 'Без региона' });
-        setSearchTermRegion('Без региона'); // Отображаем в инпуте
-    } else {
-        setSelectedRegion(region);
-        setSearchTermRegion(region.name_ru || region.name_en);
-    }
-    // После выбора региона, сбрасываем город
-    setSelectedCity(null);
-    setSearchTermCity('');
-    setCitySuggestions([]); // Очищаем предложения городов
-    setRadiusKm('');
-    setRegionSuggestions([]); // Скрываем предложения регионов
-};
-
-  const handleSelectCity = (city) => {
-    setSelectedCity(city);
-    setSearchTermCity(city.name_ru || city.name_en);
-    setCitySuggestions([]);
-  };
-
-  // ---- Применение фильтров ----
-  const handleApplyFilters = () => {
-    onFilterChange({
-      name: searchTermName,
-      country_id: selectedCountry ? selectedCountry.id : null,
-      region_id: selectedRegion ? selectedRegion.id : null,
-      city_id: selectedCity ? selectedCity.id : null,
-      radius_km: radiusKm ? radiusKm : null,
-    });
-  };
-
-  const handleClearFilters = () => {
-    setSearchTermName('');
-    setSearchTermCountry('');
-    setSelectedCountry(null);
-    setSearchTermRegion('');
-    setSelectedRegion(null);
-    setSearchTermCity('');
-    setSelectedCity(null);
-    setRadiusKm('');
-    onFilterChange({ // Отправляем пустые фильтры
-        name: '',
-        country_id: null,
-        region_id: null,
-        city_id: null,
-        radius_km: '',
-    });
-  }
-
 
   return (
-    <div className="row user-filter">
-      <div className="col-12 filter-group">
-        <label htmlFor="country-search">Страна:</label>
-        <input
-          id="country-search"
-          type="text"
-          value={searchTermCountry}
-          onChange={(e) => {
-            const term = e.target.value;
-            setSearchTermCountry(term);
-            // Если пользователь начал вводить что-то, что не соответствует выбранной стране,
-            // сбрасываем выбор страны и все связанные поля.
-            if (selectedCountry && selectedCountry.id && (selectedCountry.name_ru !== term && selectedCountry.name_en !== term)) {
-                setSelectedCountry(null);
-                setSelectedRegion(null);
-                setSearchTermRegion('');
-                setRegionSuggestions([]); // Сбросить предложения регионов
-                setSelectedCity(null);
-                setSearchTermCity('');
-                setCitySuggestions([]); // Сбросить предложения городов
-                setRadiusKm('');
-            }
-            // Вызываем функцию для получения предложений стран
-            fetchCountrySuggestions(term);
-          }}
-          placeholder="Начните вводить название страны"
-        />
-        {countrySuggestions.length > 0 && (
-          <ul className="suggestions-list">
-            {countrySuggestions.map((country) => (
-              <li key={country.id} onClick={() => {
-                // При выборе страны, устанавливаем ее и сбрасываем предложения
-                handleSelectCountry(country); // Ваша существующая функция handleSelectCountry
-                setCountrySuggestions([]);
-              }}>
-                {country.name_ru} {country.name_en && country.name_ru !== country.name_en && `(${country.name_en})`}
-              </li>
-            ))}
-          </ul>
-        )}
-        {selectedCountry && <p>Выбрана страна: <strong>{selectedCountry.name_ru || selectedCountry.name_en}</strong></p>}
-      </div>
-
-      <div className="col-12 filter-group">
-        <label htmlFor="region-search">Регион:</label>
-        
-        <input
-          id="region-search"
-          type="text"
-          value={searchTermRegion}
-          onChange={(e) => {
-            const term = e.target.value;
-            setSearchTermRegion(term);
-            // Если пользователь начал вводить что-то, что не соответствует выбранному региону,
-            // сбрасываем выбор региона и города
-            if (selectedRegion && selectedRegion.id && (selectedRegion.name_ru !== term && selectedRegion.name_en !== term)) {
-                setSelectedRegion(null);
-                setSelectedCity(null);
-                setSearchTermCity('');
-                setCitySuggestions([]); // Сбросить предложения городов
-                setRadiusKm('');
-            }
-            // Вызываем функцию для получения предложений регионов (уже включает "Без региона")
-            if (selectedCountry) {
-                fetchRegionSuggestions(selectedCountry.id, term);
-            } else {
-                setRegionSuggestions([]);
-            }
-          }}
-          placeholder="Начните вводить название региона"
-          disabled={!selectedCountry} // Отключаем, если страна не выбрана
-        />
-        {regionSuggestions.length > 0 && (
-          <ul className="suggestions-list">
-            {regionSuggestions.map((region) => (
-              <li key={region.id} onClick={() => {
-                  setSelectedRegion(region); // Устанавливаем выбранный регион (объект)
-                  setSearchTermRegion(region.name_ru || region.name_en); // Обновляем поле ввода на название
-                  setRegionSuggestions([]); // Скрываем предложения
-              }}>
-                  {region.name_ru || region.name_en}
-              </li>
-            ))}
-          </ul>
-        )}
-        {/* Отображаем выбранный регион, учитывая специальный объект "Без региона" */}
-        {selectedRegion && <p>Выбран регион: <strong>{selectedRegion.name_ru || selectedRegion.name_en}</strong></p>}
-      </div>
-
-      <div className="col-12 filter-group">
-
-    <label htmlFor="city-search">Город:</label>
-    <input
-      id="city-search"
-      type="text"
-      value={searchTermCity}
-      onChange={(e) => {
-        const term = e.target.value;
-        setSearchTermCity(term);
-        // Если пользователь начал вводить что-то, что не соответствует выбранному городу,
-        // сбрасываем выбор города
-        if (selectedCity && selectedCity.id && (selectedCity.name_ru !== term && selectedCity.name_en !== term)) {
-            setSelectedCity(null);
-            setRadiusKm('');
-        }
-        // Вызов fetchCitySuggestions теперь происходит в useEffect,
-        // который следит за searchTermCity, selectedCountry, selectedRegion.
-        // Здесь просто обновляем searchTermCity.
-      }}
-      placeholder="Начните вводить название города"
-      // КЛЮЧЕВОЕ ИЗМЕНЕНИЕ: Отключаем только если страна не выбрана, НЕ регион.
-      disabled={!selectedCountry}
-    />
-    {/* Список предложений для автозаполнения города */}
-    {citySuggestions.length > 0 && (
-        <ul className="suggestions-list"> {/* Добавьте свои классы для стилей */}
-            {citySuggestions.map(city => (
-                <li key={city.id} onClick={() => {
-                    setSelectedCity(city); // Устанавливаем выбранный город
-                    setSearchTermCity(city.name_ru || city.name_en); // Обновляем поле ввода
-                    setCitySuggestions([]); // Скрываем список предложений
-                }}>
-                    {city.name_ru || city.name_en}
-                </li>
-            ))}
-        </ul>
-    )}
-    {selectedCity && <p>Выбран город: <strong>{selectedCity.name_ru || selectedCity.name_en}</strong></p>}
-  </div>
-
-  {selectedCity && (
-    <div className="col-12 filter-group">
-      <label htmlFor="radius-km">Радиус (км):</label>
+    <div>
+      {/* Фильтр стран */}
       <input
-        id="radius-km"
-        type="number"
-        value={radiusKm}
-        onChange={(e) => setRadiusKm(e.target.value)}
-        placeholder="Введите радиус"
-        min="0"
+        type="text"
+        value={searchTermCountry}
+        onChange={(e) => setSearchTermCountry(e.target.value)}
+        placeholder="Выберите страну"
       />
-    </div>
-  )}
+      <ul>
+        {countrySuggestions.map((country) => (
+          <li key={country.id} onClick={() => setSelectedCountry(country)}>
+            {country.name_ru}
+          </li>
+        ))}
+      </ul>
 
+      {/* Фильтр регионов (аналогично) */}
+      <input
+        type="text"
+        value={searchTermRegion}
+        onChange={(e) => setSearchTermRegion(e.target.value)}
+        placeholder="Выберите регион"
+        disabled={!selectedCountry}
+        // Отключен, если страна не выбрана
+      />
+       <ul>
+        {regionSuggestions.map((region) => (
+          <li key={region.id} onClick={() => setSelectedRegion(region)}>
+            {region.name_ru}
+          </li>
+        ))}
+      </ul>
 
+      {/* Фильтр городов (аналогично) */}
+      <input
+        type="text"
+        value={searchTermCity}
+        onChange={(e) => setSearchTermCity(e.target.value)}
+        placeholder="Выберите город"
+        disabled={!selectedRegion} // Отключен, если регион не выбран
+      />
+      <ul>
+        {citySuggestions.map((city) => (
+          <li key={city.id} onClick={() => setSelectedCity(city)}>
+            {city.name_ru}
+          </li>
+        ))}
+      </ul>
 
-
-
-
-      <div className="filter-actions">
-        <button 
-          className="btn button-btn button-btn-primary mt-3 mb-3"
-          onClick={handleApplyFilters}>Применить фильтры</button>
-        <button 
-          type="button" 
-          className="btn button-btn button-btn-outline-primary mt-3 mb-3"
-          onClick={handleClearFilters}>Очистить фильтры</button>
-      </div>
-
-      {/* Простая стилизация для списка предложений */}
-      <style jsx>{`
-        .suggestions-list {
-          list-style: none;
-          padding: 0;
-          margin: 5px 0;
-          border: 1px solid #ddd;
-          max-height: 150px;
-          overflow-y: auto;
-          background: white;
-          position: absolute; /* Или relative, в зависимости от контекста */
-          width: 100%; /* Или фиксированная ширина */
-          z-index: 100;
-          box-shadow: 0px 2px 5px rgba(0,0,0,0.1);
-        }
-        .suggestions-list li {
-          padding: 8px 10px;
-          cursor: pointer;
-        }
-        .suggestions-list li:hover {
-          background-color: #f0f0f0;
-        }
-        .filter-group {
-            margin-bottom: 15px;
-            position: relative; /* Для позиционирования списка предложений */
-        }
-        .filter-group label {
-            display: block;
-            margin-bottom: 5px;
-            font-weight: bold;
-        }
-        .filter-group input {
-            width: calc(100% - 20px);
-            padding: 8px 10px;
-            border: 1px solid #ccc;
-            border-radius: 4px;
-        }
-      `}</style>
+      <button onClick={handleFilterChange}>Применить фильтры</button>
     </div>
   );
 };

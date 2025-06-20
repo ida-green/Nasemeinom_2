@@ -28,6 +28,7 @@ const productionConfig = {
 
 const blockedSites = [
   "vk.com",
+  "vk.cim",
   "facebook.com",
   "instagram.com",
   "tiktok.com",

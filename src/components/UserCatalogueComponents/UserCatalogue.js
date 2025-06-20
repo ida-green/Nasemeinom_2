@@ -13,8 +13,6 @@ const UserCatalogue = () => {
     country_id: null,
     region_id: null,
     city_id: null,
-    radius_km: '', // Строка, так как это поле ввода
-    name: '', // Поле для текстового поиска по имени пользователя
     page: 1,
     limit: 10, // Количество пользователей на странице
   });

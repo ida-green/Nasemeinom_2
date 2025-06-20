@@ -2,17 +2,10 @@ const express = require('express');
 const router = express.Router();
 
 const { getCountries, getRegions, getCities } = require('../controllers/locationController.js');
-// const userController = require('../controllers/userController'); // Раскомментируем, когда создадим userController
 
-// Маршруты для получения данных о локациях (для автодополнения и выпадающих списков)
+router.get('/countries', getCountries); // Параметр 'q' будет в req.query.q
+router.get('/regions', getRegions);     // Параметры 'countryId' и 'q' будут в req.query
+router.get('/cities', getCities);       // Параметры 'regionId' и 'q' будут в req.query
 
-// GET /api/locations/countries - Получить страны по поисковому запросу
-router.get('/countries', getCountries);
-
-// Получить регионы по поисковому запросу (опционально по стране)
-router.get('/countries/:countryId/regions', getRegions);
-
-// Получить города по поисковому запросу
-router.get('/cities', getCities); // <<-- ЭТОТ МАРШРУТ
 
 module.exports = router;

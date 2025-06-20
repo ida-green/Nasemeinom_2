@@ -70,8 +70,6 @@ const calculateAge = (birthDateString) => {
   }
 };
 
-
-
 const UserCard = ({ user }) => {
 
   const lastOnline = user.last_online_at
@@ -86,8 +84,7 @@ const UserCard = ({ user }) => {
 
   return (
     <div className="user-card"> {/* Главный контейнер карточки */}
-        
-     
+            
       {/* блок: Аватар, имя, город, регион, страна, описание пользователя "О себе" */}
       <div className="user-main-info">
         <div className="user-card-header-inner">
@@ -213,8 +210,9 @@ const UserCard = ({ user }) => {
           <img src={user.familyImageUrl} />
         </div>
       )}
-
+      
     </div>
+    
   );
 };
 
