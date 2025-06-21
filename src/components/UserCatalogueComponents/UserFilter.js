@@ -80,6 +80,18 @@ const UserFilter = ({ onFilterChange, currentFilters }) => {
     });
 };
 
+const handleClearFilters = () => {
+    setSearchTermCountry('');
+    setSearchTermRegion('');
+    setSearchTermCity('');
+    setCountrySuggestions([]);
+    setRegionSuggestions([]);
+    setCitySuggestions([]);
+    setSelectedCountry(null);
+    setSelectedRegion(null);
+    setSelectedCity(null);
+    onFilterChange({ country_id: null, admin1_code: null, city_id: null }); // Сброс фильтров для родительского компонента
+  };
 
   return (
     <div>
@@ -132,6 +144,7 @@ const UserFilter = ({ onFilterChange, currentFilters }) => {
       </ul>
 
       <button onClick={handleFilterChange}>Применить фильтры</button>
+      <button onClick={handleClearFilters}>Очистить фильтры</button>
     </div>
   );
 };
