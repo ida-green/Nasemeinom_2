@@ -74,6 +74,14 @@ User.init({
     type: DataTypes.STRING,
     allowNull: false,
   },
+  telegramUsername: {
+    type: DataTypes.STRING,
+    allowNull: false, // Убедитесь, что это поле обязательно
+    unique: true, // Добавьте уникальность, если это необходимо
+    validate: {
+      is: /^[a-zA-Z0-9_]{5,32}$/ // Проверка на соответствие формату Telegram username
+    }
+  },
   description: {
     type: DataTypes.STRING,
     allowNull: true,

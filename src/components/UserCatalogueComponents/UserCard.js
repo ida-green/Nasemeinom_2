@@ -5,6 +5,8 @@ import React from 'react';
 import '../../styles/UserCard.css';
 import { getInitials } from '../../utils';
 import { DEFAULT_AVATAR_URL } from '../../utils';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faTelegram as telegramIcon } from '@fortawesome/free-brands-svg-icons';
 
 // ВСЕ ИМПОРТЫ ДОЛЖНЫ БЫТЬ ВЫШЕ ЭТОЙ СТРОКИ
 // ИМПОРТЫ date-fns:
@@ -83,8 +85,7 @@ const UserCard = ({ user }) => {
   const hasFamilyImage = user.familyImageUrl  
 
   return (
-    <div className="user-card"> {/* Главный контейнер карточки */}
-            
+    <div className="user-card "> {/* Главный контейнер карточки */}
       {/* блок: Аватар, имя, город, регион, страна, описание пользователя "О себе" */}
       <div className="user-main-info">
         <div className="user-card-header-inner">
@@ -141,7 +142,7 @@ const UserCard = ({ user }) => {
             <div><strong>О себе:</strong></div>
             <p>{user.description}</p>
           </div>
-        )}
+        )}  
 
         {/* блок: Дети */}
      {hasChildren && (
@@ -193,7 +194,6 @@ const UserCard = ({ user }) => {
           </ul>
         </div>
       )}
-
       </div>
    
       {/* блок: Описание семьи */}
@@ -209,9 +209,21 @@ const UserCard = ({ user }) => {
         <div className="user-family-image-section">
           <img src={user.familyImageUrl} />
         </div>
-      )}
-      
+      )}   
+    {/* Блок с иконкой Telegram */}
+  {user.telegramUsername && (
+    <div className="telegram-icon-container">
+      <a 
+        href={`https://t.me/${user.telegramUsername}`} 
+        target="_blank" 
+        rel="noopener noreferrer"
+        className="telegram-icon"
+      >
+        <FontAwesomeIcon icon={telegramIcon} size="2x" />
+      </a>
     </div>
+  )}
+</div>
     
   );
 };
