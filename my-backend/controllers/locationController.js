@@ -60,17 +60,26 @@ const getCities = async (req, res) => {
         const query = req.query.q;
         const countryId = req.query.countryId;
         const regionAdmin1Code = req.query.admin1_code;
-        const limit = parseInt(req.query.limit) || 10;
+        const limit = parseInt(req.query.limit) || 10; // Обработка случая, если limit отсутствует
+
         if (!query || query.length < 2) {
             return res.status(400).json({ error: 'Параметр "q" обязателен и должен содержать минимум 2 символа.' });
         }
+        //Проверка на корректность countryId и regionAdmin1Code
+        if (countryId && isNaN(parseInt(countryId))) {
+            return res.status(400).json({error: 'Некорректный countryId'});
+        }
+        if(regionAdmin1Code && typeof regionAdmin1Code !== 'string'){
+            return res.status(400).json({error: 'Некорректный regionAdmin1Code'});
+        }
+
         const whereCondition = {
             [Op.or]: [
                 { name_en: { [Op.like]: `%${query}%` } },
                 { name_ru: { [Op.like]: `%${query}%` } }
             ]
         };
-        if (countryId) whereCondition.country_id = countryId;
+        if (countryId) whereCondition.country_id = parseInt(countryId); // Парсим countryId
         if (regionAdmin1Code) whereCondition.admin1_code = regionAdmin1Code;
 
         const cities = await City.findAll({

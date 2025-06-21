@@ -11,10 +11,10 @@ const UserCatalogue = () => {
   const [error, setError] = useState(null);
   const [filters, setFilters] = useState({
     country_id: null,
-    region_id: null,
+    admin1_code: null, // Изменено
     city_id: null,
     page: 1,
-    limit: 10, // Количество пользователей на странице
+    limit: 10,
   });
   const [pagination, setPagination] = useState({
     totalUsers: 0,
@@ -51,12 +51,12 @@ const UserCatalogue = () => {
     } finally {
       setLoading(false);
     }
-  }, [filters]); // Перезапускаем эффект, когда меняются фильтры
+  }, [filters]); 
 
   // Эффект, который запускается при монтировании компонента и при изменении фильтров
   useEffect(() => {
     fetchUsers();
-  }, [fetchUsers]); // Зависимость от useCallback fetchUsers
+ }, [fetchUsers, filters]); // Добавили filters в зависимости
 
   // Обработчик изменения фильтров из компонента UserFilter
   const handleFilterChange = (newFilterValues) => {

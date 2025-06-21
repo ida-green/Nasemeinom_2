@@ -26,7 +26,7 @@ const UserFilter = ({ onFilterChange, currentFilters }) => {
 
   const fetchSuggestionsRegion = useCallback(async (countryId, query, setSuggestions) => {
     try {
-      const response = await axios.get(`http://localhost:3000/api/locations/regions?countryId=${countryId}&amp;q=${query}`);
+      const response = await axios.get(`http://localhost:3000/api/locations/regions?countryId=${countryId}&&q=${query}`);
       setSuggestions(response.data);
     } catch (error) {
       console.error('Ошибка при получении регионов:', error);
@@ -36,7 +36,7 @@ const UserFilter = ({ onFilterChange, currentFilters }) => {
 
    const fetchSuggestionsCity = useCallback(async (regionId, query, setSuggestions) => {
     try {
-      const response = await axios.get(`http://localhost:3000/api/locations/cities?regionId=${regionId}&amp;q=${query}`);
+      const response = await axios.get(`http://localhost:3000/api/locations/cities?regionId=${regionId}&&q=${query}`);
       setSuggestions(response.data);
     } catch (error) {
       console.error('Ошибка при получении городов:', error);
@@ -72,9 +72,14 @@ const UserFilter = ({ onFilterChange, currentFilters }) => {
     }
   }, [searchTermCity, selectedRegion, debouncedFetchSuggestionsCity]);
 
-  const handleFilterChange = () => {
-    onFilterChange({ country: selectedCountry, region: selectedRegion, city: selectedCity });
-  };
+   const handleFilterChange = () => {
+    onFilterChange({ 
+        country_id: selectedCountry ? selectedCountry.id : null, 
+        admin1_code: selectedRegion ? selectedRegion.admin1_code : null, // Изменено
+        city_id: selectedCity ? selectedCity.id : null 
+    });
+};
+
 
   return (
     <div>
