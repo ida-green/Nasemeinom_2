@@ -12,11 +12,12 @@ export default function Footer() {
                     <h4>Информация</h4>
                     <ul className="list-unstyled">
                       <li><Link className="nav-item active" aria-current="page" to="/">Главная</Link></li>
-                      <li className="nav-item">
+                      {/*<li className="nav-item">
                         <Link className="nav-link" to="/catalogue">Курсы</Link>
                       </li>
+                      */}
                       <li className="nav-item">
-                        <Link className="nav-link" to="/families">Семьи</Link>
+                        <Link className="nav-link" to="/userCatalogue">Семьи</Link>
                       </li>
                       <li className="nav-item">
                         <Link className="nav-link" to="/forum">Форум</Link>
@@ -29,7 +30,18 @@ export default function Footer() {
                   <div className="col-md-3 col-6">
                     <h4>Документы</h4>
                   <ul className="list-unstyled">
-                    <a href="#">Правила портала</a>
+                    <li>
+                      <a href="#">О портале</a>
+                    </li>
+                    <li>
+                      <a href="#">Политика конфиденциальности</a>
+                    </li> 
+                    <li>
+                      <a href="#">Согласие на обработку персональных данных</a>
+                    </li> 
+                    <li>
+                      <a href="#">Согласие на рекламную рассылку</a>
+                    </li> 
                   </ul>    
                   </div>
 

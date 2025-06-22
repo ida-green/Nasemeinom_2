@@ -16,7 +16,6 @@ import Home from './pages/Home.js';
 import Catalogue from './pages/Catalogue.js';
 import Course from './pages/Course.js';
 import UserCatalogue from './components/UserCatalogueComponents/UserCatalogue.js'; 
-import Families from './pages/Families.js';
 import Communication from './pages/Communication.js';
 import Register from './pages/Register.js';
 import Login from './pages/Login.js';
@@ -30,12 +29,8 @@ import Dashboard from './pages/Dashboard.js';
 import ConfirmEmail from './components/ConfirmEmail.js';
 import FogotPassword from './pages/FogotPassword.js';
 import ResetPassword from './pages/ResetPassword.js';
-import { generateGuestId } from '../src/utils.js';
 
 function App() {
-    useEffect(() => {
-      generateGuestId(); // Генерируем guestId при загрузке приложения
-    }, []);
 
     return (
       <Router>
@@ -51,13 +46,12 @@ function App() {
                       <Routes>
                         <Route path="/dashboard" element={<Dashboard />} />
                         <Route path="/" element={<Home />} />
-                        <Route path="/catalogue" element={<Catalogue />} />
-                        <Route path="/course/:id" element={<Course />} />
-                        <Route path="/families" element={<Families />} />
+                        {/*<Route path="/catalogue" element={<Catalogue />} />*/}
+                        {/*<Route path="/course/:id" element={<Course />} />*/}
                         <Route path="/userCatalogue" element={<UserCatalogue />} />
                         <Route path="/communication" element={<Communication />} />
                         <Route path="/leagal" element={<Leagal />} />
-                        <Route path="/attestation" element={<Attestation />} />
+                        {/*<Route path="/attestation" element={<Attestation />} />*/}
                         <Route path="/editorcoloumn" element={<EditorColoumn />} />
                         <Route path="/bookishkids" element={<BookishKids />} />
                         <Route path="/articles" element={<Articles />} />

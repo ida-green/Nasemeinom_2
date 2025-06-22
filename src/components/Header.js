@@ -50,6 +50,7 @@ export default function Header() {
                         <h1 className="col-6 col-md-6">
                             <Link className="header-logo" aria-current="page" to="/">На семейном</Link>
                         </h1>
+                        
                         <div className="col-6 col-md-6 d-flex justify-content-end">
                             <div>
                                  <button 
@@ -79,10 +80,12 @@ export default function Header() {
                                 
                             </div>
                         </div>
+                        
                     </div>
                 </div>
             </div>
 
+           
             <div className="header-bottom sticky-top" id="header-nav">
             <nav className="navbar navbar-expand-lg bg-dark" data-bs-theme="dark">
                 <div className="container-fluid">
@@ -100,9 +103,11 @@ export default function Header() {
                                 <li className="nav-item">
                                 <Link className="nav-link" aria-current="page" to="/">Главная</Link>
                                 </li>
+                                {/*
                                 <li className="nav-item">
                                 <Link className="nav-link" to="/catalogue">Курсы</Link>
                                 </li>
+                                */}
                                 <li className="nav-item">
                                 <Link className="nav-link" to="/userCatalogue">Семьи</Link>
                                 </li>
@@ -110,7 +115,7 @@ export default function Header() {
                                 <Link className="nav-link" to="/forum">Форум</Link>
                                 </li>
                                 <li className="nav-item">
-                                <Link className="nav-link" to="/communication">Общение</Link>
+                                <Link className="nav-link" to="/communication">Социализация</Link>
                                 </li>
 
                                 <li className="nav-item dropdown">
@@ -119,7 +124,9 @@ export default function Header() {
                                 </a>
                                 <ul className="dropdown-menu dropdown-menu-end">
                                     <li><Link className="dropdown-item" to="/leagal">Законодательство</Link></li>
+                                    {/*
                                     <li><Link className="dropdown-item" to="/attestation">Аттестация</Link></li>
+                                    */}
                                     <li><Link className="dropdown-item" to="/articles">Статьи</Link></li>
                                     {/* <li><Link className="dropdown-item" to="/bookishkids">Книжные дети</Link></li> */}
                                     <li className="dropdown-divider"></li>
@@ -130,21 +137,21 @@ export default function Header() {
                         </div>
                     </div>
 
+                    {/*                        
                     <div>
-                    {/* Иконка сердечка для избранного */}
                     <button className="btn icons-cart-favourite p-1" onClick={toggleFavourite}>
                         <i className="fa-solid fa-heart"></i>
                         <span className="badge rounded-pill bg-warning text-dark">3</span>
                     </button>
 
-                    {/* Иконка корзины */}
                     <button className="btn icons-cart-favourite" onClick={toggleCart}>
                         <i className="fa-solid fa-cart-shopping"></i>
                         <span className="badge rounded-pill bg-warning text-dark">
-                            {user ? cartItems.length : 0} {/* Условный рендеринг */}
+                            {user ? cartItems.length : 0} 
                         </span>
                     </button>
                     </div> 
+                    */}
 
                 </div> 
             </nav> 
@@ -152,6 +159,7 @@ export default function Header() {
             {/* Компоненты offcanvas */}
             <CartOffcanvas isCartOpen={isCartOpen} onCartClose={() => setCartOpen(false)} />
             <FavouriteOffcanvas isFavouriteOpen={isFavouriteOpen} onFavouriteClose={() => setFavouriteOpen(false)} />
+
         </div>
     )
 }

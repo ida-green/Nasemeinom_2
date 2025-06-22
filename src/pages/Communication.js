@@ -36,19 +36,19 @@ export default function Home() {
     }
 
     return (
-        <div>
+        
             <div className="container">
-                <div className="row">
-                    <div className="col-12">
-                        <nav className="breadcrumbs">
-                            <ul>
-                                <li><Link className="nav-link active" aria-current="page" to="/">Главная</Link></li>
-                                <li><span>Общение</span></li>
-                            </ul>
+                <div className="col-12 col-md-9">
+                    <div className="container mt-3">
+                        <nav aria-label="breadcrumb">
+                            <ol class="breadcrumb">
+                                <li class="breadcrumb-item"><Link aria-current="page" to="/">Главная</Link></li>
+                                <li class="breadcrumb-item active" aria-current="page">Социализация</li>
+                            </ol>
                         </nav>
                     </div>
                 </div>
-            </div>
+           
             <div className="container">
                 <div className="row"> 
                     <div className="col-lg-12">

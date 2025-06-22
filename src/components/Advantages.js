@@ -17,10 +17,10 @@ export default function Advantages() {
     return(
         <div>
         <section className="advantages mt-3">
-          <div className="col-11 container-fluid">
+          <div className="col-10 container-fluid">
 
             <div className="row gy-3 gx-3items d-flex h-100">
-                    
+            {/*        
             <div className="col-lg-4 col-sm-12">
                 <div className="card">
                     <img src="/images/carousel-images/homeschooling18.jpg" className="card-img" alt="..." />
@@ -39,10 +39,10 @@ export default function Advantages() {
                     </div>
                 </div>
             </div>
-
+            */}    
                                                
 
-            <div className="col-lg-4 col-sm-12">
+            <div className="col-lg-6 col-sm-12">
                 <div className="card">
                     <img src="/images/carousel-images/homeschooling8.jpg" className="card-img" alt="..." />
                     <div className="card-body">
@@ -61,7 +61,7 @@ export default function Advantages() {
                 </div>
             </div>
 
-            <div className="col-lg-4 col-sm-12">
+            <div className="col-lg-6 col-sm-12">
                 <div className="card">
                     <img src="/images/carousel-images/homeschooling15.jpg" className="card-img" alt="..." />
                     <div className="card-body">
@@ -80,7 +80,7 @@ export default function Advantages() {
                 </div>
             </div>
 
-            <div className="col-lg-4 col-sm-12">
+            <div className="col-lg-6 col-sm-12">
                 <div className="card">
                     <img src="/images/carousel-images/homeschooling6.jpg" className="card-img" alt="..." />
                     <div className="card-body">
@@ -88,17 +88,18 @@ export default function Advantages() {
                             <h5 className="card-title">
                                 <span className="d-flex align-items-center">
                                     <Link to="/communication" className="link-no-underline link-hover">
-                                        Общение
+                                        Социализация
                                         <i className="fa-solid fa-angles-right advantages-icon ms-2"></i>
                                     </Link>
                                 </span>
                             </h5>
                         </div>
-                        <p className="card-text">Свободные школы, социализация</p>
+                        <p className="card-text">Свободные школы и пространства для общения</p>
                     </div>
                 </div>
             </div>
 
+{/*
             <div className="col-lg-4 col-sm-12">
                 <div className="card">
                     <img src="/images/carousel-images/homeschooling14.jpg" className="card-img" alt="..." />
@@ -117,9 +118,9 @@ export default function Advantages() {
                     </div>
                 </div>
             </div>
+*/}
 
-
-            <div className="col-lg-4 col-sm-12">
+            <div className="col-lg-6 col-sm-12">
                 <div className="card">
                     <img src="/images/carousel-images/homeschooling4.jpg" className="card-img" alt="..." />
                     <div className="card-body">
