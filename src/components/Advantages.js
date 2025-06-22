@@ -49,7 +49,7 @@ export default function Advantages() {
                         <div className="row d-flex align-items-center">
                             <h5 className="card-title">
                                 <span className="d-flex align-items-center">
-                                    <Link to="/families" className="link-no-underline link-hover">
+                                    <Link to="/userCatalogue" className="link-no-underline link-hover">
                                         Семьи
                                         <i className="fa-solid fa-angles-right advantages-icon ms-2"></i>
                                     </Link>

@@ -146,81 +146,93 @@ const UserCard = ({ user }) => {
 
         {/* блок: Дети */}
      {hasChildren && (
-        <div className="user-children-section">
-          <div><strong>Дети:</strong></div>
-          <ul>
-            {user.children.map((child) => {
-              // Определяем текст для формы обучения
-              let educationFormDisplay = '';
-              if (child.education_form && child.education_form.title) {
-                if (child.education_form.title === "дошкольник/ца") {
-                  // Если форма "дошкольник/ца", проверяем пол
-                  if (child.gender && child.gender.gender === "мальчик") {
-                    educationFormDisplay = "дошкольник";
-                  } else if (child.gender && child.gender.gender === "девочка") {
-                    educationFormDisplay = "дошкольница";
-                  } else {
-                    // Если пол не указан или неопределен, но форма "дошкольник/ца"
-                    educationFormDisplay = "дошкольник/ца"; // Можно оставить по умолчанию или выбрать один из вариантов
-                  }
-                } else {
-                  // Если форма обучения не "дошкольник/ца", используем её как есть
-                  educationFormDisplay = child.education_form.title;
-                }
-              }
+  <div className="user-children-section">
+    <div><strong>Дети:</strong></div>
+    <ul>
+      {user.children.map((child) => {
+        // Определяем текст для формы обучения
+        let educationFormDisplay = '';
+        
+        if (child.education_form && child.education_form.title) {
+          if (child.education_form.title === "дошкольник/ца") {
+            // Если форма "дошкольник/ца", проверяем пол
+            if (child.gender && child.gender.gender === "мальчик") {
+              educationFormDisplay = "дошкольник";
+            } else if (child.gender && child.gender.gender === "девочка") {
+              educationFormDisplay = "дошкольница";
+            } else {
+              // Если пол не указан или неопределен, но форма "дошкольник/ца"
+              educationFormDisplay = "дошкольник/ца"; 
+            }
+          } else if (child.education_form.title === "окончил(а) школу") {
+            // Логика для "окончил(а) школу"
+            if (child.gender && child.gender.gender === "мальчик") {
+              educationFormDisplay = "окончил школу";
+            } else if (child.gender && child.gender.gender === "девочка") {
+              educationFormDisplay = "окончила школу";
+            } else {
+              educationFormDisplay = "окончил(а) школу";
+            }
+          } else {
+            // Если форма обучения не "дошкольник/ца" и не "окончил(а) школу", используем её как есть
+            educationFormDisplay = child.education_form.title;
+          }
+        }
 
-              // Собираем части строки для отображения в Li
-              const childInfoParts = [];
+        // Собираем части строки для отображения в Li
+        const childInfoParts = [];
 
-              // Добавляем пол, если он есть
-              if (child.gender && child.gender.gender) {
-                childInfoParts.push(child.gender.gender);
-              }
+        // Добавляем пол, если он есть
+        if (child.gender && child.gender.gender) {
+          childInfoParts.push(child.gender.gender);
+        }
 
-              // Добавляем возраст
-              childInfoParts.push(calculateAge(child.birth_date));
+        // Добавляем возраст
+        childInfoParts.push(calculateAge(child.birth_date));
 
-              // Добавляем форму обучения, если она определена
-              if (educationFormDisplay) {
-                childInfoParts.push(educationFormDisplay);
-              }
+        // Добавляем форму обучения, если она определена
+        if (educationFormDisplay) {
+          childInfoParts.push(educationFormDisplay);
+        }
 
-              return (
-                <li key={child.id}>
-                  {childInfoParts.join(', ')}
-                </li>
-              );
-            })}
-          </ul>
-        </div>
-      )}
+        return (
+          <li key={child.id}>
+            {childInfoParts.join(', ')}
+          </li>
+        );
+      })}
+    </ul>
+  </div>
+)}
+
       </div>
-   
-      {/* блок: Описание семьи */}
-      {hasFamilyDescription && (
-        <div className="user-family-section">
-          <div><strong>О семье:</strong></div>
-          <p>{user.familyDescription}</p>
-        </div>
-      )}
-           
+             
       {/* блок: Фото семьи */}
       {hasFamilyImage && (
         <div className="user-family-image-section">
           <img src={user.familyImageUrl} />
         </div>
       )}   
+
+        {/* блок: Описание семьи */}
+      {hasFamilyDescription && (
+        <div className="user-family-section">
+          <div><strong>О семье:</strong></div>
+          <p>{user.familyDescription}</p>
+        </div>
+      )}
+
     {/* Блок с иконкой Telegram */}
   {user.telegramUsername && (
-    <div className="telegram-icon-container">
-      <a 
-        href={`https://t.me/${user.telegramUsername}`} 
-        target="_blank" 
-        rel="noopener noreferrer"
-        className="telegram-icon"
-      >
-        <FontAwesomeIcon icon={telegramIcon} size="2x" />
-      </a>
+    <div class="telegram-section">
+        <a 
+          href={`https://t.me/${user.telegramUsername.replace('@', '')}`} 
+          target="_blank" 
+          rel="noopener noreferrer"
+          className="telegram-icon"
+        >
+          <FontAwesomeIcon icon={telegramIcon} size="2x" />
+        </a>
     </div>
   )}
 </div>

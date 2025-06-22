@@ -76,26 +76,25 @@ const UserFilter = ({ onFilterChange, currentFilters }) => {
     };
 
  // Функции для выбора предложения
-   const handleSelectCountry = (country) => {
-        setSelectedCountry(country);
-        setSearchTermCountry(country.name_ru || country.name_en); // Устанавливаем название страны в поле ввода
-        setCountrySuggestions([]);
-        onFilterChange({ country_id: country.id });
-    };
+  const handleSelectCountry = (country) => {
+    setSelectedCountry(country);
+    setSearchTermCountry(country.name_ru || country.name_en); // Устанавливаем название страны в поле ввода
+    setCountrySuggestions([]);
+  };
 
-    const handleSelectRegion = (region) => {
-        setSelectedRegion(region);
-        setSearchTermRegion(region.name_ru || region.name_en); // Устанавливаем название региона в поле ввода
-        setRegionSuggestions([]);
-        onFilterChange({ admin1_code: region.id });
-    };
+  const handleSelectRegion = (region) => {
+    setSelectedRegion(region);
+    setSearchTermRegion(region.name_ru || region.name_en); // Устанавливаем название региона в поле ввода
+    setRegionSuggestions([]);
+  };
 
-    const handleSelectCity = (city) => {
-        setSelectedCity(city);
-        setSearchTermCity(city.name_ru || city.name_en); // Устанавливаем название города в поле ввода
-        setCitySuggestions([]);
-        onFilterChange({ city_id: city.id });
-    };
+  const handleSelectCity = (city) => {
+    setSelectedCity(city);
+    setSearchTermCity(city.name_ru || city.name_en); // Устанавливаем название города в поле ввода
+    setCitySuggestions([]);
+  };
+
+
 
  // Функция для очистки фильтров
     const handleClearFilters = () => {
@@ -111,28 +110,33 @@ const UserFilter = ({ onFilterChange, currentFilters }) => {
         onFilterChange({ country_id: null, admin1_code: null, city_id: null });
     };
 
-    // Функция для применения фильтров
-    const handleApplyFilters = () => {
-        onFilterChange({
-            country_id: selectedCountry ? selectedCountry.id : null,
-            admin1_code: selectedRegion ? selectedRegion.id : null,
-            city_id: selectedCity ? selectedCity.id : null,
-        });
-    };
-
+// Функция для применения фильтров
+const handleApplyFilters = () => {
+    onFilterChange({
+        country_id: selectedCountry ? selectedCountry.id : null,
+        admin1_code: selectedRegion ? selectedRegion.id : null,
+        city_id: selectedCity ? selectedCity.id : null,
+    });
+};
 
   return (
     <div>
+           <div>
             <input 
                 type="text" 
                 value={searchTermCountry} 
                 onChange={handleCountryChange} 
                 placeholder="Введите страну" 
+                className="form-control mb-2"
             />
             {countrySuggestions.length > 0 && (
-                <ul>
+                <ul className="list-group">
                     {countrySuggestions.map(suggestion => (
-                        <li key={suggestion.id} onClick={() => handleSelectCountry(suggestion)}>
+                        <li 
+                            key={suggestion.id} 
+                            onClick={() => handleSelectCountry(suggestion)}
+                            className="list-group-item list-group-item-action"
+                        >
                             {suggestion.name_ru || suggestion.name_en}
                         </li>
                     ))}
@@ -145,11 +149,16 @@ const UserFilter = ({ onFilterChange, currentFilters }) => {
                 onChange={handleRegionChange} 
                 placeholder="Введите регион" 
                 disabled={!selectedCountry}
+                className="form-control mb-2"
             />
             {regionSuggestions.length > 0 && (
-                <ul>
+                <ul className="list-group">
                     {regionSuggestions.map(suggestion => (
-                        <li key={suggestion.id} onClick={() => handleSelectRegion(suggestion)}>
+                        <li 
+                            key={suggestion.id} 
+                            onClick={() => handleSelectRegion(suggestion)}
+                            className="list-group-item list-group-item-action"
+                        >
                             {suggestion.name_ru || suggestion.name_en}
                         </li>
                     ))}
@@ -162,16 +171,22 @@ const UserFilter = ({ onFilterChange, currentFilters }) => {
                 onChange={handleCityChange} 
                 placeholder="Введите город" 
                 disabled={!selectedRegion}
+                className="form-control mb-2"
             />
-            {citySuggestions.length > 0 && (
-                <ul>
+             {citySuggestions.length > 0 && (
+                <ul className="list-group">
                     {citySuggestions.map(suggestion => (
-                        <li key={suggestion.id} onClick={() => handleSelectCity(suggestion)}>
+                        <li 
+                            key={suggestion.id} 
+                            onClick={() => handleSelectCity(suggestion)}
+                            className="list-group-item list-group-item-action"
+                        >
                             {suggestion.name_ru || suggestion.name_en}
                         </li>
                     ))}
                 </ul>
             )}
+        </div>
 
             <button 
             onClick={handleApplyFilters} 
