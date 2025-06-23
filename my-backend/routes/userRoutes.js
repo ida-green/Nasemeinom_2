@@ -5,12 +5,14 @@ const express = require('express');
 const User = require('../models/User.js');
 const Children = require('../models/Children.js');
 const authenticateToken = require('../middleware/auth.js');
-const { searchUsers } = require('../controllers/userController.js');
+const { searchUsers, getUserById } = require('../controllers/userController.js');
 
 const router = express.Router();
 
 // Маршрут для получения всех пользователей с их семьями и локациями
 router.get('/', searchUsers);
+
+router.get('/:id', getUserById);
 
 // Получение данных текущего пользователя
 router.get('/me', authenticateToken, async (req, res) => {

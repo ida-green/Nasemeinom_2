@@ -88,4 +88,59 @@ async function searchUsers(req, res) {
     }
 }
 
-module.exports = { searchUsers };
+// Функция для получения пользователя по ID
+const getUserById = async (req, res) => {
+  const userId = req.params.id; // Получаем ID пользователя из параметров запроса
+  try {
+    const user = await User.findByPk(userId, {
+      include: [
+        {
+          model: Children,
+          as: 'children', // Алиас для детей
+          include: [
+            {
+              model: EducationForm,
+              as: 'education_form', // Алиас для формы образования
+            },
+            {
+              model: Gender,
+              as: 'gender', // Алиас для пола
+            }
+          ]
+        },
+       {
+          model: Country,
+          as: 'country', // Алиас для страны
+          include: [
+            {
+              model: Region,
+              as: 'regions', // Исправлено на 'region'
+              include: [
+                {
+                  model: City,
+                  as: 'cities', // Исправлено на 'city'
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    });
+
+    if (!user) {
+      return res.status(404).json({ error: 'Пользователь не найден' });
+    }
+
+    res.json(user);
+  } catch (error) {
+    console.error('Ошибка при получении пользователя:', error);
+    res.status(500).json({ error: 'Ошибка при получении пользователя' });
+  }
+};
+
+module.exports = {
+  getUserById,
+};
+
+
+module.exports = { searchUsers, getUserById };

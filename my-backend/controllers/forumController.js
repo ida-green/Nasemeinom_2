@@ -40,7 +40,7 @@ const getPosts = async (req, res) => {
       include: [
         {
           model: User,
-          attributes: ['name', 'userImageUrl'],
+          attributes: ['id', 'name', 'userImageUrl'],
         },
         {
           model: Like, // Если нужно, можно добавить attributes и для Like

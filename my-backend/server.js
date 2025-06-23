@@ -181,8 +181,6 @@ User.belongsTo(Region, { foreignKey: 'region_id', as: 'region' });
 City.hasMany(User, { foreignKey: 'city_id' });
 User.belongsTo(City, { foreignKey: 'city_id', as: 'city' });
 
-
-
 EducationForm.hasMany(Children, { foreignKey: 'education_form_id' });
 Children.belongsTo(EducationForm, { foreignKey: 'education_form_id' });
 
@@ -282,27 +280,6 @@ sequelize.sync()
 */}
 
 
-
-// Маршрут для получения всех пользователей с их семьями и дополнительными данными
-app.get('/users', async (req, res) => {
-  try {
-    const users = await User.findAll({
-      include: [
-        {
-          model: Children,
-          include: [
-            EducationForm,
-            Gender,
-          ]
-        },
-      ]
-    });
-    res.json(users);
-  } catch (error) {
-    {/*console.error('Ошибка при получении пользователей:', error);*/}
-    res.status(500).json({ error: 'Ошибка при получении пользователей' });
-  }
-});
 //Пример маршрута для получения всех свободных школ
 app.get('/freeSchools', async (req, res) => {
  try {
@@ -312,40 +289,6 @@ app.get('/freeSchools', async (req, res) => {
     res.status(500).json({ error: 'Ошибка при получении свободных школ' });
   }
  });
-
- // Маршрут для получения одного пользователя по ID - для контекста
-app.get('/users/:id', async (req, res) => {
-  const userId = req.params.id; // Получаем ID пользователя из параметров запроса
-  try {
-    const user = await User.findByPk(userId, {
-      include: [
-        {
-          model: Children,
-          as: 'children',     // <-- Здесь указываете ТОТ ЖЕ АЛИАС, который определили в ассоциации
-          include: [
-            {
-              model: EducationForm,
-              as: 'education_form',
-            },  
-            {
-                model: Gender,
-                as: 'gender', // Используйте ТОТ ЖЕ алиас, что и в определении
-            }
-          ]
-        },
-      ]
-    });
-
-    if (!user) {
-      return res.status(404).json({ error: 'Пользователь не найден' }); // Обработка случая, если пользователь не найден
-    }
-
-    res.json(user); // Возвращаем данные о пользователе
-  } catch (error) {
-    console.error('Ошибка при получении пользователя:', error);
-    res.status(500).json({ error: 'Ошибка при получении пользователя' });
-  }
-});
 
 
 // Добавьте базовый маршрут для проверки работы сервера

@@ -6,7 +6,7 @@ import UFPChildren from './UFPChildren.js';
 import UFPDescription from './UFPDescription.js';
 import UFPFamilyDescription from './UFPFamilyDescription.js';
 import UFPFamilyImage from './UFPFamilyImage.js';
-import FamilyCard from './FamilyCard.js';
+
 
 const UserFamilyProfile = ({ user, locations, updateUser }) => {
     const [editedUser, setEditedUser] = useState({});
@@ -106,14 +106,7 @@ const UserFamilyProfile = ({ user, locations, updateUser }) => {
                                 <div>
                                     <div className="row">
                                         <div className="col-12 col-md-4">
-                                        <FamilyCard 
-                                        key={user.id} 
-                                        family={user}
-                                        children={children}
-                                        countryName={(user.countryName)}
-                                        regionName={(user.regionName)}
-                                        cityName={(user.cityName)}
-                                    />
+                                        
                                         </div>
                                         <div className="col-12 col-md-8">
                                             <div className="mb-3">Заполните и включите карточку, если вы хотите познакомиться с другими семьями на СО в вашем городе - общаться, дружить, создать локальное сообщество. Карточка вашей семьи отображается в разделе "Семьи". Карточка не должна содержать коммерческую информацию. 

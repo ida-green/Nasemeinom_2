@@ -6,6 +6,8 @@ import useAuth from '../../hooks/useAuth'; // Импортируем хук useA
 import CommentForm from './CommentForm';
 import EditPostForm from './EditPostForm';
 
+import UserCardModal from '../UserCardModal';
+
 import { useNotification } from '../../contexts/NotificationContext'; // Импортируем хук для уведомлений
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faHeart as solidHeart } from '@fortawesome/free-solid-svg-icons';
@@ -24,6 +26,10 @@ const Post = ({ post, setPosts, activeForm, setActiveForm, activeId, toggleForm 
   const { showAuthRequiredMessage } = useNotification();
   const [comments, setComments] = useState([]);
   
+  // Состояния для модального окна карточки пользователя
+  const [selectedUser, setSelectedUser] = useState(null);
+  const [modalIsOpen, setModalIsOpen] = useState(false);
+
   // Состояние для управления видимостью комментариев
   const [showComments, setShowComments] = useState(false);
   
@@ -42,10 +48,21 @@ const Post = ({ post, setPosts, activeForm, setActiveForm, activeId, toggleForm 
       sortBy: 'createdAt',
       order: 'DESC', // По умолчанию при загрузке комментариев сначала новые
   });
-  
-  
+    
   // Состояние для проверки возможности редактирования
   const [canUserEdit, setCanUserEdit] = useState(false); 
+
+  // Открываем профиль пользователя в модальном окне
+  const openModal = (user) => {
+        setSelectedUser(user);
+        setModalIsOpen(true);
+    };
+
+  // Закрываем профиль пользователя в модальном окне
+  const closeModal = () => {
+      setModalIsOpen(false);
+      setSelectedUser(null);
+  };
 
   // useEffect для пересчета возможности редактирования
     useEffect(() => {
@@ -86,9 +103,9 @@ const Post = ({ post, setPosts, activeForm, setActiveForm, activeId, toggleForm 
 
      // Общая логика для отображения кнопки
     const showEditButton = user && 
-                           user.id === post.user_id && 
-                           canUserEdit && // Проверка времени
-                           !(activeForm === 'editPost' && activeId === post.id); // Проверка, что форма закрыта
+    user.id === post.user_id && 
+    canUserEdit && // Проверка времени
+    !(activeForm === 'editPost' && activeId === post.id); // Проверка, что форма закрыта
 
 
   const toggleChildrenVisibility = (commentId) => {
@@ -333,8 +350,8 @@ const getCurrentSortValue = () => {
 
 // Функция для добавления лайка к посту
 const addLike = async () => {
-  if (!user || !user.id) { // Проверяем, существует ли user и есть ли у него id
-    showAuthRequiredMessage(); // Показываем уведомление о необходимости авторизации
+  if (!user || !user.id) { 
+    showAuthRequiredMessage(); 
     return;
   }
 
@@ -454,7 +471,18 @@ const handlePostUpdated = (updatedPost) => {
       <h2 className="post-title">{post.title}</h2>
 
       {/* Аватар пользователя и имя */}
-        <img className="comment-user-avatar" src={post.User.userImageUrl} alt={`Аватар пользователя ${post.User.name}`} />
+        <img 
+        className="comment-user-avatar" 
+        src={post.User.userImageUrl} 
+        alt={`Аватар пользователя ${post.User.name}`}
+        onClick={() => openModal(post.User)} />
+
+        <UserCardModal 
+            isOpen={modalIsOpen} 
+            onRequestClose={closeModal} 
+            userId={post.User.id} 
+        />
+
         <div className="post-user-name">{post.User.name}</div>
       
       {/* Содержимое поста */}
