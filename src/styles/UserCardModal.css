@@ -1,0 +1,123 @@
+.user-profile-modal {
+    /* Стили для модального окна */
+    background-color: white; /* Цвет фона */
+    border-radius: 8px; /* Закругленные углы */
+    padding: 20px; /* Отступы */
+    max-width: 500px; /* Максимальная ширина */
+    margin: auto; /* Центрирование */
+    overflow: hidden; /* Прятать переполнение */
+}
+
+.user-card {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap; /* Оставим для адаптивности на меньших экранах */
+  gap: 15px;
+  border: 1px solid var(--bg-color);
+  border-radius: 5px;
+  padding: 20px;
+  background-color: var(--bg-color);
+  box-shadow: 0 4px 8px var(--grey-color);
+  max-width: 1200px; /* Максимальная ширина всей карточки */
+  margin: 30px auto;
+  font-size: 0.9rem;
+}
+
+.user-card-header-inner {
+    display: flex;
+    align-items: center;
+}
+
+.user-card-avatar {
+    width: 50px; /* Ширина аватара */
+    height: 50px; /* Высота аватара */
+    border-radius: 50%; /* Круглая форма */
+}
+
+.close-modal-button:hover {
+    opacity: 0.7; /* Эффект при наведении */
+}
+
+  .modal {
+  display: none; /* Скрываем модальное окно по умолчанию */
+  opacity: 0;
+  transition: opacity 0.3s ease; /* Плавный переход для opacity */
+}
+
+.modal.show {
+  display: block; /* Показываем модальное окно */
+  opacity: 1; /* Увеличиваем прозрачность до 1 */
+}
+
+@media (min-width: 1200px) { /* Применяем эти стили только на широких экранах */
+    .user-main-info {
+        flex: 0 0 280px; /* flex-grow: 0, flex-shrink: 0, flex-basis: 280px */
+        /* Остается прежним, так как это важная секция */
+    }
+    .user-children-section {
+        flex: 0 0 280px; /* flex-grow: 0, flex-shrink: 0, flex-basis: 280px */
+        /* Остается прежним, так как это важная секция */
+    }
+    .user-family-section {
+        /* Уменьшаем flex-basis с 350px до 300px (-50px) */
+        flex: 1 0 200px;
+        /* flex-grow: 1 позволит ей расти, если экран шире 1200px, но не меньше 300px */
+    }
+    .user-family-image-section {
+        /* Уменьшаем flex-basis с 300px до 280px (-20px) */
+        flex: 1 0 280px;
+        /* flex-grow: 1 позволит ей расти, если экран шире 1200px, но не меньше 280px */
+    }
+    .telegram-section {
+        flex: 0 0 50px; /* Устанавливаем фиксированную ширину для секции с иконкой */
+        display: flex;
+        align-items: center; /* Центрируем иконку по вертикали */
+        justify-content: center; /* Центрируем иконку по горизонтали */
+        background-color: #f3f3f3; /* Цвет фона для визуального отделения (по желанию) */
+        
+    }
+}
+
+
+/* --- Медиа-запросы для адаптации: карточка становится ВЕРТИКАЛЬНОЙ --- */
+
+/* Планшеты и узкие десктопы (до 1024px включительно) */
+@media (max-width: 1024px) {
+  .user-card {
+    flex-direction: column; /* ГЛАВНОЕ ИЗМЕНЕНИЕ: Основные секции располагаются ВЕРТИКАЛЬНО */
+    padding: 15px;
+    gap: 15px;
+  }
+
+  .user-main-info,
+  .user-children-section,
+  .user-family-section,
+  .telegram-section {
+    flex: 1 1 100%; /* Каждая секция занимает 100% ширины и может сжиматься/расширяться */
+    min-width: unset; /* Снимаем жесткие минимальные ширины, позволяя блокам сужаться */
+    padding: 8px;
+  }
+}
+
+/* Смартфоны (до 767px включительно) */
+@media (max-width: 767px) {
+  .user-card {
+    padding: 10px;
+    gap: 10px;
+    margin: 10px;
+    font-size: .8rem;
+  }
+
+  /* Аватар и инфо о пользователе внутри основного блока тоже выстраиваются вертикально */
+  .user-card-header-inner {
+    flex-direction: column;
+    text-align: center;
+    gap: 10px;
+    margin-bottom: 10px;
+    padding-bottom: 10px;
+  }
+
+  .user-name {
+    font-size: 1.2em;
+  }
+}

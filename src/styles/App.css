@@ -197,7 +197,8 @@ img {
 }
 
 .custom-button:hover {
-  color: var(--contrast-color); /* Плавный эффект при наведении */
+  color: var(--contrast-color);
+  background-color: var(--light-grey-color); /* Плавный эффект при наведении */
 }
 
 .add-to-cart-button {

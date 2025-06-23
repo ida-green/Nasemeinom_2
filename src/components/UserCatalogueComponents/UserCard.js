@@ -163,7 +163,7 @@ const UserCard = ({ user }) => {
 
     {/* Блок с иконкой Telegram */}
   {user.telegramUsername && (
-    <div class="telegram-section">
+    <div className="telegram-section">
         <a 
           href={`https://t.me/${user.telegramUsername.replace('@', '')}`} 
           target="_blank" 

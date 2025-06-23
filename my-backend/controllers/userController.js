@@ -110,20 +110,16 @@ const getUserById = async (req, res) => {
         },
        {
           model: Country,
-          as: 'country', // Алиас для страны
-          include: [
-            {
-              model: Region,
-              as: 'regions', // Исправлено на 'region'
-              include: [
-                {
-                  model: City,
-                  as: 'cities', // Исправлено на 'city'
-                }
-              ]
-            }
-          ]
-        }
+          as: 'country',
+       },   
+      {
+          model: Region,
+          as: 'region',
+      },    
+      {
+          model: City,
+          as: 'city', 
+      }    
       ]
     });
 

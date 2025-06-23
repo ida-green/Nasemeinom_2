@@ -55,14 +55,6 @@
   object-fit: cover; /* Это важно, чтобы изображение не искажалось и обрезалось по размеру */
 }
 
-/* Для иконки на всю ширину карточки 
-.telegram-icon-container {
-  width: 100%; 
-  text-align: center; 
-  margin-top: 20px; 
-}
-*/
-
 /* --- Внутренние стили секций (без изменений, т.к. не влияют на основную адаптацию) --- */
 .user-card-header-inner {
   display: flex;
@@ -153,6 +145,18 @@
       
   }
 
+  .modal-content {
+    overflow: hidden; /* Скрыть полосу прокрутки */
+    touch-action: pan-y; /* Разрешить вертикальную прокрутку */
+    max-height: 90vh; /* Ограничить высоту модального окна */
+    overflow-y: auto; /* Позволить вертикальную прокрутку */
+    -webkit-overflow-scrolling: touch; /* Для плавной прокрутки на iOS */
+}
+
+.modal-card-buttons-section {
+
+}
+
 /* --- Десктопные стили: распределение ширины для ГАРАНТИРОВАННОГО горизонтального layout --- */
 /*
   flex-basis: определяет предпочтительный размер элемента до распределения оставшегося пространства.
@@ -215,7 +219,7 @@
   .user-card {
     padding: 10px;
     gap: 10px;
-    margin: 10px;
+    margin: 0px;
     font-size: .8rem;
   }
 

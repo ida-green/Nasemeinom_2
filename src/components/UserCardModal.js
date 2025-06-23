@@ -1,9 +1,9 @@
 // UserProfileModal.js
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import '../styles/UserCard.css';
+import '../styles/UserCardModal.css';
 import Modal from 'react-modal';
-import { getInitials } from '../utils';
+import { getInitials } from '../utils'
 import calculateAge from '../utils/calculateAge';
 import { DEFAULT_AVATAR_URL } from '../utils';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -16,7 +16,6 @@ const UserCardModal = ({ isOpen, onRequestClose, userId }) => {
 
     useEffect(() => {
         const fetchUser = async () => {
-            console.log('userId в модельном', userId)
             if (!userId) return; // Если нет userId, ничего не делаем
 
             setLoading(true);
@@ -43,7 +42,7 @@ const UserCardModal = ({ isOpen, onRequestClose, userId }) => {
     const hasFamilyImage = user.familyImageUrl;
     const hasFamilyDescription = user.familyDescription && user.familyDescription.trim() !== '';
     return (
-        <Modal isOpen={isOpen} onRequestClose={onRequestClose} ariaHideApp={false} className="user-profile-modal">
+        <Modal isOpen={isOpen} onRequestClose={onRequestClose} ariaHideApp={false} >
             <div className="user-card"> {/* Главный контейнер карточки */}
                 <div className="user-main-info">
                     <div className="user-card-header-inner">
@@ -65,23 +64,31 @@ const UserCardModal = ({ isOpen, onRequestClose, userId }) => {
                         <div className="user-info">
                             <h2 className="user-name">{user.name}</h2>
                             {user.country && user.country.name_ru && (
-                                <p className="user-card-location">
-                                    {(() => {
-                                        let cityDisplayName = user.city?.name_ru;
-                                        let regionDisplayName = user.region?.name_ru;
-                                        let countryDisplayName = user.country.name_ru;
-                                        if (cityDisplayName && regionDisplayName && cityDisplayName === regionDisplayName) {
-                                            regionDisplayName = null;
-                                        }
-                                        const locationParts = [
-                                            cityDisplayName,
-                                            regionDisplayName,
-                                            countryDisplayName
-                                        ].filter(Boolean);
-                                        return locationParts.join(', ');
-                                    })()}
-                                </p>
-                            )}
+              <p className="user-card-location">
+                {(() => {
+                  // Инициализируем переменные для отображаемых частей
+                  let cityDisplayName = user.city?.name_ru;
+                  let regionDisplayName = user.region?.name_ru;
+                  let countryDisplayName = user.country.name_ru;
+
+                  // Проверяем условие: если город и регион существуют И их названия совпадают
+                  if (cityDisplayName && regionDisplayName && cityDisplayName === regionDisplayName) {
+                    regionDisplayName = null; // Устанавливаем регион в null, чтобы он был отфильтрован
+                  }
+
+                  // Собираем части адреса в желаемом порядке
+                  // Сначала город, потом регион (который может быть null), потом страна
+                  const locationParts = [
+                    cityDisplayName,
+                    regionDisplayName,
+                    countryDisplayName
+                  ].filter(Boolean); // Отфильтровываем все falsy значения (null, undefined, пустые строки)
+
+                  // Объединяем оставшиеся части запятыми
+                  return locationParts.join(', ');
+                })()}
+              </p>
+            )}
                         </div>
                     </div>
                     {hasDescription && (
@@ -134,7 +141,31 @@ const UserCardModal = ({ isOpen, onRequestClose, userId }) => {
                         <p>{user.familyDescription}</p>
                     </div>
                 )}
-                <button onClick={onRequestClose} className="close-modal-button">Закрыть</button>
+                
+                {/* Блок с иконкой Telegram */}
+                  {user.telegramUsername && (
+                    <div className="telegram-section">
+                        <a 
+                          href={`https://t.me/${user.telegramUsername.replace('@', '')}`} 
+                          target="_blank" 
+                          rel="noopener noreferrer"
+                          className="telegram-icon"
+                        >
+                          <FontAwesomeIcon icon={telegramIcon} size="2x" />
+
+                        </a>
+                    </div>
+                  )}
+
+            {/* Кнопка "Закрыть" */}
+             <button 
+                onClick={onRequestClose} 
+                className="custom-button"
+                aria-label="Закрыть модальное окно"
+            >
+                Закрыть
+            </button>
+
             </div>
         </Modal>
     );
