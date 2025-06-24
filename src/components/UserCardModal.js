@@ -9,19 +9,20 @@ import { DEFAULT_AVATAR_URL } from '../utils';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTelegram as telegramIcon } from '@fortawesome/free-brands-svg-icons';
 
-const UserCardModal = ({ isOpen, onRequestClose, userId }) => {
-    const [user, setUser] = useState(null); // Состояние для хранения пользователя
-    const [loading, setLoading] = useState(true); // Состояние загрузки
-    const [error, setError] = useState(null); // Состояние для ошибок
+const UserCardModal = ({ isOpen, onRequestClose, selectedUserId }) => {
+    const [user, setUser] = useState(null);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(null);
 
-    useEffect(() => {
+     useEffect(() => {
         const fetchUser = async () => {
-            if (!userId) return; // Если нет userId, ничего не делаем
+            if (!selectedUserId) return;
+
 
             setLoading(true);
             setError(null);
             try {
-                const response = await axios.get(`http://localhost:3000/api/users/${userId}`); 
+                const response = await axios.get(`http://localhost:3000/api/users/${selectedUserId}`);
                 setUser(response.data);
             } catch (err) {
                 setError('Ошибка при загрузке пользователя');
@@ -30,17 +31,26 @@ const UserCardModal = ({ isOpen, onRequestClose, userId }) => {
             }
         };
 
-        fetchUser();
-    }, [userId, isOpen]); // Запускаем эффект при изменении userId или isOpen
+        if (isOpen) {
+            fetchUser();
+        }
+    }, [selectedUserId, isOpen]);
 
-    if (loading) return <div>Загрузка...</div>; // Показываем индикатор загрузки
-    if (error) return <div>{error}</div>; // Показываем ошибку, если она есть
-    if (!user) return null; // Если пользователя нет, ничего не отображаем
+    if (!isOpen) return null;
 
+    // Проверяем состояние загрузки и ошибки
+    if (loading) return <p>Загрузка...</p>;
+    if (error) return <p>{error}</p>;
+
+    // Проверяем, существует ли пользователь
+    if (!user) return <p>Пользователь не найден.</p>;
+
+    // Проверяем наличие необходимых данных
     const hasDescription = user.description && user.description.trim() !== '';
     const hasChildren = user.children && user.children.length > 0;
     const hasFamilyImage = user.familyImageUrl;
     const hasFamilyDescription = user.familyDescription && user.familyDescription.trim() !== '';
+
     return (
         <Modal isOpen={isOpen} onRequestClose={onRequestClose} ariaHideApp={false} >
             <div className="user-card"> {/* Главный контейнер карточки */}

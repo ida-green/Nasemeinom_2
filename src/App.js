@@ -9,6 +9,7 @@ import { FavouriteProvider } from './contexts/FavouriteContext';
 import { CartProvider } from './contexts/CartContext'; 
 import { NotificationProvider } from './contexts/NotificationContext';
 import { ErrorProvider } from './contexts/ErrorContext.js'; // Контекст для сообщения об ошибке
+import { UserModalProvider } from './contexts/UserModalContext.js';
 
 import Header from './components/Header.js';
 import Footer from './components/Footer.js';
@@ -40,6 +41,7 @@ function App() {
             <CartProvider>
               <CoursePriceProvider>
                 <FavouriteProvider>
+                  <UserModalProvider>
                   <div className="App">
                     <Header />
                     <div className="wrapper">
@@ -65,6 +67,7 @@ function App() {
                     </div>
                     <Footer />
                   </div>
+                  </UserModalProvider>
                   </FavouriteProvider>
               </CoursePriceProvider>
             </CartProvider>

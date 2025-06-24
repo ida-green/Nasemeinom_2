@@ -14,6 +14,8 @@ import 'react-quill/dist/quill.snow.css'; // Подключите это в ва
 import parse from 'html-react-parser'; // Для отображения постов со ссылками
 import { useLinkWarning } from '../../hooks/useLinkWarning'; // Обновите путь к хуку
 import EditCommentForm from './EditCommentForm';
+import { useUserModal } from '../../contexts/UserModalContext';
+import UserCardModal from '../UserCardModal';
 
 const Comment = ({ 
   comment, comments, setComments, 
@@ -24,6 +26,8 @@ const Comment = ({
   
   const { user, token } = useAuth(); // Получаем информацию о том, авторизован ли пользователь
   const { showAuthRequiredMessage } = useNotification();
+  const { openModal, modalIsOpen, closeModal, selectedUserId } = useUserModal();
+
   const childComments = Array.isArray(comments) ? comments.filter(c => c.parent_id === comment.id) : [];
   const [isCommentPulsing, handleCommentClick] = usePulsate();
 
@@ -33,9 +37,9 @@ const Comment = ({
   const [isHeartPulsing, handleHeartClick] = usePulsate(); // Для пульсации сердечка
 
   // Состояние для проверки возможности редактирования
-    const [canUserEdit, setCanUserEdit] = useState(false); 
+  const [canUserEdit, setCanUserEdit] = useState(false); 
 
-   // useEffect для пересчета возможности редактирования
+  // useEffect для пересчета возможности редактирования
       useEffect(() => {
           if (!comment || !comment.createdAt) {
               setCanUserEdit(false);
@@ -233,7 +237,18 @@ const parentCommentPlainText = getPlainTextFromHtml(parentCommentContentHtml);
         <div className="post-meta">
         <time dateTime={comment.createdAt}>{new Date(comment.createdAt).toLocaleString()}</time>
       </div>
-        <img className="comment-user-avatar" src={comment.User.userImageUrl} alt={`${comment.User.name}аватар пользователя`} />
+        <img 
+        className="comment-user-avatar" 
+        src={comment.User.userImageUrl} 
+         alt={`Аватар пользователя ${comment.User.name}`}
+        onClick={() => openModal(comment.User.id)} />
+
+        <UserCardModal
+            isOpen={modalIsOpen}
+            onRequestClose={closeModal}
+            selectedUserId={selectedUserId} // Используем selectedUserId из контекста
+        />
+
         <div className="comment-user-name mt-1">{comment.User.name}</div>
         {comment.parent_id ? (
           <div className="parent-comment-link">

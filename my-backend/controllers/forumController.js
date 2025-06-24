@@ -98,7 +98,7 @@ const getCommentsByPostId = async (req, res) => {
       include: [
         {
           model: User,
-          attributes: ['name', 'userImageUrl'],
+          attributes: ['id', 'name', 'userImageUrl'],
         },
         {
           model: Like, // Включаем модель Likes для подсчета

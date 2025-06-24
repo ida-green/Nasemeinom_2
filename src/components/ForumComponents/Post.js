@@ -5,7 +5,7 @@ import usePulsate from '../../hooks/usePulsate';
 import useAuth from '../../hooks/useAuth'; // Импортируем хук useAuth
 import CommentForm from './CommentForm';
 import EditPostForm from './EditPostForm';
-
+import { useUserModal } from '../../contexts/UserModalContext';
 import UserCardModal from '../UserCardModal';
 
 import { useNotification } from '../../contexts/NotificationContext'; // Импортируем хук для уведомлений
@@ -24,12 +24,10 @@ const Post = ({ post, setPosts, activeForm, setActiveForm, activeId, toggleForm 
   
   const { user, token } = useAuth(); // <-- Получаем и user, и token
   const { showAuthRequiredMessage } = useNotification();
+  const { openModal, modalIsOpen, closeModal, selectedUserId } = useUserModal();
+
   const [comments, setComments] = useState([]);
   
-  // Состояния для модального окна карточки пользователя
-  const [selectedUser, setSelectedUser] = useState(null);
-  const [modalIsOpen, setModalIsOpen] = useState(false);
-
   // Состояние для управления видимостью комментариев
   const [showComments, setShowComments] = useState(false);
   
@@ -51,19 +49,7 @@ const Post = ({ post, setPosts, activeForm, setActiveForm, activeId, toggleForm 
     
   // Состояние для проверки возможности редактирования
   const [canUserEdit, setCanUserEdit] = useState(false); 
-
-  // Открываем профиль пользователя в модальном окне
-  const openModal = (user) => {
-        setSelectedUser(user);
-        setModalIsOpen(true);
-    };
-
-  // Закрываем профиль пользователя в модальном окне
-  const closeModal = () => {
-      setModalIsOpen(false);
-      setSelectedUser(null);
-  };
-
+  
   // useEffect для пересчета возможности редактирования
     useEffect(() => {
         if (!post || !post.createdAt) {
@@ -475,12 +461,11 @@ const handlePostUpdated = (updatedPost) => {
         className="comment-user-avatar" 
         src={post.User.userImageUrl} 
         alt={`Аватар пользователя ${post.User.name}`}
-        onClick={() => openModal(post.User)} />
-
-        <UserCardModal 
-            isOpen={modalIsOpen} 
-            onRequestClose={closeModal} 
-            userId={post.User.id} 
+        onClick={() => openModal(post.User.id)} />
+        <UserCardModal
+            isOpen={modalIsOpen}
+            onRequestClose={closeModal}
+            selectedUserId={selectedUserId} // Используем selectedUserId из контекста
         />
 
         <div className="post-user-name">{post.User.name}</div>
