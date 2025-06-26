@@ -21,7 +21,7 @@ export const AuthProvider = ({ children }) => {
           const decodedToken = jwtDecode(token);
           const userId = decodedToken.id;
 
-          const response = await axios.get(`http://localhost:3000/users/${userId}`, {
+          const response = await axios.get(`http://localhost:3000/api/users/${userId}`, {
             headers: {
               Authorization: `Bearer ${token}`,
             },

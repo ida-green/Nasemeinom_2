@@ -120,8 +120,8 @@ Course.belongsTo(PriceHistory, { foreignKey: 'pricehistory_id' });
 
 
 // Ассоциации для корзины
-Cart.belongsTo(User, { foreignKey: 'user_id', as: 'users' });
-User.hasMany(Cart, { foreignKey: 'user_id', as: 'carts' });
+Cart.belongsTo(User, { foreignKey: 'userId', as: 'users' });
+User.hasMany(Cart, { foreignKey: 'userId', as: 'carts' });
 
 Cart.belongsToMany(Course, { through: CartCourse, foreignKey: 'cartId', as: 'courses' });
 Course.belongsToMany(Cart, { through: CartCourse, foreignKey: 'courseId', as: 'carts' });
