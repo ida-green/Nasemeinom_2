@@ -145,6 +145,11 @@
       
   }
 
+  .inactive {
+  color: var(--grey-color);
+  pointer-events: none; /* отключаем кликабельность */
+}
+
   .modal-content {
     overflow: hidden; /* Скрыть полосу прокрутки */
     touch-action: pan-y; /* Разрешить вертикальную прокрутку */
@@ -153,9 +158,7 @@
     -webkit-overflow-scrolling: touch; /* Для плавной прокрутки на iOS */
 }
 
-.modal-card-buttons-section {
 
-}
 
 /* --- Десктопные стили: распределение ширины для ГАРАНТИРОВАННОГО горизонтального layout --- */
 /*

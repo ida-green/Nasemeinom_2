@@ -57,6 +57,10 @@ User.init({
     primaryKey: true,
     autoIncrement: true,
   },
+  paidUser: {
+    type: DataTypes.TINYINT(1),
+    allowNull: true,
+},
   name: {
     type: DataTypes.STRING,
     allowNull: false,
@@ -67,7 +71,7 @@ User.init({
   },
   login: {
     type: DataTypes.STRING,
-    allowNull: false,
+    allowNull: true,
     unique: true, // Сделаем логин уникальным
   },
   password: {
@@ -76,7 +80,7 @@ User.init({
   },
   telegramUsername: {
     type: DataTypes.STRING,
-    allowNull: false, // Убедитесь, что это поле обязательно
+    allowNull: true,
     unique: true, // Добавьте уникальность, если это необходимо
     validate: {
       is: /^[a-zA-Z0-9_]{5,32}$/ // Проверка на соответствие формату Telegram username
@@ -126,11 +130,7 @@ User.init({
     type: DataTypes.STRING,
     allowNull: true,
   },
-  familyCardOnOff: {
-    type: DataTypes.BOOLEAN,
-    allowNull: true,
-  },
-  userImageUrl: {
+   userImageUrl: {
     type: DataTypes.STRING,
     allowNull: true,
   },

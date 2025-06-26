@@ -26,7 +26,7 @@ async function searchUsers(req, res) {
         }
 
         const { count, rows } = await User.findAndCountAll({
-            attributes: ['id', 'userImageUrl', 'name', 'telegramUsername', 'description', 'familyDescription', 'familyImageUrl', 'last_online_at'],
+            attributes: ['id', 'paidUser', 'userImageUrl', 'name', 'telegramUsername', 'description', 'familyDescription', 'familyImageUrl', 'last_online_at'],
             where: whereCondition,
             include: [
                 {
@@ -44,7 +44,7 @@ async function searchUsers(req, res) {
                 {
                     model: City,
                     as: 'city',
-                    attributes: ['id', 'country_id', 'admin1_code', 'name_en', 'name_ru', 'latitude', 'longitude'],
+                    attributes: ['id', 'country_id', 'admin1_code', 'name_en', 'name_ru' ],
                     required: false
                 },
                 {

@@ -1,3 +1,4 @@
+require('dotenv').config(); 
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const express = require('express');
@@ -7,22 +8,21 @@ const router = express.Router();
 const User = require('../models/User.js');
 const Cart = require('../models/Cart.js');
 const { Op } = require('sequelize'); 
-require('dotenv/config');
 const { ImapFlow } = require('imapflow');
-   
+
 const secretKey = process.env.JWT_SECRET; 
 const authenticateToken = require('../middleware/auth.js'); 
+
 
 // Функция для обработки ошибок
 const handleError = (res, message, statusCode = 500) => {
     return res.status(statusCode).json({ message });
 };
-console.log('Email:', process.env.EMAIL_USER);
-console.log('Password:', process.env.EMAIL_PASS);
+
 
 // Обработчик регистрации
 router.post('/register', async (req, res) => {
-    const { name, login, email, password } = req.body;
+    const { name, email, password } = req.body;
 
     // Проверка на существование пользователя
     const existingUser = await User.findOne({ where: { email } });
@@ -33,12 +33,12 @@ router.post('/register', async (req, res) => {
     try {
         // Хеширование пароля
         const hashedPassword = await bcrypt.hash(password, 10);
-        const newUser = new User({ name, login, email, password: hashedPassword });
+        const newUser = new User({ name, email, password: hashedPassword });
 
         await newUser.save();
 
         // Создание корзины для нового пользователя
-        const newCart = await Cart.create({ userId: newUser.id });
+        const newCart = await Cart.create({ user_id: newUser.id });
         console.log('Корзина создана:', newCart);
 
         // Генерация токена для подтверждения
@@ -46,6 +46,8 @@ router.post('/register', async (req, res) => {
         newUser.confirmationToken = token; 
         await newUser.save();
 
+        console.log('EMAIL_USER в authRoutes:', process.env.EMAIL_USER);
+        console.log('EMAIL_PASS в authRoutes:', process.env.EMAIL_PASS);
         // Настройка Nodemailer
         const transporter = nodemailer.createTransport({
             pool: true,
@@ -66,8 +68,13 @@ router.post('/register', async (req, res) => {
         };
 
         // Отправка письма
-        await transporter.sendMail(mailOptions);
-        console.log('Письмо отправлено');
+        try {
+            await transporter.sendMail(mailOptions);
+            console.log('Письмо отправлено');
+        } catch (error) {
+            console.error('Ошибка при отправке письма:', error);
+            return handleError(res, 'Ошибка при отправке письма.');
+        }
 
         // Отправляем ответ пользователю
         return res.status(201).json({ message: 'Пользователь успешно зарегистрирован. Проверьте вашу почту для подтверждения.' });
@@ -79,10 +86,10 @@ router.post('/register', async (req, res) => {
 
 // Проверка существования пользователя
 router.post('/check-user', async (req, res) => {
-    const { email, login } = req.body; // Убираем name
+    const { email } = req.body; // Убираем name
 
-    if (!email && !login) {
-        return handleError(res, 'Email или login должны быть указаны', 400);
+    if (!email) {
+        return handleError(res, 'Email должен быть указан', 400);
     }
 
     try {
@@ -90,7 +97,6 @@ router.post('/check-user', async (req, res) => {
             where: {
                 [Op.or]: [
                     email ? { email } : null,
-                    login ? { login } : null,
                 ].filter(Boolean)
             }
         });

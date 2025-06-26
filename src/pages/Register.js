@@ -41,11 +41,7 @@ const Register = () => {
                 errors.phone = 'Введите корректный номер телефона';
             }
         }
-        
-        if (!login) {
-            errors.login = 'Логин обязателен для заполнения';
-        }
-        
+               
         if (!password) {
             errors.password = 'Пароль обязателен для заполнения';
         } else if (password.length < 6) {
@@ -81,7 +77,7 @@ const Register = () => {
    
             if (checkResponse.data.exists) {
                 // Если пользователь существует, устанавливаем ошибку
-                setError('Пользователь с таким email или логином уже существует.');
+                setError('Пользователь с таким email уже существует.');
                 return;
             }
     
@@ -89,7 +85,6 @@ const Register = () => {
             const response = await axios.post('http://localhost:3000/auth/register', {
                 name,
                 email,
-                login,
                 phone,
                 password
             }, {
@@ -106,7 +101,6 @@ const Register = () => {
                 setName('');
                 setEmail('');
                 setPhone('');
-                setLogin('');
                 setPassword('');
             } else {
                 setError(response.data.message || 'Произошла ошибка при регистрации');
@@ -191,9 +185,10 @@ const Register = () => {
                                                 onChange={(e) => setPhone(e.target.value)} />
                                             {validationErrors.phone && <div className="invalid-feedback">{validationErrors.phone}</div>}
                                         </div>
-
+                                       
+                                        {/*
                                         <div className="mb-3">
-                                            <label htmlFor="login" className="form-label required">Логин</label>
+                                            <label htmlFor="login" className="form-label required"></label>
                                             <input 
                                             type="text"
                                             className={`form-control ${validationErrors.login ? 'is-invalid' : ''}`}
@@ -203,6 +198,7 @@ const Register = () => {
                                                 onChange={(e) => setLogin(e.target.value)} />
                                             {validationErrors.login && <div className="invalid-feedback">{validationErrors.login}</div>}
                                         </div>
+                                        */}
 
                                         <div className="mb-3">
                                             <label htmlFor="password" className="form-label required">Пароль</label>

@@ -1,12 +1,11 @@
-const sequelize = require('./database.js'); // Импортируем sequelize
-require('dotenv/config'); 
+require('dotenv').config();
+const sequelize = require('./database.js'); 
 const express = require('express');
 const cors = require('cors');
 
 const app = express();
-const PORT = process.env.PORT || 3000; // Исправлено: добавлено || 3000
-const API_URL = process.env.API_URL || `http://localhost:${PORT}`; // Исправлено: добавлено || `http://localhost:${PORT}`
-
+const PORT = process.env.PORT || 3000; 
+const API_URL = process.env.API_URL || `http://localhost:${PORT}`; 
 
 // 1. Маршруты для авторизации (регистрация, логин)
 const authRoutes = require('./routes/authRoutes.js');
@@ -121,8 +120,8 @@ Course.belongsTo(PriceHistory, { foreignKey: 'pricehistory_id' });
 
 
 // Ассоциации для корзины
-Cart.belongsTo(User, { foreignKey: 'userId', as: 'users' });
-User.hasMany(Cart, { foreignKey: 'userId', as: 'carts' });
+Cart.belongsTo(User, { foreignKey: 'user_id', as: 'users' });
+User.hasMany(Cart, { foreignKey: 'user_id', as: 'carts' });
 
 Cart.belongsToMany(Course, { through: CartCourse, foreignKey: 'cartId', as: 'courses' });
 Course.belongsToMany(Cart, { through: CartCourse, foreignKey: 'courseId', as: 'carts' });
@@ -306,7 +305,6 @@ app.use((err, req, res, next) => {
     console.error(err.stack);
     res.status(500).send('Что-то пошло не так!');
 });
-
 
 // Синхронизация моделей и запуск сервера
 const startServer = async () => {

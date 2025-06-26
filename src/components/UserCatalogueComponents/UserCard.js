@@ -162,18 +162,20 @@ const UserCard = ({ user }) => {
       )}
 
     {/* Блок с иконкой Telegram */}
-  {user.telegramUsername && (
-    <div className="telegram-section">
-        <a 
-          href={`https://t.me/${user.telegramUsername.replace('@', '')}`} 
-          target="_blank" 
-          rel="noopener noreferrer"
-          className="telegram-icon"
-        >
-          <FontAwesomeIcon icon={telegramIcon} size="2x" />
-        </a>
-    </div>
+ <div className="telegram-section">
+  {user.telegramUsername ? (
+    <a 
+      href={`https://t.me/${user.telegramUsername.replace('@', '')}`} 
+      target="_blank" 
+      rel="noopener noreferrer"
+      className={`telegram-icon ${user.paidUser ? '' : 'inactive'}`} // добавляем класс inactive, если user.paidUser = false
+    >
+      <FontAwesomeIcon icon={telegramIcon} size="2x" />
+    </a>
+  ) : (
+    <FontAwesomeIcon icon={telegramIcon} size="2x" className="inactive" /> // отображаем иконку в сером цвете, если нет username
   )}
+</div>
 </div>
     
   );

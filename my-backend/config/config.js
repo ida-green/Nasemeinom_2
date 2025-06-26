@@ -5,6 +5,12 @@ const developmentConfig = {
   database: "db04",
   host: "localhost",
   dialect: "mariadb",
+  logging: (msg) => {
+        // Логируем только ошибки
+        if (msg.includes('ERROR')) {
+            console.error(msg);
+        }
+    },
   port: 3306
 };
 
