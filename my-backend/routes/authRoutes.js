@@ -45,9 +45,7 @@ router.post('/register', async (req, res) => {
         const token = crypto.randomBytes(32).toString('hex');
         newUser.confirmationToken = token; 
         await newUser.save();
-
-        console.log('EMAIL_USER в authRoutes:', process.env.EMAIL_USER);
-        console.log('EMAIL_PASS в authRoutes:', process.env.EMAIL_PASS);
+        
         // Настройка Nodemailer
         const transporter = nodemailer.createTransport({
             pool: true,

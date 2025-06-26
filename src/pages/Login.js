@@ -37,7 +37,7 @@ const Login = () => {
                     <div className="col-12">
                         <div className="page-login bg-white p-3">
                             <h1 className="section-title h3"><span>Вход</span></h1>
-                            {error && <div className="alert alert-danger">{error}</div>} {/* Отображение ошибки */}
+                            {error && <div className="alert alert-danger">{error.message || error}</div>} {/* Отображение ошибки */}
                             <div className="row">
                                 <div className="col-md-6 offset-md-3">
                                     <form onSubmit={handleSubmit} className="needs-validation" noValidate>

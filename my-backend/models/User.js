@@ -57,7 +57,7 @@ User.init({
     primaryKey: true,
     autoIncrement: true,
   },
-  paidUser: {
+  isSubscribed: {
     type: DataTypes.TINYINT(1),
     allowNull: true,
 },

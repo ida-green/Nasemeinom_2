@@ -26,7 +26,7 @@ import Articles from './pages/Articles.js';
 import Attestation from './pages/Attestation.js';
 import Leagal from './pages/Leagal.js';
 import Forum from './components/ForumComponents/Forum.js';
-import Dashboard from './pages/Dashboard.js';
+import Dashboard from './components/DashboardComponents/Dashboard.js';
 import ConfirmEmail from './components/ConfirmEmail.js';
 import FogotPassword from './pages/FogotPassword.js';
 import ResetPassword from './pages/ResetPassword.js';

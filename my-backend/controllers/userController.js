@@ -26,7 +26,7 @@ async function searchUsers(req, res) {
         }
 
         const { count, rows } = await User.findAndCountAll({
-            attributes: ['id', 'paidUser', 'userImageUrl', 'name', 'telegramUsername', 'description', 'familyDescription', 'familyImageUrl', 'last_online_at'],
+            attributes: ['id', 'isSubscribed', 'userImageUrl', 'name', 'telegramUsername', 'description', 'familyDescription', 'familyImageUrl', 'last_online_at'],
             where: whereCondition,
             include: [
                 {

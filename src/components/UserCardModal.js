@@ -18,7 +18,6 @@ const UserCardModal = ({ isOpen, onRequestClose, selectedUserId }) => {
         const fetchUser = async () => {
             if (!selectedUserId) return;
 
-
             setLoading(true);
             setError(null);
             try {
