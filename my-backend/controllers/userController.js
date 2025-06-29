@@ -134,9 +134,53 @@ const getUserById = async (req, res) => {
   }
 };
 
-module.exports = {
-  getUserById,
+const updateUser = async (req, res) => {
+  const userId = req.params.id; // Получаем ID пользователя из параметров запроса
+  const { name, surname, password, telegramUsername, description, email, phone, country_id, region_id, city_id, familyDescription, userImageUrl, familyImageUrl } = req.body; 
+
+  try {
+    // Найти пользователя по ID
+    const user = await User.findByPk(userId);
+    
+    if (!user) {
+      return res.status(404).json({ error: 'Пользователь не найден' });
+    }
+
+    // Здесь можно добавить проверку прав доступа, например, чтобы убедиться, что пользователь
+    // имеет право обновлять свои данные или данные другого пользователя.
+    
+    // Обновляем данные пользователя
+    await user.update({
+     name, surname, password, telegramUsername, description, email, phone, country_id, region_id, city_id, familyDescription, userImageUrl, familyImageUrl 
+    });
+
+    res.json({ message: 'Данные пользователя успешно обновлены', user });
+  } catch (error) {
+    console.error('Ошибка при обновлении данных пользователя:', error);
+    res.status(500).json({ error: 'Ошибка при обновлении данных пользователя' });
+  }
 };
 
+const getEducationForms = async (req, res) => {
+    console.log('Запрос на получение форм обучения');
+    try {
+        const options = await EducationForm.findAll(); 
+        res.json(options);
+    } catch (error) {
+        console.error('Ошибка при получении форм образования:', error);
+        res.status(500).json({ error: 'Ошибка при получении данных' });
+    }
+};
 
-module.exports = { searchUsers, getUserById };
+const getGenders = async (req, res) => {
+    console.log('Запрос на получение полов');
+    try {
+        const options = await Gender.findAll(); 
+        res.json(options);
+    } catch (error) {
+        console.error('Ошибка при получении полов:', error);
+        res.status(500).json({ error: 'Ошибка при получении данных' });
+    }
+};
+
+module.exports = { searchUsers, getUserById, updateUser, getEducationForms, getGenders };

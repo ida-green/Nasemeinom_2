@@ -1,18 +1,30 @@
-//authRoutes.js
+//userRoutes.js
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const express = require('express');
 const User = require('../models/User.js');
 const Children = require('../models/Children.js');
 const authenticateToken = require('../middleware/auth.js');
-const { searchUsers, getUserById } = require('../controllers/userController.js');
+const { searchUsers, getUserById, updateUser, getEducationForms, getGenders} = require('../controllers/userController.js');
 
 const router = express.Router();
 
-// Маршрут для получения всех пользователей с их семьями и локациями
+// Получение всех пользователей с их семьями и локациями
 router.get('/', searchUsers);
 
+// Получение пользователя по ID, с локациями и детьми
 router.get('/:id', getUserById);
+
+// Обновление пользователя по ID
+router.put('/update/:id', updateUser);
+
+// Получение списка полов (мальчик/девочка)
+router.get('/genders', getGenders);
+
+// Получение форм обучения
+router.get('/educationForms', getEducationForms);
+
+
 
 // Получение данных текущего пользователя
 router.get('/me', authenticateToken, async (req, res) => {

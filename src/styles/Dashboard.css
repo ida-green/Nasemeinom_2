@@ -1,0 +1,44 @@
+.child-row {
+    display: flex; /* Убедиться что flexbox используется */
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.child-row .form-select,
+.child-row .form-control {
+    margin-right: 5px; /* Добавить отступ между элементами */
+}
+
+.child-row .btn {
+    margin-left: auto; /* Кнопка удаления справа */
+}
+
+.child-row {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+    border: 1px solid #dc3545; /* Тонкая красная рамка */
+    padding: 5px;           /* Отступ для рамки */
+    border-radius: 5px;     /* Скругление углов */
+}
+
+.error-message {
+    font-size: smaller; /* Меньший размер шрифта */
+    margin-left: 10px; /* Отступ слева */
+    color: #dc3545;    /* Красный цвет */
+}
+
+.child-row .form-select,
+.child-row .form-control {
+    margin-right: 5px;
+}
+
+.child-row .btn {
+    margin-left: auto;
+}
+
+.child-row.error-border {
+    border: 1px solid #dc3545; /* Тонкая красная рамка */
+    padding: 5px;
+    border-radius: 5px;
+}

@@ -12,13 +12,13 @@ const authRoutes = require('./routes/authRoutes.js');
 const authenticateToken = require('./middleware/auth.js');
 
 // Импортируйте все ваши API маршруты
+const userRoutes = require('./routes/userRoutes.js');
 const favouriteRoutes = require('./routes/favouriteRoutes.js');
 const cartRoutes = require('./routes/cartRoutes.js');
 const productRoutes = require('./routes/productRoutes.js');
 const forumRoutes = require('./routes/forumRoutes.js');
 const likeRoutes = require('./routes/likeRoutes.js');
 const changePasswordRoutes = require('./routes/changePasswordRoutes.js');
-const userRoutes = require('./routes/userRoutes.js');
 const locationRoutes = require('./routes/locationRoutes.js');
 const educationForms = require('./routes/educationFormRoutes.js');
 
