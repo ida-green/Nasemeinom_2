@@ -1,16 +1,20 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import axios from 'axios';
 import ChildComponent from './ChildComponent';
+import LocationForm from './LocationForm';
 
 const UserSettings = ({ userData, setUserData, educationForms, genders }) => {
+    
     const [formData, setFormData] = useState({
-        ...userData, // Копируем существующие данные пользователя
-        children: [...userData.children] // Копируем массив детей
+    ...userData, // Копируем существующие данные пользователя
+    children: [...userData.children] // Копируем массив детей
     });
-    const [error, setError] = useState('');
 
+    const [error, setError] = useState('');
     const isChildDataFilled = (child) => child.gender && child.birth_date && child.education_form?.id;
     
+    const componentRef = useRef(null); // Создаем реф для компонента
+
     useEffect(() => {
         // Инициализируем formData при первом рендере (заполняем данные об имеющихся детях)
         setFormData({ ...userData, children: [...userData.children] });
@@ -33,7 +37,7 @@ const UserSettings = ({ userData, setUserData, educationForms, genders }) => {
     const addChild = () => {
         const lastChild = formData.children.length > 0 ? formData.children[formData.children.length - 1] : null;
         if (lastChild && !isChildDataFilled(lastChild)) {
-            setError('Необходимо заполнить данные о текущем ребенке!');
+            setError('Необходимо заполнить данные о текущем ребенке');
             return;
         }
         setFormData({ ...formData, children: [...formData.children, { birth_date: null, gender: null, education_form: { id: null } }] });
@@ -43,6 +47,7 @@ const UserSettings = ({ userData, setUserData, educationForms, genders }) => {
     const removeChild = (index) => {
         const updatedChildren = [...formData.children].filter((_, i) => i !== index);
         setFormData({ ...formData, children: updatedChildren });
+        setError('');
     };
 
     const handleSubmit = async (e) => {
@@ -76,7 +81,19 @@ const UserSettings = ({ userData, setUserData, educationForms, genders }) => {
         ))
     );
 
+    // Обработчик клика вне компонента
+    const handleClickOutside = (event) => {
+        if (componentRef.current && !componentRef.current.contains(event.target)) {
+            setError(''); // Сбрасываем ошибку
+        }
+    };
 
+    useEffect(() => {
+        document.addEventListener('mousedown', handleClickOutside);
+        return () => {
+            document.removeEventListener('mousedown', handleClickOutside);
+        };
+    }, []);
 
     return (
         <div className="user-settings">
@@ -115,6 +132,8 @@ const UserSettings = ({ userData, setUserData, educationForms, genders }) => {
                     </div>
                 </div>
 
+            <LocationForm />
+
             <div className="row">
             <div className="col-12 col-md-4 mb-3">
             <label for="country" className="form-label">Страна</label>
@@ -137,11 +156,18 @@ const UserSettings = ({ userData, setUserData, educationForms, genders }) => {
             <textarea className="form-control" id="description" rows="3" placeholder="чем вы занимаетесь" value={formData.description} onChange={handleChange} ></textarea>
             </div>
 
-             {renderChildren()}
-                <button type="button" onClick={addChild}>Добавить ребенка</button>
-              
-                {error && <div className="alert alert-danger">{error}</div>}
-
+            <div className="mb-3">
+            <label for="description" className="form-label">Дети</label>
+            {/* Предупрежение error "необходимо добавить данные о текущем ребенке" исчезает при клике вне компонента про детей */}
+                <div ref={componentRef}>
+                {renderChildren()}
+                {error && <div className="error-message">{error}</div>}
+                    <button 
+                    type="button" 
+                    className="btn button-btn button-btn-outline-primary btn-sm mt-3 mb-3"
+                    onClick={addChild}>Добавить ребенка</button>
+                </div>
+            </div>
 
             <div className="mb-3">
             <label for="family description" className="form-label">О семье:</label>

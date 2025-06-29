@@ -95,7 +95,9 @@ const UserCatalogue = () => {
           </div>
 
       {/* Передаем функцию для обновления фильтров */}
-      <UserFilter onFilterChange={handleFilterChange} currentFilters={filters} />
+      <UserFilter 
+        onFilterChange={handleFilterChange} 
+        currentFilters={filters} />
 
       {error && <p className="error-message">{error}</p>}
 
