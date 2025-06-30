@@ -5,7 +5,17 @@ const express = require('express');
 const User = require('../models/User.js');
 const Children = require('../models/Children.js');
 const authenticateToken = require('../middleware/auth.js');
-const { searchUsers, getUserById, updateUser, getEducationForms, getGenders} = require('../controllers/userController.js');
+const { 
+    searchUsers, 
+    getUserById, 
+    getEducationForms, 
+    getGenders, 
+    updateUserBasicInfo,
+    updateUserDescription,
+    updateUserFamilyDescription,
+    updateUserLocation,
+    updateUserChildren,
+    updateUserImages } = require('../controllers/userController.js');
 
 const router = express.Router();
 
@@ -15,14 +25,19 @@ router.get('/', searchUsers);
 // Получение пользователя по ID, с локациями и детьми
 router.get('/:id', getUserById);
 
-// Обновление пользователя по ID
-router.put('/update/:id', updateUser);
-
 // Получение списка полов (мальчик/девочка)
 router.get('/genders', getGenders);
 
 // Получение форм обучения
 router.get('/educationForms', getEducationForms);
+
+// Обновление данных пользователя
+router.put('/:id/basic-info', authenticateToken, updateUserBasicInfo);
+router.put('/:id/description', authenticateToken, updateUserDescription);
+router.put('/:id/family-description', authenticateToken, updateUserFamilyDescription);
+router.put('/:id/location', authenticateToken, updateUserLocation);
+router.put('/:id/children', authenticateToken, updateUserChildren);
+router.put('/:id/images', authenticateToken, updateUserImages);
 
 
 

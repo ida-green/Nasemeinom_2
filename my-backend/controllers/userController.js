@@ -134,33 +134,6 @@ const getUserById = async (req, res) => {
   }
 };
 
-const updateUser = async (req, res) => {
-  const userId = req.params.id; // Получаем ID пользователя из параметров запроса
-  const { name, surname, password, telegramUsername, description, email, phone, country_id, region_id, city_id, familyDescription, userImageUrl, familyImageUrl } = req.body; 
-
-  try {
-    // Найти пользователя по ID
-    const user = await User.findByPk(userId);
-    
-    if (!user) {
-      return res.status(404).json({ error: 'Пользователь не найден' });
-    }
-
-    // Здесь можно добавить проверку прав доступа, например, чтобы убедиться, что пользователь
-    // имеет право обновлять свои данные или данные другого пользователя.
-    
-    // Обновляем данные пользователя
-    await user.update({
-     name, surname, password, telegramUsername, description, email, phone, country_id, region_id, city_id, familyDescription, userImageUrl, familyImageUrl 
-    });
-
-    res.json({ message: 'Данные пользователя успешно обновлены', user });
-  } catch (error) {
-    console.error('Ошибка при обновлении данных пользователя:', error);
-    res.status(500).json({ error: 'Ошибка при обновлении данных пользователя' });
-  }
-};
-
 const getEducationForms = async (req, res) => {
     console.log('Запрос на получение форм обучения');
     try {
@@ -183,4 +156,139 @@ const getGenders = async (req, res) => {
     }
 };
 
-module.exports = { searchUsers, getUserById, updateUser, getEducationForms, getGenders };
+// Обновление базовой информации о пользователе
+const updateUserBasicInfo = async (req, res) => {
+    const { name, surname, password, telegramUsername, email, phone } = req.body;
+
+    // Проверка входящих данных
+    if (!name && !surname && !password && !telegramUsername && !email && !phone) {
+        return res.status(400).json({ error: 'Хотя бы одно поле должно быть указано для обновления' });
+    }
+
+    try {
+        const userId = req.user.id; // Извлекаем id пользователя из токена
+        const user = await User.findByPk(userId);
+        if (!user) {
+            return res.status(404).json({ error: 'Пользователь не найден' });
+        }
+
+        const updatedFields = {};
+        if (name) updatedFields.name = name;
+        if (surname) updatedFields.surname = surname;
+        if (password) updatedFields.password = password; // Обратите внимание на безопасность при обновлении пароля
+        if (telegramUsername) updatedFields.telegramUsername = telegramUsername;
+        if (email) updatedFields.email = email;
+        if (phone) updatedFields.phone = phone;
+
+        await user.update(updatedFields);
+        res.json({ message: 'Основные данные пользователя успешно обновлены', user });
+    } catch (error) {
+        console.error('Ошибка при обновлении основных данных пользователя:', error);
+        res.status(500).json({ error: 'Ошибка при обновлении основных данных пользователя' });
+    }
+};
+
+// Обновление описания пользователя
+const updateUserDescription = async (req, res) => {
+    const { description } = req.body;
+
+    if (!description) {
+        return res.status(400).json({ error: 'Описание должно быть указано для обновления' });
+    }
+
+    try {
+        const userId = req.user.id;
+        const user = await User.findByPk(userId);
+        if (!user) {
+            return res.status(404).json({ error: 'Пользователь не найден' });
+        }
+
+        await user.update({ description });
+        res.json({ message: 'Описание пользователя успешно обновлено', user });
+    } catch (error) {
+        console.error('Ошибка при обновлении описания пользователя:', error);
+        res.status(500).json({ error: 'Ошибка при обновлении описания пользователя' });
+    }
+};
+
+// Обновление описания семьи
+const updateUserFamilyDescription = async (req, res) => {
+    const { familyDescription } = req.body;
+
+    if (!familyDescription) {
+        return res.status(400).json({ error: 'Семейное описание должно быть указано для обновления' });
+    }
+
+    try {
+        const userId = req.user.id;
+        const user = await User.findByPk(userId);
+        if (!user) {
+          return res.status(404).json({ error: 'Пользователь не найден' });
+        }
+
+        await user.update({ familyDescription });
+        res.json({ message: 'Семейное описание пользователя успешно обновлено', user });
+    } catch (error) {
+        console.error('Ошибка при обновлении семейного описания пользователя:', error);
+        res.status(500).json({ error: 'Ошибка при обновлении семейного описания пользователя' });
+    }
+};
+
+// Обновление локации пользователя
+const updateUserLocation = async (req, res) => {
+    const { country_id, region_id, city_id } = req.body;
+
+    try {
+        const userId = req.user.id;
+        const user = await User.findByPk(userId);
+        if (!user) {
+            return res.status(404).json({ error: 'Пользователь не найден' });
+        }
+
+        await user.update({ country_id, region_id, city_id });
+        res.json({ message: 'Локация пользователя успешно обновлена', user });
+    } catch (error) {
+        console.error('Ошибка при обновлении локации пользователя:', error);
+        res.status(500).json({ error: 'Ошибка при обновлении локации пользователя' });
+    }
+};
+
+// Обновление данных о детях пользователя
+const updateUserChildren = async (req, res) => {
+    const { children } = req.body;
+
+    try {
+        const userId = req.user.id;
+        const user = await User.findByPk(userId);
+        if (!user) {
+            return res.status(404).json({ error: 'Пользователь не найден' });
+        }
+
+        await user.update({ children });
+        res.json({ message: 'Дети пользователя успешно обновлены', user });
+    } catch (error) {
+        console.error('Ошибка при обновлении детей пользователя:', error);
+        res.status(500).json({ error: 'Ошибка при обновлении детей пользователя' });
+    }
+};
+
+// Обновление фото пользователя и фото семьи
+const updateUserImages = async (req, res) => {
+    const { userImageUrl, familyImageUrl } = req.body;
+
+    try {
+        const userId = req.user.id;
+        const user = await User.findByPk(userId);
+        if (!user) {
+            return res.status(404).json({ error: 'Пользователь не найден' });
+        }
+
+        await user.update({ userImageUrl, familyImageUrl });
+        res.json({ message: 'Изображения пользователя успешно обновлены', user });
+    } catch (error) {
+        console.error('Ошибка при обновлении изображений пользователя:', error);
+        res.status(500).json({ error: 'Ошибка при обновлении изображений пользователя' });
+    }
+};
+
+module.exports = { searchUsers, getUserById, getEducationForms, getGenders, updateUserBasicInfo, updateUserDescription, updateUserFamilyDescription, updateUserLocation, updateUserChildren, updateUserImages };

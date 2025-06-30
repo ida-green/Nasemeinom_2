@@ -132,24 +132,7 @@ const UserSettings = ({ userData, setUserData, educationForms, genders }) => {
                     </div>
                 </div>
 
-            <LocationForm />
-
-            <div className="row">
-            <div className="col-12 col-md-4 mb-3">
-            <label for="country" className="form-label">Страна</label>
-            <input type="text" className="form-control" id="country" placeholder="страна" value={formData.country.name_ru} onChange={handleChange} />
-            </div>
-           
-            <div className="col-12 col-md-4 mb-3">
-            <label for="region" className="form-label">Регион</label>
-            <input type="text" className="form-control" id="region" placeholder="регион" value={formData.region.name_ru} onChange={handleChange}/>
-            </div>
-
-            <div className="col-12 col-md-4 mb-3">
-            <label for="city" className="form-label">Город</label>
-            <input type="text" className="form-control" id="city" placeholder="город" value={formData.city.name_ru} onChange={handleChange}/>
-            </div>
-            </div>
+            <LocationForm formData={formData}/>
             
             <div className="mb-3">
             <label for="description" className="form-label">О себе:</label>
