@@ -2,9 +2,11 @@
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const express = require('express');
+const router = express.Router();
 const User = require('../models/User.js');
 const Children = require('../models/Children.js');
 const authenticateToken = require('../middleware/auth.js');
+
 const { 
     searchUsers, 
     getUserById, 
@@ -16,8 +18,6 @@ const {
     updateUserLocation,
     updateUserChildren,
     updateUserImages } = require('../controllers/userController.js');
-
-const router = express.Router();
 
 // Получение всех пользователей с их семьями и локациями
 router.get('/', searchUsers);
@@ -32,12 +32,12 @@ router.get('/genders', getGenders);
 router.get('/educationForms', getEducationForms);
 
 // Обновление данных пользователя
-router.put('/:id/basic-info', authenticateToken, updateUserBasicInfo);
-router.put('/:id/description', authenticateToken, updateUserDescription);
-router.put('/:id/family-description', authenticateToken, updateUserFamilyDescription);
-router.put('/:id/location', authenticateToken, updateUserLocation);
-router.put('/:id/children', authenticateToken, updateUserChildren);
-router.put('/:id/images', authenticateToken, updateUserImages);
+router.patch('/:id/basic-info', authenticateToken, updateUserBasicInfo);
+router.patch('/:id/description', authenticateToken, updateUserDescription);
+router.patch('/:id/family-description', authenticateToken, updateUserFamilyDescription);
+router.patch('/:id/location', authenticateToken, updateUserLocation);
+router.patch('/:id/children', authenticateToken, updateUserChildren);
+router.patch('/:id/images', authenticateToken, updateUserImages);
 
 
 

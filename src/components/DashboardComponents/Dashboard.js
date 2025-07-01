@@ -85,7 +85,8 @@ const Dashboard = () => {
             {userData && (
                 <>
                     <UserProfile userData={userData} />
-                    <UserSettings 
+                    <UserSettings
+                        user={user}
                         userData={userData} 
                         setUserData={setUserData} 
                         educationForms = {educationForms} 

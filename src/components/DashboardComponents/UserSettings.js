@@ -3,7 +3,7 @@ import axios from 'axios';
 import ChildComponent from './ChildComponent';
 import LocationForm from './LocationForm';
 
-const UserSettings = ({ userData, setUserData, educationForms, genders }) => {
+const UserSettings = ({ user, userData, educationForms, genders }) => {
     
     const [formData, setFormData] = useState({
     ...userData, // Копируем существующие данные пользователя
@@ -50,22 +50,7 @@ const UserSettings = ({ userData, setUserData, educationForms, genders }) => {
         setError('');
     };
 
-    const handleSubmit = async (e) => {
-        e.preventDefault();
-        try {
-            const response = await axios.post(`${process.env.REACT_APP_API_URL}/api/users/update/${userData.id}`, formData, {
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-            });
-            setUserData(response.data);
-            setError('');
-        } catch (error) {
-            console.error('Ошибка при обновлении данных пользователя:', error);
-            setError('Ошибка при сохранении данных!');
-        }
-    };
-
+    
     const renderChildren = () => (
         formData.children.map((child, index) => (
             <div key={index} className="mb-2">
@@ -98,7 +83,6 @@ const UserSettings = ({ userData, setUserData, educationForms, genders }) => {
     return (
         <div className="user-settings">
             <h2>Настройки</h2>
-            <form onSubmit={handleSubmit}>
                 <div className="row">
                     <div className="col-12 col-md-4 mb-3">
                         <label htmlFor="name" className="form-label">Имя</label>
@@ -132,7 +116,7 @@ const UserSettings = ({ userData, setUserData, educationForms, genders }) => {
                     </div>
                 </div>
 
-            <LocationForm formData={formData}/>
+            <LocationForm formData={formData} user={user}/>
             
             <div className="mb-3">
             <label for="description" className="form-label">О себе:</label>
@@ -173,10 +157,7 @@ const UserSettings = ({ userData, setUserData, educationForms, genders }) => {
             </div>
             </div>
              
-                <button 
-                type="submit" className="btn button-btn button-btn-primary btn-sm mt-3 mb-3"
-                >Сохранить изменения</button>
-            </form>
+           
         </div>
     );
 };

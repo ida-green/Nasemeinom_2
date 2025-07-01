@@ -7,5 +7,4 @@ router.get('/countries', getCountries); // Параметр 'q' будет в re
 router.get('/regions', getRegions);     // Параметры 'countryId' и 'q' будут в req.query
 router.get('/cities', getCities);       // Параметры 'regionId' и 'q' будут в req.query
 
-
 module.exports = router;

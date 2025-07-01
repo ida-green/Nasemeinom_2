@@ -236,22 +236,37 @@ const updateUserFamilyDescription = async (req, res) => {
 
 // Обновление локации пользователя
 const updateUserLocation = async (req, res) => {
+    const userId = req.params.id;
     const { country_id, region_id, city_id } = req.body;
 
+    console.log('Обновление местоположения для пользователя с ID:', `${userId}`);
+    console.log('Полученные данные:', { country_id, region_id, city_id });
+
+    if (!country_id && !region_id && !city_id) {
+        return res.status(400).json({ message: 'Хотя бы одно поле должно быть заполнено' });
+    }
+
     try {
-        const userId = req.user.id;
-        const user = await User.findByPk(userId);
+        console.log('Пользователь, для которого обновляем данные локации:', `${userId}`);
+        const user = await User.findByPk(userId); // Изменено на findByPk
         if (!user) {
-            return res.status(404).json({ error: 'Пользователь не найден' });
+            console.log('Пользователь не найден');
+            return res.status(404).json({ message: 'Пользователь не найден' });
         }
 
-        await user.update({ country_id, region_id, city_id });
-        res.json({ message: 'Локация пользователя успешно обновлена', user });
+        // Обновление только тех полей, которые были переданы в запросе
+        if (country_id) user.country_id = country_id;
+        if (region_id) user.region_id = region_id;
+        if (city_id) user.city_id = city_id;
+
+        await user.save();
+        res.status(200).json({ message: 'Местоположение успешно обновлено' });
     } catch (error) {
-        console.error('Ошибка при обновлении локации пользователя:', error);
-        res.status(500).json({ error: 'Ошибка при обновлении локации пользователя' });
+        console.error('Ошибка при обновлении местоположения:', error);
+        res.status(500).json({ message: 'Ошибка сервера', error: error.message });
     }
 };
+
 
 // Обновление данных о детях пользователя
 const updateUserChildren = async (req, res) => {

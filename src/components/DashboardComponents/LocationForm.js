@@ -1,8 +1,11 @@
 import React, { useState, useCallback } from 'react';
 import axios from 'axios';
 import debounce from 'lodash.debounce';
+import useAuth from '../../hooks/useAuth'; 
 
 const LocationForm = ({ formData }) => {
+    console.log('Данные formData в LocationForm:', formData)
+    const { user } = useAuth();
     const [searchTermCountry, setSearchTermCountry] = useState(formData.country?.name_ru || formData.country?.name_en || '');
     const [searchTermRegion, setSearchTermRegion] = useState(formData.region?.name_ru || formData.region?.name_en || '');
     const [searchTermCity, setSearchTermCity] = useState(formData.city?.name_ru || formData.city?.name_en || '');
@@ -42,29 +45,28 @@ const fetchSuggestionsCountry = useCallback(async (query) => {
         }
     }, []);
 
-    const fetchSuggestionsCity = useCallback(async (countryId, regionId, query) => {
-        if (query.length < 2) return;
-        try {
-            const response = await axios.get(`http://localhost:3000/api/locations/cities?countryId=${countryId}&regionId=${regionId}&q=${query}`);
-            setCitySuggestions(response.data);
-            setShowCitySuggestions(true); // Показываем список предложений
-        } catch (error) {
-            console.error('Ошибка при получении городов:', error);
-            setCitySuggestions([]);
-        }
-    }, []);
+    const fetchSuggestionsCity = useCallback(async (countryId, admin1Code, query) => {
+    if (query.length < 2) return;
+    try {
+        const response = await axios.get(`http://localhost:3000/api/locations/cities?countryId=${countryId}&regionAdmin1Code=${admin1Code}&q=${query}`);
+        setCitySuggestions(response.data);
+        setShowCitySuggestions(true); // Показываем список предложений
+    } catch (error) {
+        console.error('Ошибка при получении городов:', error);
+        setCitySuggestions([]);
+    }
+}, []);
 
     // Debounced fetch functions
     const debouncedFetchCountry = useCallback(debounce(fetchSuggestionsCountry, 300), [fetchSuggestionsCountry]);
     const debouncedFetchRegion = useCallback(debounce(fetchSuggestionsRegion, 300), [fetchSuggestionsRegion]);
     const debouncedFetchCity = useCallback(debounce(fetchSuggestionsCity, 300), [fetchSuggestionsCity]);
 
-    // Handlers for input changes
      // Handlers for input changes
     const handleCountryChange = (e) => {
         const value = e.target.value;
         setSearchTermCountry(value);
-        debouncedFetchCountry(value);
+        debouncedFetchCountry(value);   
 
         // Если страна удалена (пустое значение), сбрасываем регион и город
         if (!value) {
@@ -129,30 +131,24 @@ const handleSelectCountry = (country) => {
 
     // Save updated location
     const handleSaveLocation = async () => {
+    if (selectedCountry && selectedRegion && selectedCity) {
+      
         try {
-            await axios.post(`http://localhost:3000/api/users/${formData.id}/location`, {
-                country: selectedCountry,
-                region: selectedRegion,
-                city: selectedCity,
+            const response = await axios.patch(`http://localhost:3000/api/users/${user.id}/location`, {
+                country_id: selectedCountry.id,
+                region_id: selectedRegion.id,
+                city_id: selectedCity.id,
             });
+            console.log('Ответ от сервера:', response.data);
             alert('Данные успешно сохранены!');
         } catch (error) {
             console.error('Ошибка при сохранении данных:', error);
             alert('Не удалось сохранить данные.');
         }
-    };
-
-    const handleClearFilters = () => {
-        setSearchTermCountry('');
-        setSearchTermRegion('');
-        setSearchTermCity('');
-        setCountrySuggestions([]);
-        setRegionSuggestions([]);
-        setCitySuggestions([]);
-        setSelectedCountry(null);
-        setSelectedRegion(null);
-        setSelectedCity(null);
-    };
+    } else {
+        alert('Пожалуйста, выберите страну, регион и город из выпадающего списка.');
+    }
+};
 
     return (
         <div className="row">
