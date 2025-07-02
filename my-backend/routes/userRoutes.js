@@ -17,7 +17,8 @@ const {
     updateUserFamilyDescription,
     updateUserLocation,
     updateUserChildren,
-    updateUserImages } = require('../controllers/userController.js');
+    updateUserImages,
+    deleteChild } = require('../controllers/userController.js');
 
 // Получение всех пользователей с их семьями и локациями
 router.get('/', searchUsers);
@@ -38,6 +39,9 @@ router.patch('/:id/family-description', authenticateToken, updateUserFamilyDescr
 router.patch('/:id/location', authenticateToken, updateUserLocation);
 router.patch('/:id/children', authenticateToken, updateUserChildren);
 router.patch('/:id/images', authenticateToken, updateUserImages);
+
+// Маршрут для удаления ребенка
+router.delete('/:userId/children/:childId', deleteChild);
 
 
 

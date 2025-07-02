@@ -329,6 +329,32 @@ const updateUserChildren = async (req, res) => {
     }
 };
 
+const deleteChild = async (req, res) => {
+    const { userId, childId } = req.params; // Получаем id пользователя и id ребенка из параметров
+
+    try {
+        // Находим пользователя
+        const user = await User.findByPk(userId);
+        if (!user) {
+            return res.status(404).json({ error: 'Пользователь не найден' });
+        }
+
+        // Находим ребенка
+        const childToDelete = await Children.findByPk(childId);
+        if (!childToDelete) {
+            return res.status(404).json({ error: `Ребенок с id ${childId} не найден` });
+        }
+
+        // Удаляем ребенка
+        await childToDelete.destroy();
+
+        // Уведомление для пользователя
+        res.json({ message: 'Ребенок успешно удален' });
+    } catch (error) {
+        console.error('Ошибка при удалении ребенка:', error);
+        res.status(500).json({ error: 'Ошибка при удалении ребенка' });
+    }
+};
 
 // Обновление фото пользователя и фото семьи
 const updateUserImages = async (req, res) => {
@@ -349,4 +375,4 @@ const updateUserImages = async (req, res) => {
     }
 };
 
-module.exports = { searchUsers, getUserById, getEducationForms, getGenders, updateUserBasicInfo, updateUserDescription, updateUserFamilyDescription, updateUserLocation, updateUserChildren, updateUserImages };
+module.exports = { searchUsers, getUserById, getEducationForms, getGenders, updateUserBasicInfo, updateUserDescription, updateUserFamilyDescription, updateUserLocation, updateUserChildren, updateUserImages, deleteChild };

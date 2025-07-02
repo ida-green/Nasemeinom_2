@@ -37,16 +37,23 @@ function ChildComponent({ userData, genders, educationForms }) {
         setError('');
     };
 
-    const removeChild = (index) => {
-    const updatedChildren = formData.children.map((child, i) => {
-        if (i === index) {
-            return { ...child, deleted: true }; // Добавляем флаг deleted
-        }
-        return child;
-    });
+    const removeChild = async (index) => {
+    try {
+        // Отправляем запрос на сервер для удаления ребенка
+        await axios.delete(`http://localhost:3000/api/users/${user.id}/children/${formData.children[index].id}`, {
+            headers: {
+                'Content-Type': 'application/json',
+            },
+        });
 
-    setFormData({ ...formData, children: updatedChildren });
-    setError('');
+        // Если удаление прошло успешно, обновляем состояние
+        const updatedChildren = formData.children.filter((_, i) => i !== index); // Фильтруем удаленного ребенка
+        setFormData({ ...formData, children: updatedChildren });
+        setError('');
+    } catch (error) {
+        console.error('Ошибка при удалении ребенка:', error);
+        setError('Ошибка при удалении ребенка!');
+    }
 };
 
 // Функция для фильтрации детей при отображении
