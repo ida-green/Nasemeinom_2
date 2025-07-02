@@ -3,8 +3,8 @@ import axios from 'axios';
 import debounce from 'lodash.debounce';
 import useAuth from '../../hooks/useAuth'; 
 
-const LocationForm = ({ formData }) => {
-    console.log('Данные formData в LocationForm:', formData)
+const LocationForm = ( userData ) => {
+    const [formData, setFormData] = useState(userData);
     const { user } = useAuth();
     const [searchTermCountry, setSearchTermCountry] = useState(formData.country?.name_ru || formData.country?.name_en || '');
     const [searchTermRegion, setSearchTermRegion] = useState(formData.region?.name_ru || formData.region?.name_en || '');
@@ -127,7 +127,6 @@ const handleSelectCountry = (country) => {
         setSearchTermCity(city.name_ru || city.name_en); // Устанавливаем выбранный город
         setShowCitySuggestions(false); // Скрываем список предложений
     };
-
 
     // Save updated location
     const handleSaveLocation = async () => {

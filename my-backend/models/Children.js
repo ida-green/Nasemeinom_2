@@ -19,7 +19,7 @@ Children.init({
   },
   name: {
     type: DataTypes.STRING,
-    allowNull: false,
+    allowNull: true,
   },
   birth_date: {
     type: DataTypes.DATE, 
@@ -33,12 +33,11 @@ Children.init({
     type: DataTypes.INTEGER,
     allowNull: true,
   },
-  // Добавьте другие поля, если необходимо
 }, {
   sequelize,
   modelName: 'Children',
   tableName: 'children', // Убедитесь, что имя таблицы соответствует вашей БД
-  timestamps: false,
+  timestamps: true,
 });
 
 module.exports = Children;

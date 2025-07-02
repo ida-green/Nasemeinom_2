@@ -270,22 +270,65 @@ const updateUserLocation = async (req, res) => {
 
 // Обновление данных о детях пользователя
 const updateUserChildren = async (req, res) => {
-    const { children } = req.body;
+    const { children } = req.body; // Массив объектов детей
+    const userId = req.params.id; // Получаем id пользователя из параметров
 
     try {
-        const userId = req.user.id;
         const user = await User.findByPk(userId);
         if (!user) {
             return res.status(404).json({ error: 'Пользователь не найден' });
         }
 
-        await user.update({ children });
-        res.json({ message: 'Дети пользователя успешно обновлены', user });
+        const updatedChildren = [];
+
+        for (const childData of children) {
+            if (childData.deleted) {
+                // Удаление ребенка
+                const childToDelete = await Children.findByPk(childData.id);
+                if (!childToDelete) {
+                    throw new Error(`Ребенок с id ${childData.id} не найден`);
+                }
+
+                await childToDelete.destroy(); // Удаляем ребенка
+                continue; // Переходим к следующему ребенку
+            }
+
+            if (childData.id) {
+                // Обновление существующего ребенка
+                const childToUpdate = await Children.findByPk(childData.id);
+                if (!childToUpdate) {
+                    throw new Error(`Ребенок с id ${childData.id} не найден`);
+                }
+
+                const updatedChild = await childToUpdate.update({
+                    birth_date: childData.birth_date || childToUpdate.birth_date,
+                    education_form_id: childData.education_form.id || childToUpdate.education_form.id,
+                    gender_id: childData.gender.id || childToUpdate.gender.id,
+                    user_id: userId // Добавляем user_id
+                });
+
+                updatedChildren.push(updatedChild);
+            } else {
+                // Добавление нового ребенка
+                const newChild = await Children.create({
+                    birth_date: childData.birth_date,
+                    education_form_id: childData.education_form.id,
+                    gender_id: childData.gender.id,
+                    user_id: userId // Добавляем user_id
+                });
+
+                updatedChildren.push(newChild);
+            }
+        }
+
+        // Уведомление для пользователя
+        res.json({ message: 'Данные детей успешно обновлены', updatedChildren });
     } catch (error) {
         console.error('Ошибка при обновлении детей пользователя:', error);
-        res.status(500).json({ error: 'Ошибка при обновлении детей пользователя' });
+        res.status(500).json({ error: 'Ошибка при обновлении данных детей пользователя' });
     }
 };
+
 
 // Обновление фото пользователя и фото семьи
 const updateUserImages = async (req, res) => {

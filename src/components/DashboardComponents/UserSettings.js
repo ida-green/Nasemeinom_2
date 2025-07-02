@@ -3,101 +3,29 @@ import axios from 'axios';
 import ChildComponent from './ChildComponent';
 import LocationForm from './LocationForm';
 
-const UserSettings = ({ user, userData, educationForms, genders }) => {
+const UserSettings = ({ user, userData, setUserData, educationForms, genders }) => {
+    const [formData, setFormData] = useState(userData);
     
-    const [formData, setFormData] = useState({
-    ...userData, // Копируем существующие данные пользователя
-    children: [...userData.children] // Копируем массив детей
-    });
-
-    const [error, setError] = useState('');
-    const isChildDataFilled = (child) => child.gender && child.birth_date && child.education_form?.id;
     
-    const componentRef = useRef(null); // Создаем реф для компонента
-
-    useEffect(() => {
-        // Инициализируем formData при первом рендере (заполняем данные об имеющихся детях)
-        setFormData({ ...userData, children: [...userData.children] });
-    }, [userData]);
-
-    const handleChange = (e) => {
-        const { name, value } = e.target;
-        setFormData({ ...formData, [name]: value });
-        setError(''); // Очищаем сообщение об ошибке после каждого изменения
-    };
-
-    // Редактируем данные о детях
-    const handleChildChange = (index, fieldName, value) => {
-        const updatedChildren = [...formData.children];
-        updatedChildren[index] = { ...updatedChildren[index], [fieldName]: value };
-        setFormData({ ...formData, children: updatedChildren });
-        setError(''); // Очищаем сообщение об ошибке
-    };
-
-    const addChild = () => {
-        const lastChild = formData.children.length > 0 ? formData.children[formData.children.length - 1] : null;
-        if (lastChild && !isChildDataFilled(lastChild)) {
-            setError('Необходимо заполнить данные о текущем ребенке');
-            return;
-        }
-        setFormData({ ...formData, children: [...formData.children, { birth_date: null, gender: null, education_form: { id: null } }] });
-        setError('');
-    };
-
-    const removeChild = (index) => {
-        const updatedChildren = [...formData.children].filter((_, i) => i !== index);
-        setFormData({ ...formData, children: updatedChildren });
-        setError('');
-    };
-
-    
-    const renderChildren = () => (
-        formData.children.map((child, index) => (
-            <div key={index} className="mb-2">
-                <ChildComponent
-                    child={child}
-                    index={index}
-                    handleChildChange={handleChildChange}
-                    removeChild={removeChild}
-                    genders={genders}
-                    educationForms={educationForms}
-                />
-            </div>
-        ))
-    );
-
-    // Обработчик клика вне компонента
-    const handleClickOutside = (event) => {
-        if (componentRef.current && !componentRef.current.contains(event.target)) {
-            setError(''); // Сбрасываем ошибку
-        }
-    };
-
-    useEffect(() => {
-        document.addEventListener('mousedown', handleClickOutside);
-        return () => {
-            document.removeEventListener('mousedown', handleClickOutside);
-        };
-    }, []);
-
     return (
         <div className="user-settings">
             <h2>Настройки</h2>
+            <form>
                 <div className="row">
                     <div className="col-12 col-md-4 mb-3">
                         <label htmlFor="name" className="form-label">Имя</label>
-                        <input type="text" className="form-control" id="name" placeholder="имя" value={formData.name} onChange={handleChange} />
+                        <input type="text" className="form-control" id="name" placeholder="имя" value={formData.name} />
                     </div>
 
                     <div
                     className="col-12 col-md-4 mb-3">
                         <label htmlFor="email" className="form-label">Email</label>
-                        <input type="email" className="form-control" id="email" placeholder="name@example.com" value={formData.email} onChange={handleChange} />
+                        <input type="email" className="form-control" id="email" placeholder="name@example.com" value={formData.email} />
                     </div>
 
                     <div className="col-12 col-md-4 mb-3">
                         <label htmlFor="password" className="form-label">Пароль</label>
-                        <input type="password" className="form-control" id="password" placeholder="пароль" value={formData.password} onChange={handleChange} />
+                        <input type="password" className="form-control" id="password" placeholder="пароль" value={formData.password}  />
                     </div>
                 </div>
 
@@ -106,39 +34,34 @@ const UserSettings = ({ user, userData, educationForms, genders }) => {
                         <label htmlFor="telegramUsername" className="form-label">Имя в Телеграм</label>
                         <div className="input-group mb-3">
                             <span className="input-group-text" id="basic-addon1">@</span>
-                            <input type="text" className="form-control" placeholder="username" aria-label="Username" aria-describedby="basic-addon1" value={formData.telegramUsername} onChange={handleChange} />
+                            <input type="text" className="form-control" placeholder="username" aria-label="Username" aria-describedby="basic-addon1" value={formData.telegramUsername}  />
                         </div>
                     </div>
 
                     <div className="col-12 col-md-4 mb-3">
                         <label htmlFor="phone" className="form-label">Телефон</label>
-                        <input type="tel" className="form-control" id="phone" placeholder="+79117654321" value={formData.phone} onChange={handleChange} />
+                        <input type="tel" className="form-control" id="phone" placeholder="+79117654321" value={formData.phone} />
                     </div>
                 </div>
 
-            <LocationForm formData={formData} user={user}/>
+            <LocationForm user={user} userData={userData} />
+            <ChildComponent 
+                user={user} 
+                userData={userData}
+                educationForms = {educationForms} 
+                genders = {genders} />
+                
             
             <div className="mb-3">
             <label for="description" className="form-label">О себе:</label>
-            <textarea className="form-control" id="description" rows="3" placeholder="чем вы занимаетесь" value={formData.description} onChange={handleChange} ></textarea>
+            <textarea className="form-control" id="description" rows="3" placeholder="чем вы занимаетесь" value={formData.description}  ></textarea>
             </div>
 
-            <div className="mb-3">
-            <label for="description" className="form-label">Дети</label>
-            {/* Предупрежение error "необходимо добавить данные о текущем ребенке" исчезает при клике вне компонента про детей */}
-                <div ref={componentRef}>
-                {renderChildren()}
-                {error && <div className="error-message">{error}</div>}
-                    <button 
-                    type="button" 
-                    className="btn button-btn button-btn-outline-primary btn-sm mt-3 mb-3"
-                    onClick={addChild}>Добавить ребенка</button>
-                </div>
-            </div>
+            
 
             <div className="mb-3">
             <label for="family description" className="form-label">О семье:</label>
-            <textarea className="form-control" id="family description" rows="3" placeholder="расскажите немного о вашем семейном образовании и какой у вас запрос" value={formData.familyDescription} onChange={handleChange} ></textarea>
+            <textarea className="form-control" id="family description" rows="3" placeholder="расскажите немного о вашем семейном образовании и какой у вас запрос" value={formData.familyDescription} ></textarea>
             </div>
 
             <div className="col-12 col-md-6 mb-3">
@@ -157,7 +80,10 @@ const UserSettings = ({ user, userData, educationForms, genders }) => {
             </div>
             </div>
              
-           
+                <button 
+                type="submit" className="btn button-btn button-btn-primary btn-sm mt-3 mb-3"
+                >Сохранить изменения</button>
+            </form>
         </div>
     );
 };
