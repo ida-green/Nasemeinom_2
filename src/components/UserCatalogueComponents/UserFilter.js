@@ -37,10 +37,10 @@ const UserFilter = ({ onFilterChange, currentFilters }) => {
         }
     }, []);
 
-    const fetchSuggestionsCity = useCallback(async (countryId, regionId, query) => {
+    const fetchSuggestionsCity = useCallback(async (countryId, admin1Code, query) => {
         if (query.length < 2) return; // Не запрашиваем, если меньше 2 символов
         try {
-            const response = await axios.get(`http://localhost:3000/api/locations/cities?countryId=${countryId}&regionId=${regionId}&q=${query}`);
+            const response = await axios.get(`http://localhost:3000/api/locations/cities?countryId=${countryId}&regionAdmin1Code=${admin1Code}&q=${query}`);
             setCitySuggestions(response.data);
         } catch (error) {
             console.error('Ошибка при получении городов:', error);
@@ -51,19 +51,31 @@ const UserFilter = ({ onFilterChange, currentFilters }) => {
   const debouncedFetchCountry = useCallback(debounce(fetchSuggestionsCountry, 300), [fetchSuggestionsCountry]);
   const debouncedFetchRegion = useCallback(debounce(fetchSuggestionsRegion, 300), [fetchSuggestionsRegion]);
   const debouncedFetchCity = useCallback(debounce(fetchSuggestionsCity, 300), [fetchSuggestionsCity]);
-
-  // Обработчики изменения ввода
+    
+     // Обработчики изменения ввода
     const handleCountryChange = (e) => {
         const value = e.target.value;
         setSearchTermCountry(value);
         debouncedFetchCountry(value);
+        // Сбрасываем регион и город при изменении страны
+        setSelectedRegion(null);
+        setSelectedCity(null);
+        setSearchTermRegion('');
+        setSearchTermCity('');
+        setRegionSuggestions([]);
+        setCitySuggestions([]);
     };
+
 
     const handleRegionChange = (e) => {
         const value = e.target.value;
         setSearchTermRegion(value);
         if (selectedCountry) {
             debouncedFetchRegion(selectedCountry.id, value);
+            // Сбрасываем город при изменении региона
+            setSelectedCity(null);
+            setSearchTermCity('');
+            setCitySuggestions([]);
         }
     };
 
@@ -71,30 +83,28 @@ const UserFilter = ({ onFilterChange, currentFilters }) => {
         const value = e.target.value;
         setSearchTermCity(value);
         if (selectedCountry && selectedRegion) {
-            debouncedFetchCity(selectedCountry.id, selectedRegion.id, value);
+            debouncedFetchCity(selectedCountry.id, selectedRegion.admin1_code, value);
         }
     };
 
  // Функции для выбора предложения
   const handleSelectCountry = (country) => {
     setSelectedCountry(country);
-    setSearchTermCountry(country.name_ru || country.name_en); // Устанавливаем название страны в поле ввода
+    setSearchTermCountry(country.name_ru ? country.name_ru : country.name_en);
     setCountrySuggestions([]);
   };
 
   const handleSelectRegion = (region) => {
     setSelectedRegion(region);
-    setSearchTermRegion(region.name_ru || region.name_en); // Устанавливаем название региона в поле ввода
+   setSearchTermRegion(region.name_ru ? region.name_ru : region.name_en);
     setRegionSuggestions([]);
   };
 
   const handleSelectCity = (city) => {
     setSelectedCity(city);
-    setSearchTermCity(city.name_ru || city.name_en); // Устанавливаем название города в поле ввода
+    setSearchTermCity(city.name_ru ? city.name_ru : city.name_en); // Устанавливаем название города в поле ввода
     setCitySuggestions([]);
   };
-
-
 
  // Функция для очистки фильтров
     const handleClearFilters = () => {
@@ -114,7 +124,7 @@ const UserFilter = ({ onFilterChange, currentFilters }) => {
 const handleApplyFilters = () => {
     onFilterChange({
         country_id: selectedCountry ? selectedCountry.id : null,
-        admin1_code: selectedRegion ? selectedRegion.id : null,
+        admin1_code: selectedRegion ? selectedRegion.admin1_code : null,
         city_id: selectedCity ? selectedCity.id : null,
     });
 };

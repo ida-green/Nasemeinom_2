@@ -6,7 +6,7 @@ const City = require('../models/City.js');
 const getCountries = async (req, res) => {
     try {
         const query = req.query.q;
-        const limit = parseInt(req.query.limit) || 10;
+        const limit = parseInt(req.query.limit) || 5;
         if (!query || query.length < 2) {
             return res.status(400).json({ error: 'Параметр "q" обязателен и должен содержать минимум 2 символа.' });
         }
@@ -18,7 +18,7 @@ const getCountries = async (req, res) => {
                     { name_ru: { [Op.like]: `%${query}%` } }
                 ]
             },
-            order: [['name_en', 'ASC']],
+            order: [['name_ru', 'DESC']],
             limit: limit
         });
         res.json(countries);
@@ -87,7 +87,7 @@ const getCities = async (req, res) => {
         const cities = await City.findAll({
             attributes: ['id', 'country_id', 'admin1_code', 'name_en', 'name_ru' ],
             where: whereCondition,
-            order: [['name_en', 'ASC']],
+            order: [['name_ru', 'ASC']],
             limit: limit
         });
         res.json(cities);
