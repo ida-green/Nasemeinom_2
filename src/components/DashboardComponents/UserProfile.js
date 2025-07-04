@@ -7,7 +7,7 @@ const UserProfile = ({ user, userData }) => {
     return (
         <div className="user-profile">
             <div className="row">
-                <div className="col-12 col-md-8">
+                <div className="col-12 col-md-10">
                     <div className="user-profile-block">
                         <img 
                         className="comment-user-avatar" 

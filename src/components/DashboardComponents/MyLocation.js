@@ -163,88 +163,103 @@ const handleSelectCountry = (country) => {
     }
 };
 
+ const handleClose = () => {
+        // Сброс значений инпутов к данным из базы
+        setSearchTermCountry(initialData.country.name_ru || '');
+        setSearchTermRegion(initialData.region.name_ru || '');
+        setSearchTermCity(initialData.city.name_ru || '');
+        setShowCountrySuggestions(false);
+        setShowRegionSuggestions(false); // Скрываем список предложений
+        setCitySuggestions([]); // Очищаем предложения городов
+        setIsEditing(false);
+    };
+
     return (
         <div>
-         <div className="location-edit-component">
-            {isEditing ? (
-                <form onSubmit={handleSaveLocation}>
+    <div className="location-edit-component">
+        {isEditing ? (
+            <form onSubmit={handleSaveLocation}>
                 <h5>Редактировать локацию</h5>
-                <div>
-                    <label htmlFor="country">Страна:</label>
-                    <input
-                        type="text"
-                        id="country"
-                        value={searchTermCountry}
-                        onChange={handleCountryChange}
-                        placeholder="Введите страну"
-                        autoComplete="off"
-                    />
-                    {showCountrySuggestions && (
-                        <ul>
-                            {countrySuggestions.map((country) => (
-                                <li key={country.id} onClick={() => handleSelectCountry(country)}>
-                                    {country.name_ru || country.name_en}
-                                </li>
-                            ))}
-                        </ul>
-                    )}
+                <div className="input-container row">
+                    <div className="col-md-4 mb-3">
+                        <label htmlFor="country" className="form-label">Страна:</label>
+                        <input
+                            type="text"
+                            id="country"
+                            className="form-control"
+                            value={searchTermCountry}
+                            onChange={handleCountryChange}
+                            placeholder="Введите страну"
+                            autoComplete="off"
+                        />
+                        {showCountrySuggestions && (
+                            <ul className="suggestions-list">
+                                {countrySuggestions.map((country) => (
+                                    <li key={country.id} onClick={() => handleSelectCountry(country)}>
+                                        {country.name_ru || country.name_en}
+                                    </li>
+                                ))}
+                            </ul>
+                        )}
+                    </div>
+                    <div className="col-md-4 mb-3">
+                        <label htmlFor="region" className="form-label">Регион:</label>
+                        <input
+                            type="text"
+                            id="region"
+                            className="form-control"
+                            value={searchTermRegion}
+                            onChange={handleRegionChange}
+                            placeholder="Введите регион"
+                            disabled={!selectedCountry}
+                            autoComplete="off"
+                        />
+                        {showRegionSuggestions && (
+                            <ul className="suggestions-list">
+                                {regionSuggestions.map((region) => (
+                                    <li key={region.id} onClick={() => handleSelectRegion(region)}>
+                                        {region.name_ru || region.name_en}
+                                    </li>
+                                ))}
+                            </ul>
+                        )}
+                    </div>
+                    <div className="col-md-4 mb-3">
+                        <label htmlFor="city" className="form-label">Город:</label>
+                        <input
+                            type="text"
+                            id="city"
+                            className="form-control"
+                            value={searchTermCity}
+                            onChange={handleCityChange}
+                            placeholder="Введите город"
+                            disabled={!selectedRegion}
+                            autoComplete="off"
+                        />
+                        {showCitySuggestions && (
+                            <ul className="suggestions-list">
+                                {citySuggestions.map((city) => (
+                                    <li key={city.id} onClick={() => handleSelectCity(city)}>
+                                        {city.name_ru || city.name_en}
+                                    </li>
+                                ))}
+                            </ul>
+                        )}
+                    </div>
                 </div>
-                {/* Аналогично для региона и города */}
-                <div>
-                    <label htmlFor="region">Регион:</label>
-                    <input
-                        type="text"
-                        id="region"
-                        value={searchTermRegion}
-                        onChange={handleRegionChange}
-                        placeholder="Введите регион"
-                        disabled={!selectedCountry}
-                        autoComplete="off"
-                    />
-                    {showRegionSuggestions && (
-                        <ul>
-                            {regionSuggestions.map((region) => (
-                                <li key={region.id} onClick={() => handleSelectRegion(region)}>
-                                    {region.name_ru || region.name_en}
-                                </li>
-                            ))}
-                        </ul>
-                    )}
-                </div>
-                <div>
-                    <label htmlFor="city">Город:</label>
-                    <input
-                        type="text"
-                        id="city"
-                        value={searchTermCity}
-                        onChange={handleCityChange}
-                        placeholder="Введите город"
-                        disabled={!selectedRegion}
-                        autoComplete="off"
-                    />
-                    {showCitySuggestions
-&& (
-                        <ul>
-                            {citySuggestions.map((city) => (
-                                <li key={city.id} onClick={() => handleSelectCity(city)}>
-                                    {city.name_ru || city.name_en}
-                                </li>
-                            ))}
-                        </ul>
-                    )}
-                </div>
-                <button type="submit">Сохранить</button>
+                <button type="submit" className="btn btn-primary">Сохранить</button>
+                <button type="button" className="btn btn-secondary ms-2" onClick={() => handleClose()}>Закрыть</button>
             </form>
-            ) : (
-                <div className="user-profile-block">
-                    <div>Локация: {initialData.city.name_ru}, {initialData.region.name_ru}, {initialData.country.name_ru}</div>
-                    <button className="custom-button">
-                        <FontAwesomeIcon icon={faPenToSquare} className="fa-lg" onClick={() => setIsEditing(true)} />
-                    </button>
+        ) : (
+            <div className="user-profile-block">
+            <div>Локация: {initialData.city.name_ru}, {initialData.region.name_ru}, {initialData.country.name_ru}</div>
+                            <button className="btn custom-button" onClick={() => setIsEditing(true)}>
+                                <FontAwesomeIcon icon={faPenToSquare} className="fa-lg" />
+                            </button>
+                        </div>
+                    )}
                 </div>
-           )}
-        </div>
-        </div>
+            </div>
     );
 };
 
