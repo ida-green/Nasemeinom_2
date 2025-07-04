@@ -75,71 +75,91 @@ const fetchSuggestionsCountry = useCallback(async (query) => {
     const debouncedFetchRegion = useCallback(debounce(fetchSuggestionsRegion, 300), [fetchSuggestionsRegion]);
     const debouncedFetchCity = useCallback(debounce(fetchSuggestionsCity, 300), [fetchSuggestionsCity]);
 
-     // Handlers for input changes
-    const handleCountryChange = (e) => {
-        const value = e.target.value;
-        setSearchTermCountry(value);
-        debouncedFetchCountry(value);  
-        
-        // Если страна удалена (пустое значение), сбрасываем регион и город
-        if (!value) {
-            setSelectedCountry(null);
-            setSelectedRegion(null); // Сбрасываем регион
-            setSelectedCity(null); // Сбрасываем город
-            setSearchTermRegion(''); // Очищаем поле региона
-            setSearchTermCity(''); // Очищаем поле города
-        }
-    };
+// Handlers for input changes
+const handleCountryChange = (e) => {
+    const value = e.target.value;
+    setSearchTermCountry(value);
+    debouncedFetchCountry(value);
 
-    const handleRegionChange = (e) => {
-        const value = e.target.value;
-        setSearchTermRegion(value);
-        if (selectedCountry) {
-            debouncedFetchRegion(selectedCountry.id, value);
-        }
-
-        // Если регион удален (пустое значение), сбрасываем город
-        if (!value) {
-            setSelectedRegion(null);
-            setSelectedCity(null); // Сбрасываем город
-            setSearchTermCity(''); // Очищаем поле города
-        }
-    };
-
-    const handleCityChange = (e) => {
-        const value = e.target.value;
-        setSearchTermCity(value);
-        if (selectedCountry && selectedRegion) {
-            debouncedFetchCity(selectedCountry.id, selectedRegion.id, value);
-        }
-    };
-
-const handleSelectCountry = (country) => {
-        setSelectedCountry(country);
-        setSearchTermCountry(country.name_ru || country.name_en); // Устанавливаем выбранную страну
-        setShowCountrySuggestions(false); // Скрываем список предложений
-        setRegionSuggestions([]); // Очищаем предложения регионов
-        setCitySuggestions([]); // Очищаем предложения городов
-        setSelectedRegion(null); // Сбрасываем выбранный регион
-        setSelectedCity(null); // Сбрасываем выбранный город
+    // Если страна удалена (пустое значение), сбрасываем регион и город
+    if (!value) {
+        setSelectedCountry(null);
+        setSelectedRegion(null); // Сбрасываем регион
+        setSelectedCity(null); // Сбрасываем город
         setSearchTermRegion(''); // Очищаем поле региона
         setSearchTermCity(''); // Очищаем поле города
-    };
-
-    const handleSelectRegion = (region) => {
-        setSelectedRegion(region);
-        setSearchTermRegion(region.name_ru || region.name_en); // Устанавливаем выбранный регион
-        setShowRegionSuggestions(false); // Скрываем список предложений
+        setRegionSuggestions([]); // Очищаем предложения регионов
         setCitySuggestions([]); // Очищаем предложения городов
-        setSelectedCity(null); // Сбрасываем выбранный город
-        setSearchTermCity(''); // Очищаем поле города
-    };
+        setShowCountrySuggestions(false); // Скрываем список предложений для стран
+    } else {
+        setShowCountrySuggestions(true); // Показываем список предложений для стран
+    }
+};
 
-    const handleSelectCity = (city) => {
-        setSelectedCity(city);
-        setSearchTermCity(city.name_ru || city.name_en); // Устанавливаем выбранный город
-        setShowCitySuggestions(false); // Скрываем список предложений
-    };
+const handleRegionChange = (e) => {
+    const value = e.target.value;
+    setSearchTermRegion(value);
+
+    if (selectedCountry) {
+        debouncedFetchRegion(selectedCountry.id, value);
+    }
+
+    // Если регион удален (пустое значение), сбрасываем город
+    if (!value) {
+        setSelectedRegion(null);
+        setSelectedCity(null); // Сбрасываем город
+        setSearchTermCity(''); // Очищаем поле города
+        setCitySuggestions([]); // Очищаем предложения городов
+        setShowRegionSuggestions(false); // Скрываем список предложений для регионов
+    } else {
+        setShowRegionSuggestions(true); // Показываем список предложений для регионов
+    }
+};
+
+const handleCityChange = (e) => {
+    const value = e.target.value;
+    setSearchTermCity(value);
+
+    if (selectedCountry && selectedRegion) {
+        debouncedFetchCity(selectedCountry.id, selectedRegion.id, value);
+    }
+
+    // Если город удален (пустое значение), сбрасываем выбранный город
+    if (!value) {
+        setSelectedCity(null);
+        setCitySuggestions([]); // Очищаем предложения городов
+        setShowCitySuggestions(false); // Скрываем список предложений для городов
+    } else {
+        setShowCitySuggestions(true); // Показываем список предложений для городов
+    }
+};
+
+const handleSelectCountry = (country) => {
+    setSelectedCountry(country);
+    setSearchTermCountry(`${country.name_ru} ${country.name_en}`); // Устанавливаем выбранную страну
+    setShowCountrySuggestions(false); // Скрываем список предложений
+    setRegionSuggestions([]); // Очищаем предложения регионов
+    setCitySuggestions([]); // Очищаем предложения городов
+    setSelectedRegion(null); // Сбрасываем выбранный регион
+    setSelectedCity(null); // Сбрасываем выбранный город
+    setSearchTermRegion(''); // Очищаем поле региона
+    setSearchTermCity(''); // Очищаем поле города
+};
+
+const handleSelectRegion = (region) => {
+    setSelectedRegion(region);
+    setSearchTermRegion(`${region.name_ru} ${region.name_en}`); // Устанавливаем выбранный регион
+    setShowRegionSuggestions(false); // Скрываем список предложений
+    setCitySuggestions([]); // Очищаем предложения городов
+    setSelectedCity(null); // Сбрасываем выбранный город
+    setSearchTermCity(''); // Очищаем поле города
+};
+
+const handleSelectCity = (city) => {
+    setSelectedCity(city);
+    setSearchTermCity(city.name_ru || city.name_en); // Устанавливаем выбранный город
+    setShowCitySuggestions(false); // Скрываем список предложений
+};
 
     // Save updated location
     const handleSaveLocation = async () => {
@@ -247,8 +267,8 @@ const handleSelectCountry = (country) => {
                         )}
                     </div>
                 </div>
-                <button type="submit" className="btn btn-primary">Сохранить</button>
-                <button type="button" className="btn btn-secondary ms-2" onClick={() => handleClose()}>Закрыть</button>
+                <button type="submit" className="btn button-btn button-btn-primary btn-sm mb-3">Сохранить</button>
+                <button type="button" className="btn button-btn button-btn-outline-primary btn-sm mb-3" onClick={() => handleClose()}>Закрыть</button>
             </form>
         ) : (
             <div className="user-profile-block">
