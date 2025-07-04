@@ -58,10 +58,10 @@ const fetchSuggestionsCountry = useCallback(async (query) => {
         }
     }, []);
 
-    const fetchSuggestionsCity = useCallback(async (countryId, admin1Code, query) => {
+    const fetchSuggestionsCity = useCallback(async (countryId, admin1Сode, query) => {
     if (query.length < 2) return;
     try {
-        const response = await axios.get(`http://localhost:3000/api/locations/cities?countryId=${countryId}&regionAdmin1Code=${admin1Code}&q=${query}`);
+        const response = await axios.get(`http://localhost:3000/api/locations/cities?countryId=${countryId}&regionAdmin1Code=${admin1Сode}&q=${query}`);
         setCitySuggestions(response.data);
         setShowCitySuggestions(true); // Показываем список предложений
     } catch (error) {
@@ -121,7 +121,8 @@ const handleCityChange = (e) => {
     setSearchTermCity(value);
 
     if (selectedCountry && selectedRegion) {
-        debouncedFetchCity(selectedCountry.id, selectedRegion.id, value);
+        // Используем admin1_code вместо region.id
+        debouncedFetchCity(selectedCountry.id, selectedRegion.admin1_code, value);
     }
 
     // Если город удален (пустое значение), сбрасываем выбранный город
@@ -136,7 +137,7 @@ const handleCityChange = (e) => {
 
 const handleSelectCountry = (country) => {
     setSelectedCountry(country);
-    setSearchTermCountry(`${country.name_ru} ${country.name_en}`); // Устанавливаем выбранную страну
+    setSearchTermCountry(`${country.name_ru}` || `${country.name_en}`); // Устанавливаем выбранную страну
     setShowCountrySuggestions(false); // Скрываем список предложений
     setRegionSuggestions([]); // Очищаем предложения регионов
     setCitySuggestions([]); // Очищаем предложения городов
@@ -148,7 +149,7 @@ const handleSelectCountry = (country) => {
 
 const handleSelectRegion = (region) => {
     setSelectedRegion(region);
-    setSearchTermRegion(`${region.name_ru} ${region.name_en}`); // Устанавливаем выбранный регион
+    setSearchTermRegion(`${region.name_ru}` || `${region.name_en}`); // Устанавливаем выбранный регион
     setShowRegionSuggestions(false); // Скрываем список предложений
     setCitySuggestions([]); // Очищаем предложения городов
     setSelectedCity(null); // Сбрасываем выбранный город

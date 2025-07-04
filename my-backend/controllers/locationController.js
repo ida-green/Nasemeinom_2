@@ -56,10 +56,10 @@ const getRegions = async (req, res) => {
 };
 
 const getCities = async (req, res) => {
-    try {
+    try { 
         const query = req.query.q;
         const countryId = req.query.countryId;
-        const regionAdmin1Code = req.query.admin1_code;
+        const regionAdmin1Code = req.query.regionAdmin1Code; 
         const limit = parseInt(req.query.limit) || 10; // Обработка случая, если limit отсутствует
         
 
