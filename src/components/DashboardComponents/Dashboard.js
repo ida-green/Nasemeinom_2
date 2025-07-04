@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
-import UserProfile from './UserProfile'; // Убедитесь, что этот компонент существует
+import UserProfile from './UserProfile';
 import UserSettings from './UserSettings';
 import UserOrders from './UserOrders';
 import UserNotifications from './UserNotifications';
@@ -40,11 +40,9 @@ const Dashboard = () => {
         try {
             const educationResponse = await axios.get('http://localhost:3000/api/educationForms/');
             setEducationForms(educationResponse.data);
-            console.log('Формы образования в Dashboard:', educationResponse.data);
 
             const genderResponse = await axios.get('http://localhost:3000/api/educationForms/genders'); // Исправлено: /api/genders
             setGenders(genderResponse.data);
-            console.log('Опции выбора пола в Dashboard:', genderResponse.data);
         } catch (error) {
             console.error('Ошибка при загрузке справочников:', error);
         }
@@ -61,12 +59,7 @@ const Dashboard = () => {
      if (!educationForms || !genders) {
         return <div>Загрузка данных...</div>;
     }
-    console.log('Данные о пользователе на выходе из Dashboard:', userData);
-    console.log('Формы обучения на выходе из Dashboard:', educationForms);
-    console.log('Опции пола на выходе из Dashboard:', genders);
-
-
-
+    
     return (
         <div className="container">
         <div className="col-12">
@@ -84,16 +77,13 @@ const Dashboard = () => {
         <div className="dashboard">
             {userData && (
                 <>
-                    <UserProfile userData={userData} />
-                    <UserSettings
-                        user={user}
-                        userData={userData} 
-                        setUserData={setUserData} 
-                        educationForms = {educationForms} 
-                        genders = {genders} />
-                        {/*
-                    <UserOrders userId={userData.id} />
-                    */}
+                    <UserProfile 
+                    user={user} 
+                    userData={userData} 
+                    educationForms = {educationForms} 
+                    genders = {genders}/>
+
+                   
                     <UserNotifications userId={userData.id} />
                 </>
             )}

@@ -1,26 +1,38 @@
-import React, { useState, useCallback } from 'react';
+import React, { useState, useCallback, useEffect } from 'react';
 import axios from 'axios';
-import debounce from 'lodash.debounce';
-import useAuth from '../../hooks/useAuth'; 
+import { debounce } from 'lodash';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faPenToSquare } from '@fortawesome/free-regular-svg-icons';
 
-{/*
-const LocationForm = ( userData ) => {
-    const [formData, setFormData] = useState(userData);
-    const { user } = useAuth();
-    const [searchTermCountry, setSearchTermCountry] = useState(formData.country?.name_ru || formData.country?.name_en || '');
-    const [searchTermRegion, setSearchTermRegion] = useState(formData.region?.name_ru || formData.region?.name_en || '');
-    const [searchTermCity, setSearchTermCity] = useState(formData.city?.name_ru || formData.city?.name_en || '');
-    const [countrySuggestions, setCountrySuggestions] = useState([]);
-    const [regionSuggestions, setRegionSuggestions] = useState([]);
-    const [citySuggestions, setCitySuggestions] = useState([]);
-    const [selectedCountry, setSelectedCountry] = useState(formData.country || null);
-    const [selectedRegion, setSelectedRegion] = useState(formData.region || null);
-    const [selectedCity, setSelectedCity] = useState(formData.city || null);
+const MyLocation = ({ user, userData }) => {  
+const [initialData, setInitialData] = useState(userData);        
+const [isEditing, setIsEditing] = useState(false);    
 
-    // Флаги для управления видимостью списков
-    const [showCountrySuggestions, setShowCountrySuggestions] = useState(false);
-    const [showRegionSuggestions, setShowRegionSuggestions] = useState(false);
-    const [showCitySuggestions, setShowCitySuggestions] = useState(false);
+const [searchTermCountry, setSearchTermCountry] = useState(initialData.country?.name_ru || initialData.country?.name_en || '');
+const [searchTermRegion, setSearchTermRegion] = useState(initialData.region?.name_ru || initialData.Data.region?.name_en || '');
+const [searchTermCity, setSearchTermCity] = useState(initialData.city?.name_ru || initialData.city?.name_en || '');
+
+const [countrySuggestions, setCountrySuggestions] = useState([]);
+const [regionSuggestions, setRegionSuggestions] = useState([]);
+const [citySuggestions, setCitySuggestions] = useState([]);
+
+const [selectedCountry, setSelectedCountry] = useState(initialData.country || null);
+const [selectedRegion, setSelectedRegion] = useState(initialData.region || null);
+const [selectedCity, setSelectedCity] = useState(initialData.city || null);
+
+// Флаги для управления видимостью списков
+const [showCountrySuggestions, setShowCountrySuggestions] = useState(false);
+const [showRegionSuggestions, setShowRegionSuggestions] = useState(false);
+const [showCitySuggestions, setShowCitySuggestions] = useState(false);
+
+// Инициализация состояния при изменении initialData
+    useEffect(() => {
+        if (initialData) {
+            setSearchTermCountry(initialData.country.name_ru || '');
+            setSearchTermRegion(initialData.region.name_ru || '');
+            setSearchTermCity(initialData.city.name_ru || '');
+        }
+    }, [initialData]);
 
 const fetchSuggestionsCountry = useCallback(async (query) => {
         if (query.length < 2) return;
@@ -67,8 +79,8 @@ const fetchSuggestionsCountry = useCallback(async (query) => {
     const handleCountryChange = (e) => {
         const value = e.target.value;
         setSearchTermCountry(value);
-        debouncedFetchCountry(value);   
-
+        debouncedFetchCountry(value);  
+        
         // Если страна удалена (пустое значение), сбрасываем регион и город
         if (!value) {
             setSelectedCountry(null);
@@ -141,6 +153,7 @@ const handleSelectCountry = (country) => {
             });
             console.log('Ответ от сервера:', response.data);
             alert('Данные успешно сохранены!');
+            setIsEditing(false)
         } catch (error) {
             console.error('Ошибка при сохранении данных:', error);
             alert('Не удалось сохранить данные.');
@@ -151,86 +164,88 @@ const handleSelectCountry = (country) => {
 };
 
     return (
-        <div className="row">
-        <form>
-            <div className="row">
-                <div className="col-12 col-md-4 mb-3">
-                    <label htmlFor="country" className="form-label">Страна</label>
+        <div>
+         <div className="location-edit-component">
+            {isEditing ? (
+                <form onSubmit={handleSaveLocation}>
+                <h5>Редактировать локацию</h5>
+                <div>
+                    <label htmlFor="country">Страна:</label>
                     <input
                         type="text"
-                        className="form-control"
                         id="country"
-                        placeholder="страна"
                         value={searchTermCountry}
                         onChange={handleCountryChange}
+                        placeholder="Введите страну"
+                        autoComplete="off"
                     />
-                    {showCountrySuggestions && countrySuggestions.length > 0 && (
-                        <ul className="list-group">
+                    {showCountrySuggestions && (
+                        <ul>
                             {countrySuggestions.map((country) => (
-                                <li key={country.id} className="list-group-item" onClick={() => handleSelectCountry(country)}>
-                                    {country.name_ru} ({country.name_en})
+                                <li key={country.id} onClick={() => handleSelectCountry(country)}>
+                                    {country.name_ru || country.name_en}
                                 </li>
                             ))}
                         </ul>
                     )}
                 </div>
-
-                <div className="col-12 col-md-4 mb-3">
-                    <label htmlFor="region" className="form-label">Регион</label>
+                {/* Аналогично для региона и города */}
+                <div>
+                    <label htmlFor="region">Регион:</label>
                     <input
                         type="text"
-                        className="form-control"
                         id="region"
-                        placeholder="регион"
                         value={searchTermRegion}
                         onChange={handleRegionChange}
-                        disabled={!selectedCountry} // Делаем поле неактивным, если страна не выбрана
+                        placeholder="Введите регион"
+                        disabled={!selectedCountry}
+                        autoComplete="off"
                     />
-                    {showRegionSuggestions && regionSuggestions.length > 0 && (
-                        <ul className="list-group">
+                    {showRegionSuggestions && (
+                        <ul>
                             {regionSuggestions.map((region) => (
-                                <li key={region.id} className="list-group-item" onClick={() => handleSelectRegion(region)}>
-                                    {region.name_ru} ({region.name_en})
+                                <li key={region.id} onClick={() => handleSelectRegion(region)}>
+                                    {region.name_ru || region.name_en}
                                 </li>
                             ))}
                         </ul>
                     )}
                 </div>
-
-                <div className="col-12 col-md-4 mb-3">
-                    <label htmlFor="city" className="form-label">Город</label>
+                <div>
+                    <label htmlFor="city">Город:</label>
                     <input
                         type="text"
-                        className="form-control"
                         id="city"
-                        placeholder="город"
                         value={searchTermCity}
                         onChange={handleCityChange}
-                        disabled={!selectedRegion} // Делаем поле неактивным, если регион не выбран
+                        placeholder="Введите город"
+                        disabled={!selectedRegion}
+                        autoComplete="off"
                     />
-                    {showCitySuggestions && citySuggestions.length > 0 && (
-                        <ul className="list-group">
+                    {showCitySuggestions
+&& (
+                        <ul>
                             {citySuggestions.map((city) => (
-                                <li key={city.id} className="list-group-item" onClick={() => handleSelectCity(city)}>
+                                <li key={city.id} onClick={() => handleSelectCity(city)}>
                                     {city.name_ru || city.name_en}
                                 </li>
                             ))}
                         </ul>
                     )}
                 </div>
-            </div>
-            <button 
-                type="submit" 
-                className="btn button-btn button-btn-primary btn-sm mb-3"
-                onClick={(e) => {
-                    e.preventDefault();
-                    handleSaveLocation();
-                }}
-            >Сохранить изменения</button>
-        </form>    
+                <button type="submit">Сохранить</button>
+            </form>
+            ) : (
+                <div className="user-profile-block">
+                    <div>Локация: {initialData.city.name_ru}, {initialData.region.name_ru}, {initialData.country.name_ru}</div>
+                    <button className="custom-button">
+                        <FontAwesomeIcon icon={faPenToSquare} className="fa-lg" onClick={() => setIsEditing(true)} />
+                    </button>
+                </div>
+           )}
+        </div>
         </div>
     );
 };
 
-export default LocationForm;
-*/}
+export default MyLocation;

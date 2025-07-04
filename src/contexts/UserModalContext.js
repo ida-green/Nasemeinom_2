@@ -1,6 +1,5 @@
 // UserModalContext.js
 import React, { createContext, useContext, useState } from 'react';
-import UserCardModal from '../components/UserCardModal';
 
 const UserModalContext = createContext();
 

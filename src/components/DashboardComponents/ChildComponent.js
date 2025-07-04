@@ -11,6 +11,8 @@ function ChildComponent({ userData, genders, educationForms }) {
         children: [...userData.children]
     });
     const [error, setError] = useState('');
+    const [notification, setNotification] = useState('');
+    const [notificationDelete, setNotificationDelete] = useState('');
     const componentRef = useRef(null);
 
     useEffect(() => {
@@ -39,16 +41,27 @@ function ChildComponent({ userData, genders, educationForms }) {
 
     const removeChild = async (index) => {
     try {
-        // Отправляем запрос на сервер для удаления ребенка
-        await axios.delete(`http://localhost:3000/api/users/${user.id}/children/${formData.children[index].id}`, {
-            headers: {
-                'Content-Type': 'application/json',
-            },
-        });
+        // Проверяем, есть ли у ребенка id
+        const childToRemove = formData.children[index];
 
-        // Если удаление прошло успешно, обновляем состояние
-        const updatedChildren = formData.children.filter((_, i) => i !== index); // Фильтруем удаленного ребенка
+        if (childToRemove.id) {
+            // Если у ребенка есть id, отправляем запрос на сервер для удаления
+            await axios.delete(`http://localhost:3000/api/users/${user.id}/children/${childToRemove.id}`, {
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+            });
+        }
+
+        // Обновляем локальное состояние, удаляя ребенка
+        const updatedChildren = formData.children.filter((_, i) => i !== index);
         setFormData({ ...formData, children: updatedChildren });
+        setNotificationDelete('Данные о ребенке удалены');
+
+        // Удаляем уведомление через 3 секунды
+        setTimeout(() => {
+            setNotificationDelete('');
+        }, 2500);
         setError('');
     } catch (error) {
         console.error('Ошибка при удалении ребенка:', error);
@@ -58,28 +71,34 @@ function ChildComponent({ userData, genders, educationForms }) {
 
 // Функция для фильтрации детей при отображении
 const visibleChildren = formData.children.filter(child => !child.deleted);
-    
 
-    console.log('children: formData.children в ChildComponemt:', formData.children)
-    
-    const handleSubmitChildren = async (e) => {
+// Обновленная функция handleSubmitChildren
+const handleSubmitChildren = async (e) => {
     e.preventDefault();
-    console.log('Дети, которых отправляем в patch:', formData.children)  
+    console.log('Дети, которых отправляем в patch:', formData.children);
     try {
-        // Предполагается, что formData содержит массив детей
-        await axios.patch(`http://localhost:3000/api/users/${user.id}/children`, { children: formData.children }, {
-            
+        // Фильтруем детей, чтобы исключить тех, кто помечен как удаленные
+        const childrenToSubmit = formData.children.filter(child => !child.deleted);
+
+        await axios.patch(`http://localhost:3000/api/users/${user.id}/children`, { children: childrenToSubmit }, {
             headers: {
                 'Content-Type': 'application/json',
             },
         });
+
         setError('');
-        // Дополнительно можно обработать успешное обновление, например, показать уведомление
+        setNotification('Изменения успешно сохранены!');
+
+        // Удаляем уведомление через 3 секунды
+        setTimeout(() => {
+            setNotification('');
+        }, 3000);
     } catch (error) {
         console.error('Ошибка при обновлении данных о детях:', error);
         setError('Ошибка при сохранении данных о детях!');
     }
 };
+
 
     const handleClickOutside = (event) => {
         if (componentRef.current && !componentRef.current.contains(event.target)) {
@@ -125,6 +144,8 @@ const visibleChildren = formData.children.filter(child => !child.deleted);
                     <option key={form.id} value={form.id}>{form.title}</option>
                     ))}
                     </select>
+                    
+                    {notificationDelete && <div className="notificationDelete">{notificationDelete}</div>} {/* Отображение уведомления */}
                     <button type="button" onClick={() => removeChild(index)} className="btn p-0">
                         <FontAwesomeIcon icon={faTrashCan} />
                     </button>
@@ -133,6 +154,7 @@ const visibleChildren = formData.children.filter(child => !child.deleted);
             {error && <div className="text-danger">{error}</div>}
             <button type="button" onClick={addChild}>Добавить ребенка</button>
             <button type="submit" onClick={handleSubmitChildren}>Сохранить</button>
+            {notification && <div className="notification">{notification}</div>} {/* Отображение уведомления */}
         </div>
     );
 }

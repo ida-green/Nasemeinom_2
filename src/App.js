@@ -1,7 +1,6 @@
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './styles/App.css';
 import './styles/UserCard.css';
-import React, { useEffect } from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import { AuthProvider } from './contexts/AuthContext';
 import { CoursePriceProvider } from './contexts/CoursePriceContext.js';

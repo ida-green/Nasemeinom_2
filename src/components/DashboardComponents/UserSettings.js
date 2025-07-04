@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import axios from 'axios';
 import ChildComponent from './ChildComponent';
-import LocationForm from './LocationForm';
+import MyLocation from './MyLocation';
 
 const UserSettings = ({ user, userData, setUserData, educationForms, genders }) => {
     const [formData, setFormData] = useState(userData);
@@ -44,7 +44,7 @@ const UserSettings = ({ user, userData, setUserData, educationForms, genders }) 
                     </div>
                 </div>
 
-            <LocationForm user={user} userData={userData} />
+            <MyLocation user={user} userData={userData}/>
             <ChildComponent 
                 user={user} 
                 userData={userData}

@@ -1646,6 +1646,21 @@ footer {
 
 /* =================== Free school card ================= */
 
+
+/* =================== User profile ================= */
+.user-profile-block {
+  background-color: var(--light-grey-color);
+  margin-bottom: .5rem;
+  border: solid 1px;
+  border-color: var(--grey-color);
+  padding: 6px;
+}
+
+
+/* =================== User profile ================= */
+
+
+
 /* уменьшаем паддинги на определенной ширине экрана в заголовках подробного описания и видео товара в карточке */
 @media only screen and (max-width: 500px) {
   .produact-content-details .nav-tabs .nav-link {
