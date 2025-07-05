@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
 import UserProfile from './UserProfile';
-import UserSettings from './UserSettings';
 import UserOrders from './UserOrders';
 import UserNotifications from './UserNotifications';
 import useAuth from '../../hooks/useAuth'; 

@@ -172,8 +172,23 @@ const handleSelectCity = (city) => {
                 region_id: selectedRegion.id,
                 city_id: selectedCity.id,
             });
-            console.log('Ответ от сервера:', response.data);
+            console.log('Ответ от сервера при редактировании локации в профиле:', response.data);
             alert('Данные успешно сохранены!');
+
+            // Обновляем состояния с новыми значениями в инпутах
+                setSearchTermCountry(selectedCountry.name_ru || selectedCountry.name_en);
+                setSearchTermRegion(selectedRegion.name_ru || selectedRegion.name_en);
+                setSearchTermCity(selectedCity.name_ru || selectedCity.name_en);
+
+                // Обновляем initialData для отображения в профиле
+                setInitialData({
+                    ...initialData,
+                    country: selectedCountry,
+                    region: selectedRegion,
+                    city: selectedCity,
+                });
+
+
             setIsEditing(false); // Закрываем редактирование только при успешном сохранении
         } catch (error) {
             console.error('Ошибка при сохранении данных:', error);
@@ -280,8 +295,8 @@ const handleSelectCity = (city) => {
             )}
         </div>
     </div>
-    <button type="submit" className="btn btn-primary btn-sm mb-3">Сохранить</button>
-    <button type="button" className="btn btn-outline-primary btn-sm mb-3" onClick={() => handleClose()}>Закрыть</button>
+    <button type="submit" className="btn button-btn button-btn-primary btn-sm mb-3">Сохранить</button>
+    <button type="button" className="btn button-btn button-btn-outline-primary btn-sm mb-3" onClick={() => handleClose()}>Закрыть</button>
     </form>
         ) : (
             <div className="user-profile-block">

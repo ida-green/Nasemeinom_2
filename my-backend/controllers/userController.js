@@ -197,7 +197,7 @@ const updateUserDescription = async (req, res) => {
     }
 
     try {
-        const userId = req.user.id;
+        const userId = req.params.id;
         const user = await User.findByPk(userId);
         if (!user) {
             return res.status(404).json({ error: 'Пользователь не найден' });
@@ -239,15 +239,11 @@ const updateUserLocation = async (req, res) => {
     const userId = req.params.id;
     const { country_id, region_id, city_id } = req.body;
 
-    console.log('Обновление местоположения для пользователя с ID:', `${userId}`);
-    console.log('Полученные данные:', { country_id, region_id, city_id });
-
     if (!country_id && !region_id && !city_id) {
         return res.status(400).json({ message: 'Хотя бы одно поле должно быть заполнено' });
     }
 
     try {
-        console.log('Пользователь, для которого обновляем данные локации:', `${userId}`);
         const user = await User.findByPk(userId); // Изменено на findByPk
         if (!user) {
             console.log('Пользователь не найден');
