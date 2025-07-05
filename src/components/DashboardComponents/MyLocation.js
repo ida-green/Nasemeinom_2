@@ -3,8 +3,10 @@ import axios from 'axios';
 import { debounce } from 'lodash';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPenToSquare } from '@fortawesome/free-regular-svg-icons';
+import useAuth from '../../hooks/useAuth'; 
 
-const MyLocation = ({ user, userData }) => {  
+const MyLocation = ({ userData }) => {
+const { user, setUser } = useAuth();
 const [initialData, setInitialData] = useState(userData);        
 const [isEditing, setIsEditing] = useState(false);    
 
@@ -212,8 +214,19 @@ const handleSelectCity = (city) => {
 
     return (
         <div>
-    <div className="location-edit-component">
-        {isEditing ? (
+
+        <div className="user-profile-block">
+            <div>
+                Локация: {initialData.city.name_ru}
+                {initialData.region.name_ru !== initialData.city.name_ru && `, ${initialData.region.name_ru}`}
+                , {initialData.country.name_ru}
+            </div>
+            <button className="btn custom-button" onClick={() => setIsEditing(true)}>
+                <FontAwesomeIcon icon={faPenToSquare} className="fa-lg" />
+            </button>
+        </div>
+
+        {isEditing && (
             <form onSubmit={handleSaveLocation}>
     <h5>Редактировать локацию</h5>
     <div className="input-container row">
@@ -297,22 +310,10 @@ const handleSelectCity = (city) => {
     </div>
     <button type="submit" className="btn button-btn button-btn-primary btn-sm mb-3">Сохранить</button>
     <button type="button" className="btn button-btn button-btn-outline-primary btn-sm mb-3" onClick={() => handleClose()}>Закрыть</button>
-    </form>
-        ) : (
-            <div className="user-profile-block">
-    <div>
-        Локация: {initialData.city.name_ru}
-        {initialData.region.name_ru !== initialData.city.name_ru && `, ${initialData.region.name_ru}`}
-        , {initialData.country.name_ru}
-    </div>
-    <button className="btn custom-button" onClick={() => setIsEditing(true)}>
-        <FontAwesomeIcon icon={faPenToSquare} className="fa-lg" />
-    </button>
-</div>
-                    )}
-                </div>
-            </div>
-    );
+            </form>
+            )}
+        </div>
+    )
 };
 
 export default MyLocation;

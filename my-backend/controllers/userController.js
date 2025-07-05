@@ -296,19 +296,25 @@ const updateUserChildren = async (req, res) => {
                     throw new Error(`Ребенок с id ${childData.id} не найден`);
                 }
 
-                const updatedChild = await childToUpdate.update({
+                // Создаем объект обновления, учитывая, что education_form может отсутствовать
+                const updatedData = {
                     birth_date: childData.birth_date || childToUpdate.birth_date,
-                    education_form_id: childData.education_form.id || childToUpdate.education_form.id,
-                    gender_id: childData.gender.id || childToUpdate.gender.id,
+                    gender_id: childData.gender?.id || childToUpdate.gender_id,
                     user_id: userId // Добавляем user_id
-                });
+                };
 
+                // Если education_form присутствует, добавляем его в обновление
+                if (childData.education_form && childData.education_form.id) {
+                    updatedData.education_form_id = childData.education_form.id;
+                }
+
+                const updatedChild = await childToUpdate.update(updatedData);
                 updatedChildren.push(updatedChild);
             } else {
                 // Добавление нового ребенка
                 const newChild = await Children.create({
                     birth_date: childData.birth_date,
-                    education_form_id: childData.education_form.id,
+                    education_form_id: childData.education_form?.id, // Используем ?. для безопасного доступа
                     gender_id: childData.gender.id,
                     user_id: userId // Добавляем user_id
                 });
@@ -324,6 +330,7 @@ const updateUserChildren = async (req, res) => {
         res.status(500).json({ error: 'Ошибка при обновлении данных детей пользователя' });
     }
 };
+
 
 const deleteChild = async (req, res) => {
     const { userId, childId } = req.params; // Получаем id пользователя и id ребенка из параметров

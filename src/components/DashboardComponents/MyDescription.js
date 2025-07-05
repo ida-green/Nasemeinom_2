@@ -2,8 +2,10 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPenToSquare } from '@fortawesome/free-regular-svg-icons';
+import useAuth from '../../hooks/useAuth'; 
 
-const MyDescription = ({ user, userData }) => {
+const MyDescription = ({ userData }) => {
+    const { user, setUser } = useAuth();
     const [description, setDescription] = useState(userData.description || '');
     const [isEditing, setIsEditing] = useState(false);
 
@@ -14,14 +16,20 @@ const MyDescription = ({ user, userData }) => {
             const response = await axios.patch(`http://localhost:3000/api/users/${user.id}/description`, {
                 description,
             });
+
             console.log('Ответ от сервера при редактировании описания:', response.data);
             alert('Описание успешно сохранено!');
+
+            // Обновляем состояние пользователя с новым описанием
+            setUser({ ...user, description: response.data.description });
+
             setIsEditing(false); // Закрываем редактирование только при успешном сохранении
         } catch (error) {
             console.error('Ошибка при сохранении данных:', error);
             alert('Не удалось сохранить описание.');
         }
     };
+
 
     return (
         <div>
